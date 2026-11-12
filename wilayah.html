@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wilayah Kerja — SKALA</title>
+<meta name="description" content="Dua belas provinsi wilayah kerja SKALA, Program Kemitraan Australia–Indonesia untuk penyediaan layanan dasar.">
+<meta property="og:title" content="Wilayah Kerja — SKALA">
+<meta property="og:description" content="Dua belas provinsi wilayah kerja SKALA, Program Kemitraan Australia–Indonesia untuk penyediaan layanan dasar.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://skala.or.id/wilayah/">
+<link rel="alternate" hreflang="id" href="https://skala.or.id/wilayah/">
+<link rel="alternate" hreflang="en" href="https://skala.or.id/en/where-we-work/">
+<meta name="theme-color" content="#0B1F38">
+<!--
+  PROTOTIPE — Tampilan 2: daftar wilayah kerja (/wilayah/). Rencana: docs/plans/wilayah.md
+  Data: assets/data/provinsi.js · Gaya dasar: assets/css/situs.css
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/situs.css">
+<style>
+.list-head{padding:24px 0 0}
+.list-head h1{margin:0 0 calc(var(--h1) * 1.5);font-size:var(--h1);line-height:1.08;letter-spacing:-.02em;max-width:16em}
+.list-head{--h1:32px}
+@media (min-width:1024px){ .list-head{--h1:48px} }
+.list-intro{max-width:40em;margin-bottom:40px;font-size:14px;line-height:1.5;color:var(--text-2)}
+.tools{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 32px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.search{display:grid;gap:8px;width:min(100%,360px)}
+.search label{font-size:12px;line-height:16px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.search__box{position:relative}
+.search__box svg{position:absolute;left:14px;top:50%;width:16px;height:16px;transform:translateY(-50%);color:var(--text-2);pointer-events:none}
+.search input{width:100%;height:48px;padding:0 16px 0 40px;border-radius:999px;border:1px solid rgba(22,53,89,.4);background:#fff;font-size:16px}
+.search input::placeholder{color:#5F6B78}
+.search input:focus-visible{outline:2px solid var(--teal-text);outline-offset:2px}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:16px;transition:background-color .25s var(--ease-ui),color .25s var(--ease-ui),border-color .25s}
+.pill:hover{border-color:var(--navy)}
+.pill[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:var(--paper)}
+.pill[aria-pressed="true"] .lg--t{background:var(--navy);border-color:var(--paper)}
+.count{margin:16px 0 24px;font-size:12px;line-height:16px;color:var(--text-2)}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+.pcard{display:flex;flex-direction:column;height:100%;padding:8px 8px 16px;border-radius:16px;background:#fff;border:1px solid #DCE3EC;
+  transition:border-color .3s var(--ease-ui),transform .4s var(--ease-expo),box-shadow .4s var(--ease-expo)}
+.pcard:hover{border-color:var(--teal);transform:translateY(-2px);box-shadow:0 12px 32px rgba(11,31,56,.08)}
+.pcard:focus-visible{outline-offset:4px;border-radius:16px}
+.pcard .ph{aspect-ratio:16/10}
+.pcard:hover .ph-img{transform:scale(1.04)}
+.pcard__cat{display:flex;align-items:center;gap:8px;margin:16px 8px 0;font-size:12px;line-height:16px;color:var(--text-2)}
+.pcard__name{margin:8px 8px 0;font-size:24px;line-height:1.15;font-weight:600}
+.pcard__sum{margin:8px 8px 0;font-size:16px;line-height:1.5;color:var(--text-2);flex:1}
+.pcard .link{margin:8px 8px 0;align-self:flex-start}
+.empty{padding:48px 0;font-size:20px;color:var(--text-2);text-align:center}
+@media (prefers-reduced-motion:reduce){ .pcard:hover{transform:none} }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-arrow" viewBox="0 0 12 12"><path d="M2 10L10 2M4 2h6v6" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+  <symbol id="i-left" viewBox="0 0 16 16"><path d="M15 8H1M7 2L1 8l6 6" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+  <symbol id="i-search" viewBox="0 0 16 16"><circle cx="7" cy="7" r="5.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M11 11l4 4" stroke="currentColor" stroke-width="1.4"/></symbol>
+</svg>
+<a class="skip" href="#main">Lewati ke konten</a>
+
+<header class="sh">
+  <div class="wrap">
+    <a class="sh__logo" href="index.html"><img src="assets/skala-logo.png" width="600" height="165" alt="SKALA — kembali ke Beranda"></a>
+    <nav aria-label="Navigasi utama"><ul>
+      <li><a href="index.html">Beranda</a></li>
+      <li class="keep"><a href="wilayah.html" aria-current="page">Wilayah Kerja</a></li>
+      <li><a href="/pengetahuan/">Pusat Pengetahuan</a></li>
+    </ul></nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+  <div class="list-head">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a class="back" href="index.html#wilayah"><svg aria-hidden="true"><use href="#i-left"/></svg><span data-s="back">Kembali ke peta</span></a>
+      <ol>
+        <li><a href="index.html" data-s="home">Beranda</a></li>
+        <li aria-current="page" data-s="crumb">Wilayah Kerja</li>
+      </ol>
+    </nav>
+    <p class="label eyebrow" data-s="eyebrow">Wilayah kerja</p>
+    <h1 data-s="listH1">12 provinsi wilayah kerja SKALA</h1>
+    <p class="list-intro is-ph" data-s="listIntro">[Paragraf pengantar halaman wilayah kerja]</p>
+  </div>
+
+  <div class="tools">
+    <div class="search" role="search">
+      <label for="q" data-s="search">Cari provinsi</label>
+      <div class="search__box"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="q" type="search" autocomplete="off" placeholder="Ketik nama provinsi"></div>
+    </div>
+    <div class="pills" role="group" aria-label="Filter kategori lokasi" id="pills"></div>
+  </div>
+  <p class="count" id="count" aria-live="polite"></p>
+  <ul class="pgrid" id="grid"></ul>
+  <p class="empty" id="empty" hidden data-s="empty">Tidak ada provinsi yang cocok dengan pencarian Anda.</p>
+</main>
+
+<footer class="sf on-dark">
+  <div class="wrap">
+    <div class="sf__row">
+      <img class="sf__logo" src="assets/skala-logo-white.png" width="500" height="138" alt="SKALA — Sinergi dan Kolaborasi untuk Akselerasi Layanan Dasar, Kemitraan Australia–Indonesia">
+      <div class="sf__partners"><p class="label">Kemitraan bersama</p>
+        <div class="sf__chip"><img src="assets/partner-logos.png" width="812" height="140" alt="Kementerian Keuangan, Kementerian Dalam Negeri, Bappenas, dan Australian Government"></div></div>
+    </div>
+    <div class="sf__legal"><span>SKALA dikelola oleh DT Global · © <span id="year">2026</span> SKALA</span><a href="/aksesibilitas/">Aksesibilitas</a><a href="kredit-foto.html">Kredit foto</a></div>
+  </div>
+</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="assets/data/provinsi.js"></script>
+<script src="assets/js/situs.js"></script>
+<script>
+(function(){
+  'use strict';
+  var W = window.SKALA_WILAYAH, S = W.str, provs = W.provinces;
+  var $ = function(s){ return document.querySelector(s); };
+  var esc = function(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
+  document.querySelectorAll('[data-s]').forEach(function(el){ var v = S[el.dataset.s]; if (typeof v === 'string') el.textContent = v; });
+  $('#q').placeholder = S.searchPh;
+
+  // Kartu
+  var grid = $('#grid');
+  grid.innerHTML = provs.map(function(p, i){
+    var ph = W.isPlaceholder(p.summary);
+    return '<li data-slug="' + p.slug + '" data-cat="' + p.category + '"><a class="pcard" href="' + W.profileUrl(p.slug) + '">'
+      + '<span class="ph">' + (p.photo ? '<img src="' + esc(p.photo) + '" alt="" width="960" height="600" loading="lazy" decoding="async" style="object-position:' + esc(p.photoPos || '50% 50%') + '">'
+        : '<span class="ph-img" style="--px:' + (20 + (i * 37) % 60) + '%;--py:' + (30 + (i * 23) % 50) + '%;--pa:' + (120 + i * 25) + 'deg"></span><span class="ph-tag label" aria-hidden="true">' + esc(S.photo) + '</span>') + '</span>'
+      + '<span class="pcard__cat"><i class="lg' + (p.category === 'tambahan' ? ' lg--t' : '') + '" aria-hidden="true"></i>' + esc(S.cat[p.category]) + '</span>'
+      + '<h2 class="pcard__name">' + esc(p.name) + '</h2>'
+      + '<p class="pcard__sum' + (ph ? ' is-ph' : '') + '">' + esc(p.summary) + '</p>'
+      + '<span class="link"><span>' + esc(S.profileShort) + '</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg><svg><use href="#i-arrow"/></svg></span></span>'
+      + '</a></li>';
+  }).join('');
+  var items = Array.prototype.slice.call(grid.children);
+
+  // Filter pill (aria-pressed) dengan jumlah
+  var cats = [['all', S.all], ['utama', S.cat.utama], ['tambahan', S.cat.tambahan]], cur = 'all';
+  $('#pills').innerHTML = cats.map(function(c){
+    var n = c[0] === 'all' ? provs.length : provs.filter(function(p){ return p.category === c[0]; }).length;
+    var dot = c[0] === 'all' ? '' : '<i class="lg' + (c[0] === 'tambahan' ? ' lg--t' : '') + '" aria-hidden="true"></i>';
+    return '<button type="button" class="pill" data-cat="' + c[0] + '" aria-pressed="' + (c[0] === cur) + '">' + dot + esc(c[1]) + ' · ' + n + '</button>';
+  }).join('');
+  var pills = Array.prototype.slice.call(document.querySelectorAll('.pill'));
+  pills.forEach(function(b){ b.addEventListener('click', function(){ cur = b.dataset.cat; pills.forEach(function(x){ x.setAttribute('aria-pressed', String(x === b)); }); apply(); }); });
+
+  var norm = function(s){ return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').trim(); };
+  function apply(){
+    var q = norm($('#q').value), n = 0;
+    items.forEach(function(li){
+      var p = W.bySlug(li.dataset.slug);
+      var ok = (cur === 'all' || p.category === cur) && (!q || norm(p.name).indexOf(q) > -1);
+      li.hidden = !ok; if (ok) n++;
+    });
+    $('#empty').hidden = n > 0;
+    $('#count').textContent = S.results(n);
+  }
+  $('#q').addEventListener('input', apply);
+  apply();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SKALA — Layanan dasar yang layak untuk setiap warga (prototipe Beranda)</title>
+<meta name="description" content="SKALA (Sinergi dan Kolaborasi untuk Akselerasi Layanan Dasar): kemitraan Australia–Indonesia untuk memperkuat layanan dasar di daerah.">
+<meta name="theme-color" content="#223D60">
+
+<!-- Tanda "js" dipasang sedini mungkin supaya CSS tahu animasi boleh disiapkan.
+     Tanpa JS (atau JS gagal), semua konten tetap tampil apa adanya. -->
+<script>
+  document.documentElement.classList.add('js');
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.classList.add('rm');
+  }
+</script>
+
+<!-- Font: League Spartan (Spartan) untuk judul, Plus Jakarta Sans untuk isi.
+     Jika CDN gagal, font sistem dipakai. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ==========================================================================
+   0. TOKEN & RESET
+   Semua warna, font, dan durasi ada di sini supaya mudah diubah.
+   ========================================================================== */
+:root{
+  --navy:#223D60;          /* warna utama */
+  --navy-dark:#152741;     /* latar gelap / teks di atas oranye */
+  --navy-soft:#35588A;     /* daratan peta */
+  --teal:#00A9A3;          /* aksen — JANGAN untuk teks di atas putih (2,9:1) */
+  --teal-dark:#00706C;     /* teal untuk teks di atas putih/abu muda (≥ 5,5:1) */
+  --teal-light:#4FD6D0;    /* teal untuk teks di atas navy */
+  --teal-tint:#E3F5F4;
+  --orange:#F28C28;        /* CTA & pin peta */
+  --orange-hover:#FFA650;
+  --ink:#1B2A3F;           /* teks isi */
+  --ink-soft:#44546B;      /* teks sekunder (≥ 7:1 di putih) */
+  --bg:#FFFFFF;
+  --bg-alt:#F1F4F8;        /* abu muda selang-seling */
+  --line:#D5DCE6;
+  --on-dark:#FFFFFF;
+  --on-dark-soft:#CBD8EA;
+  --focus:#223D60;         /* cincin fokus di latar terang */
+
+  --font-head:'League Spartan','Spartan',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --font-body:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+
+  --nav-h:68px;
+  --bar-h:40px;
+  --dur:400ms;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --wrap:1200px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:calc(var(--nav-h) + 16px);-webkit-text-size-adjust:100%}
+html:not(.rm){scroll-behavior:smooth}
+body{margin:0;font-family:var(--font-body);font-size:16px;line-height:1.6;color:var(--ink);background:var(--bg);overflow-x:hidden}
+img,svg{max-width:100%;display:block}
+h1,h2,h3,h4{font-family:var(--font-head);line-height:1.15;margin:0;letter-spacing:-.01em;color:var(--navy)}
+p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+a{color:var(--teal-dark)}
+button{font:inherit;color:inherit;cursor:pointer}
+abbr[title]{text-decoration:none;border-bottom:1px dotted currentColor;cursor:help}
+
+/* Fokus keyboard selalu terlihat (WCAG 2.4.7) */
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:4px}
+.dark :focus-visible,.nav-menu :focus-visible{outline-color:#fff}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.wrap{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:20px}
+@media(min-width:768px){.wrap{padding-inline:32px}}
+
+/* Tombol */
+.btn{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:12px 26px;border-radius:999px;font-weight:700;text-decoration:none;border:2px solid transparent;transition:background-color .2s,color .2s,transform .2s var(--ease)}
+.btn-orange{background:var(--orange);color:var(--navy-dark)}
+.btn-orange:hover{background:var(--orange-hover)}
+.btn-ghost{border-color:#fff;color:#fff;background:transparent}
+.btn-ghost:hover{background:#fff;color:var(--navy)}
+.btn svg{width:18px;height:18px;flex:none}
+.dark .btn-orange:focus-visible,.dark .btn-ghost:focus-visible{outline-color:#fff}
+
+/* Skip link */
+.skip{position:absolute;left:12px;top:-60px;z-index:200;background:#fff;color:var(--navy);padding:12px 18px;border-radius:8px;font-weight:700;text-decoration:none;box-shadow:0 4px 16px rgba(0,0,0,.25)}
+.skip:focus{top:12px}
+
+/* ==========================================================================
+   MOTION GLOBAL: reveal fade-up 20px / 400ms / ease-out, jeda 60ms antar elemen
+   ========================================================================== */
+.js .reveal{opacity:0;transform:translateY(20px);transition:opacity var(--dur) var(--ease),transform var(--dur) var(--ease);transition-delay:calc(var(--i,0) * 60ms)}
+.js .reveal.in{opacity:1;transform:none}
+
+/* Reduced motion: semua animasi mati, konten langsung tampil */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .js .reveal{opacity:1;transform:none}
+}
+
+/* ==========================================================================
+   1. LOADING SCREEN (singkat, ±0,7 dtk; mati total di reduced-motion)
+   ========================================================================== */
+.loader{display:none}
+.js:not(.rm) .loader{display:flex;position:fixed;inset:0;z-index:300;background:var(--navy-dark);align-items:center;justify-content:center;transition:opacity .35s ease,visibility .35s}
+.loader-in{display:grid;gap:14px;justify-items:center}
+.loader-logo{font-family:var(--font-head);font-weight:800;font-size:2.2rem;letter-spacing:.14em;color:#fff}
+.loader-bar{width:120px;height:3px;background:rgba(255,255,255,.2);border-radius:3px;overflow:hidden}
+.loader-bar::after{content:"";display:block;height:100%;width:100%;background:var(--teal-light);transform:translateX(-100%);animation:load .7s var(--ease) forwards}
+@keyframes load{to{transform:none}}
+.ready .loader{opacity:0;visibility:hidden}
+
+/* ==========================================================================
+   2. HEADER: bar mitra + navigasi
+   ========================================================================== */
+.partner-bar{background:var(--bg-alt);border-bottom:1px solid var(--line);min-height:var(--bar-h)}
+.partner-bar .wrap{display:flex;align-items:center;gap:14px;min-height:var(--bar-h);overflow-x:auto}
+.partner-bar p{font-size:.72rem;color:var(--ink-soft);white-space:nowrap;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.partner-bar ul{display:flex;gap:10px;align-items:center}
+.logo-ph{display:inline-flex;align-items:center;justify-content:center;height:26px;padding:0 12px;border:1px dashed #8493A9;border-radius:4px;font-size:.72rem;font-weight:600;color:var(--ink-soft);white-space:nowrap;background:#fff}
+
+.nav{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid var(--line);height:var(--nav-h)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:100%;gap:12px}
+.brand{font-family:var(--font-head);font-weight:800;font-size:1.7rem;letter-spacing:.1em;color:var(--navy);text-decoration:none;line-height:1}
+.brand span{color:var(--teal);} /* teal hanya aksen dekoratif pada logo teks besar */
+.nav-menu{display:none}
+.nav-tools{display:flex;align-items:center;gap:6px}
+.icon-btn{width:44px;height:44px;display:grid;place-items:center;border-radius:50%;border:0;background:transparent;color:var(--navy)}
+.icon-btn:hover{background:var(--bg-alt)}
+.icon-btn svg{width:22px;height:22px}
+.lang{display:flex;border:1.5px solid var(--navy);border-radius:999px;overflow:hidden}
+.lang button{border:0;background:transparent;padding:6px 12px;min-height:36px;font-weight:700;font-size:.82rem;color:var(--navy)}
+.lang button[aria-pressed="true"]{background:var(--navy);color:#fff}
+.lang button[aria-disabled="true"]{cursor:not-allowed}
+.burger{display:grid}
+.search-panel{display:none;background:var(--bg-alt);border-bottom:1px solid var(--line);padding:14px 0}
+.search-panel.open{display:block}
+.search-panel form{display:flex;gap:10px}
+.search-panel input{flex:1;min-height:48px;padding:0 16px;border:1.5px solid var(--navy);border-radius:999px;font:inherit;background:#fff}
+.search-panel button{min-height:48px;padding:0 22px;border-radius:999px;border:0;background:var(--navy);color:#fff;font-weight:700}
+
+/* Menu mobile (hamburger) */
+.mobile-menu{display:none;background:#fff;border-bottom:1px solid var(--line);position:relative;z-index:99}
+.mobile-menu.open{display:block}
+.mobile-menu a{display:flex;align-items:center;min-height:52px;padding:0 20px;color:var(--navy);font-weight:600;text-decoration:none;border-top:1px solid var(--line)}
+.mobile-menu a:hover{background:var(--bg-alt)}
+
+@media(min-width:1100px){
+  .nav-menu{display:flex;gap:2px}
+  .nav-menu a{display:block;padding:10px 12px;border-radius:8px;color:var(--navy);font-weight:600;font-size:.93rem;text-decoration:none;position:relative}
+  .nav-menu a::after{content:"";position:absolute;left:12px;right:12px;bottom:4px;height:2px;background:var(--teal);transform:scaleX(0);transition:transform .25s var(--ease)}
+  .nav-menu a:hover::after,.nav-menu a:focus-visible::after{transform:scaleX(1)}
+  .burger,.mobile-menu{display:none!important}
+}
+
+/* ==========================================================================
+   3. HERO: pertanyaan → zoom "layanan dasar" → peta Indonesia 3D + 12 pin
+   Mode "hero-scrub" (JS, gerak diizinkan): track tinggi + panggung sticky,
+   kemajuan scroll menggerakkan zoom & peta. Scroll tetap native (tanpa jacking).
+   Mode statis (tanpa JS / reduced-motion): pertanyaan lalu peta di bawahnya.
+   ========================================================================== */
+.hero-track{position:relative;background:var(--navy);color:var(--on-dark)}
+.hero-sticky{position:relative;display:flex;flex-direction:column;align-items:center;overflow:hidden;
+  background:radial-gradient(1200px 600px at 50% 40%,#2C4D7A 0%,var(--navy) 55%,var(--navy-dark) 100%)}
+.hero-skip{position:absolute;left:12px;top:-60px;z-index:20;background:#fff;color:var(--navy);padding:10px 16px;border-radius:8px;font-weight:700;text-decoration:none}
+.hero-skip:focus{top:12px}
+
+.stage-q{width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:72px 20px 56px;min-height:60vh}
+.hero-title{color:#fff;font-weight:800;font-size:clamp(2rem,6.4vw,4.6rem);line-height:1.12;max-width:15em;letter-spacing:-.015em}
+.hero-title .w{display:inline-block}
+.hero-title .zoom{display:inline-block;color:var(--teal-light);transform-origin:50% 55%;will-change:transform}
+.cue{margin-top:36px;display:inline-flex;flex-direction:column;align-items:center;gap:6px;color:var(--on-dark-soft);font-size:.85rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.cue svg{width:22px;height:22px}
+
+/* intro: potongan kalimat muncul bertahap. 6 potongan × jeda 120ms + 400ms ≈ 1,0 dtk, isyarat gulir selesai ≈ 1,5 dtk */
+.js:not(.rm) .hero-title .w{opacity:0;transform:translateY(16px)}
+.js.ready:not(.rm) .hero-title .w{animation:rise .4s var(--ease) forwards;animation-delay:calc(var(--i) * 120ms)}
+.js:not(.rm) .cue{opacity:0}
+.js.ready:not(.rm) .cue{animation:rise-plain .4s var(--ease) 1.1s forwards}
+@keyframes rise{to{opacity:1;transform:none}}
+@keyframes rise-plain{to{opacity:1}}
+
+/* panggung peta */
+.stage-map{width:100%;display:flex;flex-direction:column;align-items:center;padding:8px 16px 40px}
+.map-caption{font-family:var(--font-head);font-weight:700;font-size:clamp(1.25rem,3vw,2rem);text-align:center;color:#fff;margin-bottom:6px;max-width:22em}
+.map-persp{width:min(94vw,1100px);perspective:1200px}
+.map-tilt{position:relative;aspect-ratio:1000/400;transform:rotateX(22deg);transform-origin:50% 60%;will-change:transform}
+.map-tilt>svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 22px 22px rgba(0,0,0,.35))}
+.land{fill:var(--navy-soft);stroke:#8FB1DA;stroke-width:1.2}
+.legend{display:flex;flex-wrap:wrap;gap:8px 22px;justify-content:center;margin-top:18px;font-size:.88rem;color:var(--on-dark-soft)}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.mk{display:inline-block;width:14px;height:14px;border:2px solid #fff;flex:none}
+.mk-utama{background:var(--teal);border-radius:50%}
+.mk-tambahan{background:var(--orange);transform:rotate(45deg);width:12px;height:12px;border-radius:2px}
+
+/* pin provinsi (tombol HTML di atas peta) */
+.pin{position:absolute;width:36px;height:36px;margin:-18px 0 0 -18px;padding:0;border:0;background:transparent;display:grid;place-items:center;z-index:2;
+  transition:opacity .24s var(--ease),transform .24s var(--ease)}
+.pin::before{content:"";width:18px;height:18px;border:2.5px solid #fff;background:var(--teal);border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+.pin[data-s="tambahan"]::before{background:var(--orange);border-radius:3px;transform:rotate(45deg);width:16px;height:16px}
+.pin:hover::before,.pin[aria-expanded="true"]::before{box-shadow:0 0 0 6px rgba(255,255,255,.28),0 2px 6px rgba(0,0,0,.4)}
+.pin:focus-visible{outline:3px solid #fff;outline-offset:0;border-radius:50%}
+.pin-label{position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:#fff;color:var(--navy);padding:8px 12px;border-radius:8px;font-size:.82rem;line-height:1.3;white-space:nowrap;box-shadow:0 6px 18px rgba(0,0,0,.3);display:none;text-align:left;pointer-events:none;z-index:5}
+.pin-label b{display:block;font-family:var(--font-head);font-size:.95rem}
+.pin-label small{color:var(--ink-soft);font-size:.76rem}
+.pin[data-align="l"] .pin-label{left:0;transform:none}
+.pin[data-align="r"] .pin-label{left:auto;right:0;transform:none}
+.pin:hover .pin-label,.pin:focus-visible .pin-label,.pin[aria-expanded="true"] .pin-label{display:block}
+@media(max-width:700px){.pin{width:30px;height:30px;margin:-15px 0 0 -15px}.pin::before{width:14px;height:14px;border-width:2px}.pin[data-s="tambahan"]::before{width:12px;height:12px}}
+
+/* mode scrub */
+.hero-scrub .hero-track{height:340vh;height:340svh}
+.hero-scrub .hero-sticky{position:sticky;top:var(--nav-h);height:calc(100vh - var(--nav-h) - var(--bar-h));height:calc(100svh - var(--nav-h) - var(--bar-h));display:block}
+.hero-scrub .stage-q,.hero-scrub .stage-map{position:absolute;inset:0;min-height:0;padding-top:24px;padding-bottom:24px;justify-content:center}
+.hero-scrub .stage-map{opacity:0;pointer-events:none}
+.hero-scrub .stage-map.live{pointer-events:auto}
+.hero-scrub .pin:not(.on){opacity:0;transform:scale(.4);pointer-events:none}
+.hero-scrub .map-tilt{transform:rotateX(48deg) scale(.85)}
+@media(max-height:560px){.hero-title{font-size:clamp(1.6rem,5vw,3rem)}}
+
+/* misi + tombol (di bawah hero) */
+.mission{background:var(--navy);color:var(--on-dark);padding:56px 0 72px;border-top:1px solid rgba(255,255,255,.12)}
+.mission-grid{display:grid;gap:32px;align-items:start}
+.mission p.lead{font-size:clamp(1.1rem,2.2vw,1.45rem);line-height:1.55;max-width:34em;color:#fff}
+.mission .actions{margin-top:24px;display:flex;gap:14px;flex-wrap:wrap}
+details.prov{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:4px 18px}
+details.prov summary{min-height:48px;display:flex;align-items:center;cursor:pointer;font-weight:700;list-style:none}
+details.prov summary::-webkit-details-marker{display:none}
+details.prov summary::after{content:"+";margin-left:auto;font-size:1.4rem}
+details.prov[open] summary::after{content:"–"}
+details.prov ul{display:grid;gap:8px 20px;padding:4px 0 16px;grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}
+details.prov li{display:flex;align-items:center;gap:10px;font-size:.92rem}
+.ph-note{font-size:.8rem;color:var(--on-dark-soft);padding-bottom:14px}
+@media(min-width:900px){.mission-grid{grid-template-columns:1.2fr 1fr;gap:56px}}
+
+/* ==========================================================================
+   Pola section umum
+   ========================================================================== */
+section{position:relative}
+.sec{padding:72px 0}
+@media(min-width:900px){.sec{padding:104px 0}}
+.alt{background:var(--bg-alt)}
+.eyebrow{display:inline-block;font-size:.8rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal-dark);margin-bottom:12px}
+.dark .eyebrow{color:var(--teal-light)}
+.sec-head{max-width:40em;margin-bottom:44px}
+.sec-head h2{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800}
+.sec-head p{margin-top:14px;color:var(--ink-soft);font-size:1.05rem}
+.dark{background:var(--navy);color:var(--on-dark)}
+.dark h2,.dark h3{color:#fff}
+.dark .sec-head p{color:var(--on-dark-soft)}
+.ph{background:#FFF3C7;color:#6B4E00;border-radius:4px;padding:0 5px;font-weight:600;font-size:.92em}  /* penanda [PLACEHOLDER] */
+
+/* ==========================================================================
+   4. TIGA PILAR — split-screen gambar/teks bergantian
+   ========================================================================== */
+.pillar{display:grid;grid-template-columns:1fr;background:var(--bg)}
+.pillar:nth-of-type(even){background:var(--bg-alt)}
+.pillar .media{position:relative;min-height:280px;overflow:hidden;display:grid;place-items:center;color:#fff}
+.pillar .media svg.deco{position:absolute;inset:0;width:100%;height:100%;opacity:.5}
+.pillar .media .photo-label{position:relative;z-index:1;display:inline-flex;align-items:center;gap:10px;background:rgba(21,39,65,.72);padding:10px 18px;border-radius:999px;font-weight:600;font-size:.95rem}
+.pillar .media .photo-label svg{width:20px;height:20px}
+.m1{background:linear-gradient(135deg,#223D60 0%,#00706C 100%)}
+.m2{background:linear-gradient(135deg,#00A9A3 0%,#223D60 100%)}
+.m3{background:linear-gradient(135deg,#152741 0%,#3A6AA6 100%)}
+.pillar .body{padding:48px 20px;display:flex;flex-direction:column;justify-content:center;gap:16px;max-width:34em}
+.pillar .num{font-family:var(--font-head);font-weight:800;font-size:.95rem;letter-spacing:.14em;color:var(--teal-dark)}
+.pillar h3{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:800}
+.pillar p{color:var(--ink-soft);font-size:1.05rem}
+.link-arrow{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--teal-dark);text-decoration:none;min-height:44px}
+.link-arrow svg{width:18px;height:18px;transition:transform .2s var(--ease)}
+.link-arrow:hover svg{transform:translateX(4px)}
+.link-arrow span{border-bottom:2px solid currentColor}
+@media(min-width:900px){
+  .pillar{grid-template-columns:1fr 1fr;min-height:520px}
+  .pillar .body{padding:64px max(32px,calc((100vw - var(--wrap))/2 + 32px)) 64px 64px;max-width:none}
+  .pillar:nth-of-type(even) .media{order:2}
+  .pillar:nth-of-type(even) .body{padding:64px 64px 64px max(32px,calc((100vw - var(--wrap))/2 + 32px))}
+}
+
+/* ==========================================================================
+   5. ANGKA KUNCI (count-up sekali)
+   ========================================================================== */
+.stats{display:grid;gap:18px;grid-template-columns:1fr 1fr}
+.stat{padding:28px 20px;border:1px solid rgba(255,255,255,.18);border-radius:16px;background:rgba(255,255,255,.05)}
+.stat .pre,.stat .suf{display:block;font-size:.95rem;color:var(--on-dark-soft);font-weight:600}
+.stat .val{display:block;font-family:var(--font-head);font-weight:800;font-size:clamp(2.6rem,7vw,4.4rem);line-height:1.05;color:#fff;margin:4px 0}
+.stat .val i{font-style:normal;color:var(--teal-light)}
+.stat-note{margin-top:20px;font-size:.88rem;color:var(--on-dark-soft)}
+@media(min-width:900px){.stats{grid-template-columns:repeat(4,1fr);gap:22px}.stat{padding:34px 26px}}
+
+/* ==========================================================================
+   6. GRID 6 TEMA KERJA — hover naik 4px + tilt 2–3°
+   ========================================================================== */
+.themes{display:grid;gap:18px;grid-template-columns:1fr}
+@media(min-width:620px){.themes{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:960px){.themes{grid-template-columns:repeat(3,1fr);gap:24px}}
+.tile{display:flex;flex-direction:column;gap:14px;height:100%;padding:28px;background:#fff;border:1px solid var(--line);border-radius:18px;text-decoration:none;color:var(--ink);
+  transform:perspective(800px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .24s var(--ease),box-shadow .24s var(--ease),border-color .24s}
+.tile .ico{width:56px;height:56px;border-radius:14px;background:var(--teal-tint);color:var(--teal-dark);display:grid;place-items:center}
+.tile .ico svg{width:28px;height:28px}
+.tile h3{font-size:1.3rem;font-weight:800}
+.tile p{color:var(--ink-soft);font-size:.95rem}
+.tile .go{margin-top:auto;font-weight:700;color:var(--teal-dark);display:inline-flex;align-items:center;gap:8px}
+.tile .go svg{width:18px;height:18px;transition:transform .2s var(--ease)}
+@media (hover:hover){
+  .tile:hover{transform:perspective(800px) translateY(-4px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));box-shadow:0 18px 36px rgba(34,61,96,.16);border-color:var(--teal)}
+  .tile:hover .go svg{transform:translateX(4px)}
+}
+.tile:focus-visible{transform:translateY(-4px);box-shadow:0 18px 36px rgba(34,61,96,.16)}
+@media (prefers-reduced-motion:reduce){.tile:hover,.tile:focus-visible{transform:none}}
+.rm .tile:hover,.rm .tile:focus-visible{transform:none}
+
+/* ==========================================================================
+   7. BAND CTA bermotif garis kontur pulau
+   ========================================================================== */
+.band{background:var(--navy-dark);color:#fff;overflow:hidden;padding:88px 0;text-align:center}
+.band .contour{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.band .contour use{fill:none;stroke:#fff}
+.band .wrap{position:relative;z-index:1}
+.band h2{color:#fff;font-size:clamp(1.9rem,4.6vw,3.2rem);font-weight:800;max-width:18em;margin:0 auto 14px}
+.band p{color:var(--on-dark-soft);max-width:36em;margin:0 auto 32px;font-size:1.05rem}
+.band .actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+/* ==========================================================================
+   8. KABAR TERBARU + PULL-QUOTE
+   ========================================================================== */
+.cards{display:grid;gap:24px;grid-template-columns:1fr}
+@media(min-width:700px){.cards{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1000px){.cards{grid-template-columns:repeat(3,1fr)}}
+.card{position:relative;display:flex;flex-direction:column;height:100%;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:box-shadow .24s var(--ease),transform .24s var(--ease)}
+.card:hover{box-shadow:0 16px 32px rgba(34,61,96,.14);transform:translateY(-4px)}
+.rm .card:hover{transform:none}
+@media (prefers-reduced-motion:reduce){.card:hover{transform:none}}
+.card .thumb{aspect-ratio:16/9;display:grid;place-items:center;color:#fff;font-weight:600;font-size:.9rem;position:relative}
+.card .thumb span{background:rgba(21,39,65,.7);padding:6px 14px;border-radius:999px}
+.t1{background:linear-gradient(135deg,#223D60,#00706C)}
+.t2{background:linear-gradient(135deg,#35588A,#152741)}
+.t3{background:linear-gradient(135deg,#00A9A3,#35588A)}
+.card .cb{padding:22px;display:flex;flex-direction:column;gap:12px;flex:1}
+.kind{align-self:flex-start;font-size:.74rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:var(--navy);color:#fff}
+.card h3{font-size:1.2rem;font-weight:700;line-height:1.3}
+.card h3 a{color:var(--navy);text-decoration:none}
+.card h3 a::after{content:"";position:absolute;inset:0}    /* seluruh kartu bisa diklik, satu tautan */
+.card h3 a:hover{text-decoration:underline}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
+.tag{font-size:.8rem;font-weight:600;padding:3px 10px;border-radius:6px;background:var(--teal-tint);color:var(--teal-dark)}
+.card time{font-size:.85rem;color:var(--ink-soft)}
+.more{margin-top:28px}
+
+.quote{margin:64px 0 0;display:grid;gap:28px;align-items:center;background:var(--navy);color:#fff;border-radius:24px;padding:32px 24px}
+.quote .portrait{width:140px;height:140px;border-radius:50%;background:linear-gradient(135deg,#00A9A3,#35588A);display:grid;place-items:center;text-align:center;font-size:.75rem;font-weight:600;color:#fff;border:4px solid rgba(255,255,255,.25);margin-inline:auto;padding:12px}
+.quote blockquote{margin:0}
+.quote blockquote p{font-family:var(--font-head);font-weight:700;font-size:clamp(1.3rem,2.8vw,2rem);line-height:1.3;color:#fff}
+.quote blockquote p::before{content:"“";color:var(--teal-light)}
+.quote blockquote p::after{content:"”";color:var(--teal-light)}
+.quote figcaption{margin-top:18px;color:var(--on-dark-soft);font-size:.95rem}
+.quote figcaption b{color:#fff;display:block;font-size:1.05rem}
+@media(min-width:800px){.quote{grid-template-columns:200px 1fr;padding:48px;gap:48px}.quote .portrait{width:180px;height:180px}}
+
+/* ==========================================================================
+   9. JALUR CEPAT "Mulai dari sini"
+   ========================================================================== */
+.paths{display:grid;gap:16px;grid-template-columns:1fr}
+@media(min-width:640px){.paths{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1100px){.paths{grid-template-columns:repeat(5,1fr)}}
+.path{display:flex;flex-direction:column;gap:10px;height:100%;padding:24px 22px;border-radius:16px;background:#fff;border:1px solid var(--line);text-decoration:none;color:var(--ink);transition:background-color .24s,border-color .24s,box-shadow .24s}
+.path h3{font-size:1.15rem;font-weight:800;color:var(--navy)}
+.path p{font-size:.92rem;color:var(--ink-soft)}
+.path .arr{margin-top:auto;color:var(--teal-dark)}
+.path .arr svg{width:24px;height:24px;transition:transform .2s var(--ease)}
+.path:hover{border-color:var(--teal);box-shadow:0 10px 24px rgba(34,61,96,.12)}
+.path:hover .arr svg{transform:translateX(5px)}
+
+/* ==========================================================================
+   10. FOOTER
+   ========================================================================== */
+.footer{background:var(--navy-dark);color:var(--on-dark-soft);padding:64px 0 32px;font-size:.95rem}
+.footer a{color:#fff}
+.footer h2{font-size:1rem;color:#fff;margin-bottom:14px;letter-spacing:.04em;text-transform:uppercase}
+.f-grid{display:grid;gap:36px;grid-template-columns:1fr}
+@media(min-width:700px){.f-grid{grid-template-columns:1.4fr 1fr 1fr}}
+.footer .brand{color:#fff;display:inline-block;margin-bottom:14px}
+.footer ul{display:grid;gap:4px}
+.footer li a{display:inline-block;padding:6px 0;min-height:32px}
+.footer address{font-style:normal}
+.f-bottom{margin-top:44px;padding-top:22px;border-top:1px solid rgba(255,255,255,.18);display:flex;flex-wrap:wrap;gap:10px 28px;justify-content:space-between;font-size:.88rem}
+</style>
+</head>
+
+<body>
+<!-- Aset SVG bersama: siluet kepulauan (dipakai peta hero DAN motif kontur band CTA) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <g id="archi" transform="translate(0,22)">
+      <!-- Sumatra -->
+      <path vector-effect="non-scaling-stroke" d="M25,20 L71,29 L100,56 L133,91 L179,123 L212,156 L248,207 L250,274 L221,276 L173,234 L138,185 L100,140 L62,87 L33,56 Z"/>
+      <!-- Jawa -->
+      <path vector-effect="non-scaling-stroke" d="M233,290 L266,279 L304,290 L346,294 L387,299 L425,316 L425,337 L375,330 L323,319 L271,312 L239,301 Z"/>
+      <!-- Bali, Lombok, Sumbawa, Flores, Sumba, Timor -->
+      <ellipse vector-effect="non-scaling-stroke" cx="442" cy="332" rx="10" ry="7"/>
+      <ellipse vector-effect="non-scaling-stroke" cx="467" cy="337" rx="11" ry="8"/>
+      <ellipse vector-effect="non-scaling-stroke" cx="495" cy="337" rx="22" ry="8"/>
+      <ellipse vector-effect="non-scaling-stroke" cx="565" cy="337" rx="38" ry="7"/>
+      <ellipse vector-effect="non-scaling-stroke" cx="540" cy="361" rx="22" ry="8"/>
+      <ellipse vector-effect="non-scaling-stroke" cx="640" cy="357" rx="38" ry="9"/>
+      <!-- Kalimantan -->
+      <path vector-effect="non-scaling-stroke" d="M312,102 L354,96 L406,74 L454,38 L492,16 L517,16 L499,51 L505,123 L492,156 L469,194 L463,230 L429,234 L386,221 L344,212 L333,178 L312,145 Z"/>
+      <!-- Sulawesi -->
+      <path vector-effect="non-scaling-stroke" d="M536,125 L553,114 L641,111 L646,123 L579,134 L575,160 L612,168 L606,182 L580,186 L588,215 L572,248 L552,252 L548,228 L560,205 L538,198 L545,170 L532,150 Z"/>
+      <!-- Maluku -->
+      <ellipse vector-effect="non-scaling-stroke" cx="703" cy="134" rx="14" ry="30" transform="rotate(20 703 134)"/>
+      <ellipse vector-effect="non-scaling-stroke" cx="738" cy="212" rx="28" ry="10"/>
+      <ellipse vector-effect="non-scaling-stroke" cx="680" cy="221" rx="14" ry="10"/>
+      <!-- Papua -->
+      <path vector-effect="non-scaling-stroke" d="M770,163 L833,160 L895,178 L978,203 L978,346 L937,328 L907,311 L854,234 L802,234 L812,212 L777,190 Z"/>
+    </g>
+  </defs>
+</svg>
+
+<a class="skip" href="#main">Lewati ke konten utama</a>
+
+<!-- Loading screen singkat (disembunyikan otomatis; tidak tampil di reduced-motion / tanpa JS) -->
+<div id="loader" class="loader" aria-hidden="true"><div class="loader-in"><span class="loader-logo">SKALA</span><span class="loader-bar"></span></div></div>
+
+<!-- ======================= 2. HEADER ======================= -->
+<aside class="partner-bar" aria-label="Mitra program">
+  <div class="wrap">
+    <p>Kemitraan</p>
+    <!-- Placeholder logo mitra: ganti dengan <img> logo resmi sesuai aturan co-branding -->
+    <ul>
+      <li><span class="logo-ph">Kemenkeu</span></li>
+      <li><span class="logo-ph">Kemendagri</span></li>
+      <li><span class="logo-ph">Bappenas</span></li>
+      <li><span class="logo-ph">Australian Government</span></li>
+    </ul>
+  </div>
+</aside>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#" aria-label="SKALA, ke beranda">SKALA</a>
+    <nav aria-label="Menu utama" class="nav-menu">
+      <a href="#">Tentang Kami</a>
+      <a href="#">Program</a>
+      <a href="#">Dampak</a>
+      <a href="#">Wilayah Kerja</a>
+      <a href="#">Pusat Pengetahuan</a>
+      <a href="#">Kabar &amp; Media</a>
+      <a href="#">Peluang</a>
+    </nav>
+    <div class="nav-tools">
+      <button class="icon-btn" id="search-toggle" aria-expanded="false" aria-controls="search-panel" aria-label="Cari">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+      </button>
+      <!-- Toggle bahasa: tampilan saja (belum berfungsi) -->
+      <div class="lang" role="group" aria-label="Bahasa">
+        <button type="button" lang="id" aria-pressed="true">ID</button>
+        <button type="button" lang="en" aria-pressed="false" aria-disabled="true" title="Versi bahasa Inggris belum tersedia di prototipe">EN</button>
+      </div>
+      <button class="icon-btn burger" id="burger" aria-expanded="false" aria-controls="mobile-menu" aria-label="Buka menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path id="burger-path" d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="search-panel" id="search-panel">
+  <div class="wrap">
+    <form role="search" action="#" onsubmit="return false">
+      <label for="q" class="sr-only">Cari di situs SKALA</label>
+      <input id="q" type="search" placeholder="Cari publikasi, kabar, wilayah…" autocomplete="off">
+      <button type="submit">Cari</button>
+    </form>
+  </div>
+</div>
+<nav class="mobile-menu" id="mobile-menu" aria-label="Menu utama (seluler)">
+  <a href="#">Tentang Kami</a><a href="#">Program</a><a href="#">Dampak</a><a href="#">Wilayah Kerja</a>
+  <a href="#">Pusat Pengetahuan</a><a href="#">Kabar &amp; Media</a><a href="#">Peluang</a>
+</nav>
+
+<main id="main">
+
+<!-- ======================= 3. HERO ======================= -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-track" id="hero-track">
+    <div class="hero-sticky" id="hero-sticky">
+      <a class="hero-skip" href="#misi">Lewati animasi hero</a>
+
+      <!-- Tahap A–B: pertanyaan (h1 utuh di DOM; potongan hanya efek visual) lalu zoom pada "layanan dasar" -->
+      <div class="stage-q" id="stage-q">
+        <h1 id="hero-title" class="hero-title">
+          <span class="w fw" style="--i:0">Bagaimana jika</span>
+          <span class="w fw" style="--i:1">setiap warga di</span>
+          <span class="w fw" style="--i:2">daerah tertinggal</span>
+          <span class="w fw" style="--i:3">mendapat</span>
+          <span class="w" style="--i:4"><span class="zoom" id="zoom">layanan dasar</span></span>
+          <span class="w fw" style="--i:5">yang layak?</span>
+        </h1>
+        <div class="cue" id="cue" aria-hidden="true">
+          Gulir
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+        </div>
+      </div>
+
+      <!-- Tahap C: peta Indonesia navy (miring 3D) dengan 12 pin provinsi -->
+      <div class="stage-map" id="stage-map">
+        <p class="map-caption" id="map-caption">12 provinsi, satu tujuan: layanan dasar yang layak.</p>
+        <div class="map-persp" id="map-persp">
+          <div class="map-tilt" id="map-tilt">
+            <svg viewBox="0 0 1000 400" role="img" aria-label="Peta Indonesia sederhana dengan 12 provinsi wilayah kerja SKALA. Daftar lengkap tersedia di bawah.">
+              <use href="#archi" class="land"/>
+            </svg>
+            <!-- Pin: tombol HTML (bisa di-Tab). Posisi = x/10 %, (y+22)/4 %. Bentuk: lingkaran = utama, belah ketupat = tambahan.
+                 [PLACEHOLDER] daftar provinsi & klasifikasi utama/tambahan menunggu data klien. -->
+            <div id="pins"></div>
+          </div>
+        </div>
+        <div class="legend" aria-hidden="true">
+          <span><i class="mk mk-utama"></i>Wilayah utama</span>
+          <span><i class="mk mk-tambahan"></i>Wilayah tambahan</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Kalimat misi + tombol -->
+  <div class="mission dark" id="misi" tabindex="-1">
+    <div class="wrap mission-grid">
+      <div class="reveal">
+        <p class="lead">SKALA memperkuat tata kelola pemerintah pusat dan daerah agar layanan dasar benar-benar sampai ke warga yang paling membutuhkan, di 12 provinsi di Indonesia.</p>
+        <div class="actions">
+          <a class="btn btn-orange" href="#pilar">Kenali SKALA
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+      <details class="prov reveal" style="--i:1">
+        <summary>Daftar 12 provinsi wilayah kerja</summary>
+        <ul id="prov-list"></ul>
+        <p class="ph-note"><span class="ph">[PLACEHOLDER]</span> Nama provinsi dan klasifikasi utama/tambahan adalah contoh sampai klien menyerahkan daftar final.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 4. TIGA PILAR (split-screen) ======================= -->
+<section id="pilar" aria-labelledby="pilar-h">
+  <div class="sec" style="padding-bottom:48px">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Kerangka hasil</span>
+        <h2 id="pilar-h">Tiga pilar kerja SKALA</h2>
+      </div>
+    </div>
+  </div>
+
+  <article class="pillar">
+    <div class="media m1 reveal" role="img" aria-label="Placeholder foto lapangan untuk Pilar 1">
+      <svg class="deco" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g fill="none" stroke="#fff" stroke-opacity=".35"><circle cx="90" cy="220" r="60"/><circle cx="90" cy="220" r="95"/><circle cx="90" cy="220" r="130"/><circle cx="330" cy="70" r="50"/><circle cx="330" cy="70" r="85"/></g></svg>
+      <span class="photo-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M21 16l-5-5-8 8"/></svg>Foto lapangan</span>
+    </div>
+    <div class="body">
+      <span class="num reveal" style="--i:1">PILAR 1</span>
+      <h3 class="reveal" style="--i:2"><span class="ph">[PLACEHOLDER: nama EOPO 1]</span></h3>
+      <p class="reveal" style="--i:3">Kalimat inti pilar ini akan diisi dari kerangka hasil program yang diserahkan klien.</p>
+      <a class="link-arrow reveal" style="--i:4" href="#" aria-label="Pelajari Pilar 1"><span>Pelajari</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+  </article>
+
+  <article class="pillar">
+    <div class="media m2 reveal" role="img" aria-label="Placeholder foto lapangan untuk Pilar 2">
+      <svg class="deco" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g fill="none" stroke="#fff" stroke-opacity=".35"><path d="M-10 240 C80 180 140 280 230 220 S360 160 420 200"/><path d="M-10 200 C80 140 140 240 230 180 S360 120 420 160"/><path d="M-10 160 C80 100 140 200 230 140 S360 80 420 120"/><path d="M-10 120 C80 60 140 160 230 100 S360 40 420 80"/></g></svg>
+      <span class="photo-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M21 16l-5-5-8 8"/></svg>Foto lapangan</span>
+    </div>
+    <div class="body">
+      <span class="num reveal" style="--i:1">PILAR 2</span>
+      <h3 class="reveal" style="--i:2"><span class="ph">[PLACEHOLDER: nama EOPO 2]</span></h3>
+      <p class="reveal" style="--i:3">Kalimat inti pilar ini akan diisi dari kerangka hasil program yang diserahkan klien.</p>
+      <a class="link-arrow reveal" style="--i:4" href="#" aria-label="Pelajari Pilar 2"><span>Pelajari</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+  </article>
+
+  <article class="pillar">
+    <div class="media m3 reveal" role="img" aria-label="Placeholder foto lapangan untuk Pilar 3">
+      <svg class="deco" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g fill="none" stroke="#fff" stroke-opacity=".35"><rect x="40" y="40" width="120" height="120" rx="60"/><rect x="20" y="20" width="160" height="160" rx="80"/><rect x="230" y="120" width="140" height="140" rx="70"/><rect x="210" y="100" width="180" height="180" rx="90"/></g></svg>
+      <span class="photo-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M21 16l-5-5-8 8"/></svg>Foto lapangan</span>
+    </div>
+    <div class="body">
+      <span class="num reveal" style="--i:1">PILAR 3</span>
+      <h3 class="reveal" style="--i:2"><span class="ph">[PLACEHOLDER: nama EOPO 3]</span></h3>
+      <p class="reveal" style="--i:3">Kalimat inti pilar ini akan diisi dari kerangka hasil program yang diserahkan klien.</p>
+      <a class="link-arrow reveal" style="--i:4" href="#" aria-label="Pelajari Pilar 3"><span>Pelajari</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+  </article>
+</section>
+
+<!-- ======================= 5. ANGKA KUNCI ======================= -->
+<section class="sec dark" aria-labelledby="angka-h">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">SKALA dalam angka</span>
+      <h2 id="angka-h">Komitmen jangka panjang untuk layanan dasar</h2>
+    </div>
+    <!-- Nilai akhir sudah tertulis di HTML (tanpa JS tetap benar). JS hanya menghitung naik sekali.
+         Tampilan angka aria-hidden; pembaca layar membaca teks sr-only. -->
+    <ul class="stats" data-stagger>
+      <li class="stat reveal">
+        <span class="sr-only">8 tahun</span>
+        <span aria-hidden="true"><span class="val"><i data-count="8">8</i></span><span class="suf">tahun</span></span>
+      </li>
+      <li class="stat reveal">
+        <span class="sr-only">hingga AUD 160 juta</span>
+        <span aria-hidden="true"><span class="pre">hingga AUD</span><span class="val"><i data-count="160">160</i></span><span class="suf">juta</span></span>
+      </li>
+      <li class="stat reveal">
+        <span class="sr-only">12 provinsi</span>
+        <span aria-hidden="true"><span class="val"><i data-count="12">12</i></span><span class="suf">provinsi</span></span>
+      </li>
+      <li class="stat reveal">
+        <span class="sr-only">3 pilar</span>
+        <span aria-hidden="true"><span class="val"><i data-count="3">3</i></span><span class="suf">pilar</span></span>
+      </li>
+    </ul>
+    <p class="stat-note reveal"><span class="ph">[PLACEHOLDER]</span> Angka capaian per pilar (EOPO) akan ditambahkan setelah data resmi diterima dari klien.</p>
+  </div>
+</section>
+
+<!-- ======================= 6. ENAM TEMA KERJA ======================= -->
+<section class="sec alt" aria-labelledby="tema-h">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Apa yang kami kerjakan</span>
+      <h2 id="tema-h">Enam tema kerja</h2>
+    </div>
+    <ul class="themes" data-stagger>
+      <li class="reveal"><a class="tile" href="#">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v10M9.6 9.6c0-1 1-1.6 2.4-1.6s2.4.6 2.4 1.6-1 1.4-2.4 1.6-2.4.6-2.4 1.6 1 1.6 2.4 1.6 2.4-.6 2.4-1.6"/></svg></span>
+        <h3><abbr title="Public Financial Management">PFM</abbr></h3>
+        <p>Pengelolaan keuangan publik yang transparan dan tepat sasaran.</p>
+        <span class="go">Lihat tema <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a></li>
+      <li class="reveal"><a class="tile" href="#">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 9l1.5 1.5L12 8M8 15l1.5 1.5L12 14M14.5 9.5H17M14.5 15.5H17"/></svg></span>
+        <h3><abbr title="Standar Pelayanan Minimal">SPM</abbr></h3>
+        <p>Standar Pelayanan Minimal sebagai acuan layanan dasar di daerah.</p>
+        <span class="go">Lihat tema <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a></li>
+      <li class="reveal"><a class="tile" href="#">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16M7 16v-5M12 16V6M17 16v-8"/></svg></span>
+        <h3>Perencanaan &amp; Penganggaran</h3>
+        <p>Rencana dan anggaran daerah yang berpihak pada layanan dasar.</p>
+        <span class="go">Lihat tema <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a></li>
+      <li class="reveal"><a class="tile" href="#">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></svg></span>
+        <h3>Tata Kelola Data</h3>
+        <p>Data terpadu dan sistem informasi yang dapat dipercaya untuk keputusan.</p>
+        <span class="go">Lihat tema <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a></li>
+      <li class="reveal"><a class="tile" href="#">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3.5 19c.5-3 2.7-5 5.5-5s5 2 5.5 5M15 14.2c2.6-.3 4.8 1.2 5.5 4.3"/></svg></span>
+        <h3><abbr title="Gender Equality, Disability and Social Inclusion">GEDSI</abbr> &amp; Partisipasi</h3>
+        <p>Kesetaraan gender, disabilitas, dan inklusi sosial dalam setiap layanan.</p>
+        <span class="go">Lihat tema <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a></li>
+      <li class="reveal"><a class="tile" href="#">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 21V4M6 5h11l-2.5 3.5L17 12H6"/></svg></span>
+        <h3>Kepemimpinan Lokal</h3>
+        <p>Pemimpin daerah dan aparatur yang mampu menggerakkan perubahan.</p>
+        <span class="go">Lihat tema <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ======================= 7. BAND CTA (motif garis kontur pulau) ======================= -->
+<section class="band dark" aria-labelledby="cta-h">
+  <!-- Motif: siluet kepulauan diulang pada beberapa skala → garis kontur. Dekoratif. -->
+  <svg class="contour" viewBox="0 0 1000 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+    <use href="#archi" stroke-width="1" opacity=".30" transform="translate(500 195) scale(.88) translate(-500 -195)"/>
+    <use href="#archi" stroke-width="1" opacity=".26" transform="translate(500 195) scale(1) translate(-500 -195)"/>
+    <use href="#archi" stroke-width="1" opacity=".22" transform="translate(500 195) scale(1.13) translate(-500 -195)"/>
+    <use href="#archi" stroke-width="1" opacity=".18" transform="translate(500 195) scale(1.27) translate(-500 -195)"/>
+    <use href="#archi" stroke-width="1" opacity=".14" transform="translate(500 195) scale(1.42) translate(-500 -195)"/>
+    <use href="#archi" stroke-width="1" opacity=".10" transform="translate(500 195) scale(1.6) translate(-500 -195)"/>
+    <use href="#archi" stroke-width="1" opacity=".07" transform="translate(500 195) scale(1.8) translate(-500 -195)"/>
+  </svg>
+  <div class="wrap">
+    <h2 id="cta-h" class="reveal">Pelajari dari pengalaman kami di lapangan</h2>
+    <p class="reveal" style="--i:1">Laporan, ringkasan kebijakan, dan pembelajaran dari kerja bersama pemerintah daerah dan pusat.</p>
+    <div class="actions reveal" style="--i:2">
+      <a class="btn btn-orange" href="#">Jelajahi Pusat Pengetahuan
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <!-- [PLACEHOLDER] ganti href dengan URL Kanal WhatsApp resmi SKALA -->
+      <a class="btn btn-ghost" href="#" data-placeholder="url-kanal-whatsapp">Ikuti Kanal WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 8. KABAR TERBARU + PULL-QUOTE ======================= -->
+<section class="sec" aria-labelledby="kabar-h">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Kabar &amp; Pusat Pengetahuan</span>
+      <h2 id="kabar-h">Terbaru dari SKALA</h2>
+      <p><span class="ph">[PLACEHOLDER]</span> Judul, tanggal, dan tag di bawah adalah contoh; akan diambil dari CMS.</p>
+    </div>
+    <ul class="cards" data-stagger>
+      <li class="reveal"><article class="card">
+        <div class="thumb t1"><span>Foto lapangan</span></div>
+        <div class="cb">
+          <span class="kind">Cerita</span>
+          <h3><a href="#">Contoh judul: cerita dari lapangan tentang layanan dasar di daerah</a></h3>
+          <time datetime="2026-11-05">5 November 2026</time>
+          <div class="tags"><span class="tag">GEDSI &amp; Partisipasi</span><span class="tag">Nusa Tenggara Timur</span></div>
+        </div>
+      </article></li>
+      <li class="reveal"><article class="card">
+        <div class="thumb t2"><span>Foto lapangan</span></div>
+        <div class="cb">
+          <span class="kind">Kegiatan</span>
+          <h3><a href="#">Contoh judul: lokakarya perencanaan dan penganggaran bersama pemerintah daerah</a></h3>
+          <time datetime="2026-10-28">28 Oktober 2026</time>
+          <div class="tags"><span class="tag">Perencanaan &amp; Penganggaran</span><span class="tag">Papua Barat</span></div>
+        </div>
+      </article></li>
+      <li class="reveal"><article class="card">
+        <div class="thumb t3"><span>Ilustrasi</span></div>
+        <div class="cb">
+          <span class="kind">Ringkasan Kebijakan</span>
+          <h3><a href="#">Contoh judul: ringkasan kebijakan tentang tata kelola data layanan dasar</a></h3>
+          <time datetime="2026-10-14">14 Oktober 2026</time>
+          <div class="tags"><span class="tag">Tata Kelola Data</span><span class="tag">Nasional</span></div>
+        </div>
+      </article></li>
+    </ul>
+    <p class="more reveal"><a class="link-arrow" href="#"><span>Lihat semua kabar &amp; publikasi</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
+
+    <!-- Pull-quote testimoni pejabat daerah -->
+    <figure class="quote reveal">
+      <div class="portrait" role="img" aria-label="Placeholder foto pejabat daerah">Foto pejabat daerah</div>
+      <div>
+        <blockquote><p><span style="color:#FFE9A8">[PLACEHOLDER: kutipan resmi pejabat daerah, 1–3 kalimat, dengan izin tertulis]</span></p></blockquote>
+        <figcaption><b><span style="color:#FFE9A8">[PLACEHOLDER: Nama pejabat]</span></b><span style="color:#FFE9A8">[PLACEHOLDER: Jabatan, instansi, provinsi]</span></figcaption>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- ======================= 9. JALUR CEPAT ======================= -->
+<section class="sec alt" aria-labelledby="mulai-h">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Jalur cepat</span>
+      <h2 id="mulai-h">Mulai dari sini</h2>
+      <p>Pilih peran Anda untuk menemukan informasi yang paling relevan.</p>
+    </div>
+    <ul class="paths" data-stagger>
+      <li class="reveal"><a class="path" href="#"><h3>Pemerintah Daerah</h3><p>Panduan dan praktik baik untuk layanan dasar di daerah Anda.</p><span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></li>
+      <li class="reveal"><a class="path" href="#"><h3>Pemerintah Pusat</h3><p>Dari kebijakan nasional menjadi layanan yang terasa di daerah.</p><span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></li>
+      <li class="reveal"><a class="path" href="#"><h3>Mitra Pembangunan</h3><p>Kemitraan, tata kelola program, dan hasil yang dicapai.</p><span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></li>
+      <li class="reveal"><a class="path" href="#"><h3>Peneliti &amp; CSO</h3><p>Publikasi, data, dan jaringan organisasi masyarakat sipil.</p><span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></li>
+      <li class="reveal"><a class="path" href="#"><h3>Karir &amp; Magang</h3><p>Bergabung dan belajar bersama tim SKALA.</p><span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<!-- ======================= 10. FOOTER ======================= -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="f-grid">
+      <div>
+        <a class="brand" href="#" aria-label="SKALA, ke beranda">SKALA</a>
+        <p>Sinergi dan Kolaborasi untuk Akselerasi Layanan Dasar: kemitraan Australia–Indonesia bersama Kemendagri, Kemenkeu, dan Bappenas untuk memperkuat layanan dasar di daerah.</p>
+      </div>
+      <div>
+        <h2>Kontak</h2>
+        <address>
+          IFC Tower 2, Jakarta<br>
+          <a href="mailto:info@skala.or.id">info@skala.or.id</a>
+        </address>
+        <ul style="margin-top:10px">
+          <li><a href="#" data-placeholder="url-kanal-whatsapp">Kanal WhatsApp</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Tautan</h2>
+        <ul>
+          <li><a href="#">Kontak</a></li>
+          <li><a href="#">Pengadaan</a></li>
+          <li><a href="#">Aksesibilitas</a></li>
+          <li><a href="#">Kebijakan Privasi</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="f-bottom">
+      <span>Dikelola oleh DT Global</span>
+      <span>© <span id="year">2026</span> SKALA. Hak cipta dilindungi.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- GSAP + ScrollTrigger tidak dipakai di prototipe ini: seluruh animasi memakai CSS + JS murni
+     (IntersectionObserver, requestAnimationFrame) sehingga tidak ada ketergantungan CDN selain font. -->
+<script>
+(function(){
+  'use strict';
+  var root = document.documentElement;
+  var $ = function(s, c){ return (c||document).querySelector(s); };
+  var $$ = function(s, c){ return Array.prototype.slice.call((c||document).querySelectorAll(s)); };
+  var reduced = root.classList.contains('rm');
+  var clamp = function(v,a,b){ return Math.min(b, Math.max(a, v)); };
+  var smooth = function(t){ t = clamp(t,0,1); return t*t*(3-2*t); };
+
+  /* ---------- Data 12 provinsi (CONTOH — [PLACEHOLDER] menunggu daftar final klien) ----------
+     x,y = koordinat pada viewBox peta 1000×400 (sudah termasuk offset +22 di <g id="archi">). */
+  var PROVINCES = [
+    {n:'Aceh',               s:'utama',    x:45,  y:38,  a:'l'},
+    {n:'Sumatera Utara',     s:'tambahan', x:92,  y:82},
+    {n:'Sumatera Selatan',   s:'utama',    x:205, y:205},
+    {n:'Banten',             s:'tambahan', x:252, y:292},
+    {n:'Jawa Tengah',        s:'utama',    x:345, y:300},
+    {n:'Nusa Tenggara Barat',s:'tambahan', x:490, y:338},
+    {n:'Nusa Tenggara Timur',s:'utama',    x:600, y:340},
+    {n:'Kalimantan Barat',   s:'utama',    x:370, y:165},
+    {n:'Sulawesi Tengah',    s:'utama',    x:560, y:172},
+    {n:'Maluku',             s:'utama',    x:738, y:212},
+    {n:'Papua Barat',        s:'utama',    x:800, y:190},
+    {n:'Papua Selatan',      s:'tambahan', x:945, y:292, a:'r'}
+  ];
+  var pinsWrap = $('#pins'), listEl = $('#prov-list');
+  PROVINCES.forEach(function(p, i){
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'pin'; b.dataset.s = p.s; if (p.a) b.dataset.align = p.a;
+    b.style.left = (p.x/10) + '%'; b.style.top = ((p.y+22)/4) + '%';
+    b.setAttribute('aria-expanded','false');
+    b.setAttribute('aria-label', p.n + ', wilayah ' + p.s);
+    b.innerHTML = '<span class="pin-label" aria-hidden="true"><b>'+p.n+'</b><small>Wilayah '+p.s+'</small></span>';
+    // Klik/Enter mengunci label; klik di luar atau Esc menutup
+    b.addEventListener('click', function(e){
+      e.stopPropagation();
+      var open = b.getAttribute('aria-expanded') === 'true';
+      closePins(); b.setAttribute('aria-expanded', open ? 'false' : 'true');
+    });
+    pinsWrap.appendChild(b);
+    var li = document.createElement('li');
+    li.innerHTML = '<i class="mk ' + (p.s==='utama'?'mk-utama':'mk-tambahan') + '" aria-hidden="true"></i><span>'+p.n+' <span class="sr-only">, wilayah '+p.s+'</span></span>';
+    listEl.appendChild(li);
+  });
+  function closePins(){ $$('.pin[aria-expanded="true"]').forEach(function(x){ x.setAttribute('aria-expanded','false'); }); }
+  document.addEventListener('click', closePins);
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closePins(); });
+  var pins = $$('.pin');
+
+  /* ---------- Tautan placeholder "#": jangan lompat ke atas halaman ---------- */
+  $$('a[href="#"]').forEach(function(a){ a.addEventListener('click', function(e){ e.preventDefault(); }); });
+
+  /* ---------- Loading screen: tampil ±0,7 dtk, maksimum 2 dtk ---------- */
+  var finished = false;
+  function finish(){
+    if (finished) return; finished = true;
+    root.classList.add('ready');
+    var l = $('#loader'); if (l) setTimeout(function(){ l.remove(); }, 500);
+  }
+  if (reduced) { finish(); }
+  else {
+    var t0 = performance.now();
+    var go = function(){ setTimeout(finish, Math.max(0, 700 - (performance.now() - t0))); };
+    if (document.readyState === 'complete') go(); else window.addEventListener('load', go);
+    setTimeout(finish, 2000);
+  }
+
+  /* ---------- Header: hamburger, pencarian ---------- */
+  var burger = $('#burger'), mm = $('#mobile-menu');
+  var burgerPath = $('#burger-path');
+  function setMenu(open){
+    mm.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open);
+    burger.setAttribute('aria-label', open ? 'Tutup menu' : 'Buka menu');
+    burgerPath.setAttribute('d', open ? 'M6 6l12 12M18 6L6 18' : 'M4 7h16M4 12h16M4 17h16');
+  }
+  burger.addEventListener('click', function(){ setMenu(!mm.classList.contains('open')); });
+  $$('a', mm).forEach(function(a){ a.addEventListener('click', function(){ setMenu(false); }); });
+  var st = $('#search-toggle'), sp = $('#search-panel');
+  st.addEventListener('click', function(){
+    var open = !sp.classList.contains('open');
+    sp.classList.toggle('open', open); st.setAttribute('aria-expanded', open);
+    if (open) $('#q').focus();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key !== 'Escape') return;
+    if (mm.classList.contains('open')) { setMenu(false); burger.focus(); }
+    if (sp.classList.contains('open')) { sp.classList.remove('open'); st.setAttribute('aria-expanded','false'); st.focus(); }
+  });
+  $('.lang button[aria-disabled]').addEventListener('click', function(e){ e.preventDefault(); }); // ID/EN: tampilan saja
+
+  /* ---------- Reveal saat scroll (fade-up, jeda 60ms antar saudara) ---------- */
+  $$('[data-stagger]').forEach(function(c){ $$('.reveal', c).forEach(function(el, i){ el.style.setProperty('--i', i); }); });
+  if (!('IntersectionObserver' in window) || reduced) {
+    $$('.reveal').forEach(function(el){ el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, {threshold:.12, rootMargin:'0px 0px -6% 0px'});
+    $$('.reveal').forEach(function(el){ io.observe(el); });
+  }
+
+  /* ---------- Count-up sekali saat terlihat ---------- */
+  var counters = $$('[data-count]');
+  function runCount(el){
+    var to = parseFloat(el.dataset.count), dur = 1200, s = null;
+    function step(ts){
+      if (s === null) s = ts;
+      var t = clamp((ts - s)/dur, 0, 1), e = 1 - Math.pow(1 - t, 3);
+      el.textContent = Math.round(to * e);
+      if (t < 1) requestAnimationFrame(step); else el.textContent = to;
+    }
+    el.textContent = '0'; requestAnimationFrame(step);
+  }
+  if (!reduced && 'IntersectionObserver' in window) {
+    var cio = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if (en.isIntersecting){ runCount(en.target); cio.unobserve(en.target); } });
+    }, {threshold:.6});
+    counters.forEach(function(el){ cio.observe(el); });
+  }
+
+  /* ---------- Tilt tile tema: miring maks 2,5° mengikuti kursor (mouse saja) ---------- */
+  if (!reduced && window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
+    $$('.tile').forEach(function(t){
+      t.addEventListener('pointermove', function(e){
+        var r = t.getBoundingClientRect();
+        var nx = (e.clientX - r.left)/r.width - .5, ny = (e.clientY - r.top)/r.height - .5;
+        t.style.setProperty('--ry', (nx*5).toFixed(2) + 'deg');
+        t.style.setProperty('--rx', (-ny*5).toFixed(2) + 'deg');
+      });
+      t.addEventListener('pointerleave', function(){ t.style.removeProperty('--rx'); t.style.removeProperty('--ry'); });
+    });
+  }
+
+  /* ---------- HERO: kemajuan scroll (0→1) menggerakkan zoom dan peta ----------
+     Fase: 0–.12 diam · .12–.5 "layanan dasar" membesar · .45–.65 peta muncul ·
+           .5–.8 peta turun ke sudut 22° · .74–.96 pin muncul bergantian. */
+  var track = $('#hero-track'), sticky = $('#hero-sticky');
+  var stageQ = $('#stage-q'), stageMap = $('#stage-map');
+  var zoom = $('#zoom'), fadeWords = $$('.fw'), cue = $('#cue'), tilt = $('#map-tilt');
+  var cx = 0, cy = 0, tx = 0, ty = 0, rafMove = 0;   // paralaks kursor (±5°)
+  var scrubOn = false;
+
+  if (!reduced) {
+    scrubOn = true; root.classList.add('hero-scrub');
+    var ticking = false, navH = 68;
+    var progress = function(){
+      var r = track.getBoundingClientRect();
+      var total = track.offsetHeight - sticky.offsetHeight;
+      return total > 0 ? clamp((navH - r.top)/total, 0, 1) : 0;
+    };
+    var render = function(){
+      ticking = false;
+      var p = progress();
+      var fw = 1 - smooth((p - .08)/.18);
+      // Opacity inline hanya dipasang saat memudar; di awal dibiarkan kosong agar animasi pembuka CSS tidak tertimpa
+      fadeWords.forEach(function(w){ w.style.opacity = fw < 1 ? fw : ''; });
+      var zt = clamp((p - .12)/.38, 0, 1);
+      zoom.style.transform = 'scale(' + (1 + 7*Math.pow(zt, 1.7)).toFixed(3) + ')';
+      zoom.style.opacity = 1 - smooth((p - .38)/.14);
+      stageQ.style.opacity = 1 - smooth((p - .44)/.1);
+      stageQ.style.visibility = p > .56 ? 'hidden' : 'visible';
+      cue.style.opacity = 1 - clamp(p/.06, 0, 1);
+      var mo = smooth((p - .45)/.2);
+      stageMap.style.opacity = mo;
+      stageMap.classList.toggle('live', p > .6);
+      var mt = smooth((p - .5)/.3);
+      baseRx = 48 - 26*mt; baseScale = .85 + .15*mt;
+      applyTilt();
+      pins.forEach(function(pin, i){ pin.classList.toggle('on', p > .74 + i*.02); });
+    };
+    var baseRx = 48, baseScale = .85;
+    var applyTilt = function(){
+      tilt.style.transform = 'rotateX(' + (baseRx - cy*5).toFixed(2) + 'deg) rotateY(' + (cx*5).toFixed(2) + 'deg) scale(' + baseScale.toFixed(3) + ')';
+    };
+    var onScroll = function(){ if (!ticking){ ticking = true; requestAnimationFrame(render); } };
+    window.addEventListener('scroll', onScroll, {passive:true});
+    window.addEventListener('resize', onScroll);
+    render();
+
+    // Peta bergerak ±5° mengikuti kursor (halus, hanya pointer mouse)
+    if (window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
+      sticky.addEventListener('pointermove', function(e){
+        var r = sticky.getBoundingClientRect();
+        tx = clamp(((e.clientX - r.left)/r.width - .5)*2, -1, 1);
+        ty = clamp(((e.clientY - r.top)/r.height - .5)*2, -1, 1);
+        if (!rafMove) rafMove = requestAnimationFrame(follow);
+      });
+      sticky.addEventListener('pointerleave', function(){ tx = 0; ty = 0; if (!rafMove) rafMove = requestAnimationFrame(follow); });
+    }
+    function follow(){
+      cx += (tx - cx)*.1; cy += (ty - cy)*.1; applyTilt();
+      if (Math.abs(tx-cx) > .002 || Math.abs(ty-cy) > .002) rafMove = requestAnimationFrame(follow); else rafMove = 0;
+    }
+
+    // Pin menerima fokus keyboard saat peta belum terlihat → majukan scroll ke akhir hero
+    pins.forEach(function(pin){
+      pin.addEventListener('focus', function(){
+        if (progress() < .95) {
+          var top = window.scrollY + track.getBoundingClientRect().top;
+          var total = track.offsetHeight - sticky.offsetHeight;
+          window.scrollTo({top: top - navH + total*.97, behavior:'instant'});
+        }
+      });
+    });
+  }
+
+  /* ---------- Footer: tahun berjalan ---------- */
+  $('#year').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>

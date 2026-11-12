@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Profil Provinsi — Wilayah Kerja SKALA</title>
+<meta name="description" content="Profil provinsi wilayah kerja SKALA.">
+<meta property="og:title" content="Profil Provinsi — Wilayah Kerja SKALA">
+<meta property="og:description" content="Profil provinsi wilayah kerja SKALA.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://skala.or.id/wilayah/">
+<meta name="theme-color" content="#0B1F38">
+<!--
+  PROTOTIPE — Tampilan 3: template profil provinsi (/wilayah/<slug>/).
+  Prototipe memakai ?p=<slug> karena file:// tidak punya rute dinamis. Di Next.js: generateStaticParams
+  + generateMetadata untuk 12 slug; JSON-LD dirender di server. Rencana: docs/plans/wilayah.md
+  Peta di hero = komponen yang sama dengan Beranda (assets/js/peta-3d.js) dalam mode statis.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/situs.css">
+<link rel="stylesheet" href="assets/css/peta-3d.css">
+<style>
+/* Hero navy: teks kiri, peta statis kanan */
+.phero{--h1:32px;background:var(--ink);color:var(--paper);padding:16px 0 96px;
+  background-image:radial-gradient(50% 60% at 75% 55%,rgba(14,173,165,.14),transparent 70%)}
+@media (min-width:1024px){ .phero{--h1:48px} }
+.phero__in{display:grid;gap:24px;align-items:center}
+@media (min-width:1024px){ .phero__in{grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:48px} }
+.phero .chip{margin-top:24px}
+.phero h1{margin:16px 0 calc(var(--h1) * 1.5);font-size:var(--h1);line-height:1.08;letter-spacing:-.02em}
+.phero__sum{max-width:34em;font-size:14px;line-height:1.5;color:var(--muted-dark)}
+.phero__sum:not(.is-ph){color:var(--paper)}
+.phero__ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.phero__map{--rx:38deg;position:relative;height:clamp(220px,32vw,400px);overflow:hidden;border-radius:16px;display:flex;align-items:center;justify-content:center;perspective-origin:50% 45%;
+  background:linear-gradient(180deg,rgba(245,247,246,.03),rgba(245,247,246,0))}
+@media (max-width:767px){ .phero__map{--rx:30deg;height:200px} }
+/* Statistik: menumpuk ke bawah hero */
+.pstats{position:relative;z-index:1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:-56px}
+@media (min-width:768px){ .pstats{grid-template-columns:repeat(4,minmax(0,1fr));gap:20px} }
+.pstats div{padding:20px;border-radius:16px;background:#fff;border:1px solid #DCE3EC;box-shadow:0 16px 40px rgba(11,31,56,.10)}
+.pstats dt{font-size:12px;line-height:16px;color:var(--text-2);text-transform:uppercase;letter-spacing:.04em}
+.pstats dd{margin-top:8px;font-size:32px;line-height:1.1;font-weight:600}
+.psec{padding-top:96px}
+.psec h2{margin:0 0 calc(32px * 1.5);font-size:32px;line-height:1.1;letter-spacing:-.015em}
+.psec__head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:calc(32px * 1.5)}
+.psec__head h2{margin:0}
+/* Tab */
+.tabs{display:flex;gap:4px;overflow-x:auto;border-bottom:1px solid var(--line);margin-bottom:32px}
+.tab{flex:none;min-height:48px;padding:0 16px;font-size:16px;color:var(--text-2);box-shadow:inset 0 -2px 0 transparent;transition:color .25s,box-shadow .25s}
+.tab:hover{color:var(--text)}
+.tab[aria-selected="true"]{color:var(--text);font-weight:600;box-shadow:inset 0 -2px 0 var(--teal-text)}
+.tabpanel:focus-visible{outline-offset:8px}
+.tp-sum{display:grid;gap:32px}
+@media (min-width:1024px){ .tp-sum{grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:48px} }
+.tp-sum p{font-size:20px;line-height:1.5;max-width:36em}
+.aside{padding:24px;border-radius:16px;background:#fff;border:1px solid #DCE3EC}
+.aside h3{margin-bottom:16px;font-size:16px;font-weight:600}
+.aside li{padding:12px 0;border-top:1px solid var(--line);font-size:16px}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+.fcard{padding:24px;border-radius:16px;background:#fff;border:1px solid #DCE3EC}
+.fcard h3{font-size:20px;line-height:1.2;font-weight:600}
+.fcard p{margin-top:8px;font-size:16px;color:var(--text-2)}
+.slist li{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;padding:20px 0;border-top:1px solid var(--line)}
+.slist li:last-child{border-bottom:1px solid var(--line)}
+.slist b{font-size:20px;font-weight:500}
+.slist span{font-size:12px;color:var(--text-2)}
+.pubs{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px}
+.pub .ph{aspect-ratio:3/4}
+.pub p{margin-top:12px;font-size:12px;line-height:16px;color:var(--text-2);text-transform:uppercase;letter-spacing:.04em}
+.pub h3{margin-top:4px;font-size:20px;line-height:1.25;font-weight:500}
+.pnav{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;margin-top:96px;padding-top:24px;border-top:1px solid var(--line)}
+.nf{padding:96px 0;text-align:center}
+.nf p{font-size:24px;margin-bottom:24px}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-arrow" viewBox="0 0 12 12"><path d="M2 10L10 2M4 2h6v6" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+  <symbol id="i-left" viewBox="0 0 16 16"><path d="M15 8H1M7 2L1 8l6 6" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+</svg>
+<a class="skip" href="#main">Lewati ke konten</a>
+
+<header class="sh">
+  <div class="wrap">
+    <a class="sh__logo" href="index.html"><img src="assets/skala-logo.png" width="600" height="165" alt="SKALA — kembali ke Beranda"></a>
+    <nav aria-label="Navigasi utama"><ul>
+      <li><a href="index.html">Beranda</a></li>
+      <li class="keep"><a href="wilayah.html">Wilayah Kerja</a></li>
+      <li><a href="/pengetahuan/">Pusat Pengetahuan</a></li>
+    </ul></nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="phero on-dark" aria-labelledby="p-name">
+    <div class="wrap phero__in">
+      <div>
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="index.html#wilayah" data-s="back">Kembali ke peta</a></li>
+            <li><a href="wilayah.html" data-s="crumb">Wilayah Kerja</a></li>
+            <li aria-current="page" id="crumb-name"></li>
+          </ol>
+        </nav>
+        <span class="chip" id="p-cat"></span>
+        <h1 id="p-name"></h1>
+        <p class="phero__sum" id="p-sum"></p>
+        <div class="phero__ctas">
+          <a class="btn btn--teal" href="#tentang" id="go-program"><span data-s="viewProgram">Lihat program</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg><svg><use href="#i-arrow"/></svg></span></a>
+          <a class="btn btn--line" href="#publikasi" data-s="relatedPubs">Publikasi terkait</a>
+        </div>
+      </div>
+      <div class="phero__map" id="p-map"></div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <dl class="pstats" id="p-stats"></dl>
+
+    <section class="psec" id="tentang" aria-labelledby="h-tentang">
+      <h2 id="h-tentang" data-s="about">Tentang wilayah ini</h2>
+      <div class="tabs" role="tablist" aria-labelledby="h-tentang" id="tabs"></div>
+      <div id="tabpanels"></div>
+    </section>
+
+    <section class="psec" id="publikasi" aria-labelledby="h-pub">
+      <div class="psec__head">
+        <h2 id="h-pub" data-s="relatedPubs">Publikasi terkait</h2>
+        <a class="link" id="all-pubs" href="/pengetahuan/"><span data-s="allPubs">Semua publikasi</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg><svg><use href="#i-arrow"/></svg></span></a>
+      </div>
+      <ul class="pubs" id="pubs"></ul>
+    </section>
+
+    <nav class="pnav" aria-label="Navigasi wilayah kerja">
+      <a class="btn btn--line" href="index.html#wilayah" data-s="back">Kembali ke peta</a>
+      <a class="btn btn--teal" href="wilayah.html"><span data-s="allProv">Lihat semua provinsi</span><span class="arrow" aria-hidden="true"><svg><use href="#i-arrow"/></svg><svg><use href="#i-arrow"/></svg></span></a>
+    </nav>
+  </div>
+</main>
+
+<footer class="sf on-dark">
+  <div class="wrap">
+    <div class="sf__row">
+      <img class="sf__logo" src="assets/skala-logo-white.png" width="500" height="138" alt="SKALA — Sinergi dan Kolaborasi untuk Akselerasi Layanan Dasar, Kemitraan Australia–Indonesia">
+      <div class="sf__partners"><p class="label">Kemitraan bersama</p>
+        <div class="sf__chip"><img src="assets/partner-logos.png" width="812" height="140" alt="Kementerian Keuangan, Kementerian Dalam Negeri, Bappenas, dan Australian Government"></div></div>
+    </div>
+    <div class="sf__legal"><span>SKALA dikelola oleh DT Global · © <span id="year">2026</span> SKALA</span><a href="/aksesibilitas/">Aksesibilitas</a><a href="kredit-foto.html">Kredit foto</a></div>
+  </div>
+</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="assets/data/provinsi.js"></script>
+<script src="assets/js/situs.js"></script>
+<script src="assets/js/peta-3d.js"></script>
+<script>
+(function(){
+  'use strict';
+  var W = window.SKALA_WILAYAH, S = W.str;
+  var $ = function(s){ return document.querySelector(s); };
+  var esc = function(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
+  var ph = function(s){ return W.isPlaceholder(s) ? ' class="is-ph"' : ''; };
+  var SITE = 'https://skala.or.id';
+  document.querySelectorAll('[data-s]').forEach(function(el){ var v = S[el.dataset.s]; if (typeof v === 'string') el.textContent = v; });
+
+  var slug = new URLSearchParams(location.search).get('p') || '';
+  var p = W.bySlug(slug);
+  if (!p) {
+    document.title = S.notFound + ' — SKALA';
+    $('#main').innerHTML = '<div class="wrap nf"><h1 class="sr-only">' + esc(S.notFound) + '</h1><p>' + esc(S.notFound) + '</p>'
+      + '<a class="btn btn--teal" href="wilayah.html"><span>' + esc(S.allProv) + '</span></a></div>';
+    return;
+  }
+  var idx = W.provinces.indexOf(p);
+
+  /* ---------- Meta + JSON-LD (di Next.js: generateMetadata + JSON-LD di server) ---------- */
+  var url = SITE + '/wilayah/' + p.slug + '/';
+  var desc = W.isPlaceholder(p.summary) ? p.name + ' — ' + S.cat[p.category].toLowerCase() + ' program SKALA.' : p.summary;
+  var title = p.name + ' — Wilayah Kerja SKALA';
+  document.title = title;
+  function meta(sel, attr, val){ var m = document.head.querySelector(sel); if (m) m.setAttribute(attr, val); }
+  meta('meta[name="description"]', 'content', desc);
+  meta('meta[property="og:title"]', 'content', title);
+  meta('meta[property="og:description"]', 'content', desc);
+  meta('link[rel="canonical"]', 'href', url);
+  var og = document.createElement('meta'); og.setAttribute('property', 'og:url'); og.content = url; document.head.appendChild(og);
+  var place = {'@context':'https://schema.org', '@type':'AdministrativeArea', name:p.name, url:url,
+    geo:{'@type':'GeoCoordinates', latitude:p.lat, longitude:p.lon},
+    containedInPlace:{'@type':'Country', name:'Indonesia'}};
+  if (!W.isPlaceholder(p.summary)) place.description = p.summary;
+  var crumbs = {'@context':'https://schema.org', '@type':'BreadcrumbList', itemListElement:[
+    {'@type':'ListItem', position:1, name:S.home, item:SITE + '/'},
+    {'@type':'ListItem', position:2, name:S.crumb, item:SITE + '/wilayah/'},
+    {'@type':'ListItem', position:3, name:p.name, item:url}]};
+  var ld = document.createElement('script'); ld.type = 'application/ld+json'; ld.id = 'ld-json';
+  ld.textContent = JSON.stringify([place, crumbs]); document.head.appendChild(ld);
+
+  /* ---------- Hero ---------- */
+  $('#crumb-name').textContent = p.name;
+  var cat = $('#p-cat'); cat.className = 'chip chip--' + p.category; cat.textContent = S.cat[p.category];
+  $('#p-name').textContent = p.name;
+  var sum = $('#p-sum'); sum.textContent = p.summary; if (W.isPlaceholder(p.summary)) sum.classList.add('is-ph');
+
+  /* Peta 3D yang sama, mode statis, langsung fokus ke provinsi ini */
+  var stage = $('#p-map');
+  var peta = Peta3D.mount(stage, {
+    provinces: W.provinces, project: W.projectToMap, interactive: false, popIn: false,
+    mapLabel: 'Peta Indonesia tiga dimensi yang menyorot lokasi ' + p.name + '.',
+    zoom: function(){ return stage.clientWidth < 500 ? 2.4 : 2.6; }
+  });
+  function frame(){ peta.focus(p.slug, {instant:true}); }
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(frame); else frame();
+  frame();
+
+  /* ---------- Statistik ---------- */
+  $('#p-stats').innerHTML = p.stats.slice(0, 4).map(function(s){ return '<div><dt>' + esc(s.label) + '</dt><dd' + ph(s.value) + '>' + esc(s.value) + '</dd></div>'; }).join('');
+
+  /* ---------- Tab: Ringkasan · Fokus program · Cerita lapangan ---------- */
+  var T = [
+    {id:'ringkasan', html:'<div class="tp-sum"><p class="is-ph">' + esc(S.overview) + '</p><aside class="aside" aria-labelledby="h-mitra"><h3 id="h-mitra">' + esc(S.partners) + '</h3><ul>'
+      + p.partnerRegencies.map(function(r){ return '<li' + ph(r) + '>' + esc(r) + '</li>'; }).join('') + '</ul></aside></div>'},
+    {id:'fokus', html:'<ul class="fgrid">' + p.focusAreas.map(function(f){ return '<li class="fcard"><h3' + ph(f.title) + '>' + esc(f.title) + '</h3><p' + ph(f.description) + '>' + esc(f.description) + '</p></li>'; }).join('') + '</ul>'},
+    {id:'cerita', html:'<ul class="slist">' + p.stories.map(function(s){
+      var t = W.isPlaceholder(s.title) ? '<b class="is-ph">' + esc(s.title) + '</b>' : '<a href="' + esc(s.url) + '"><b>' + esc(s.title) + '</b></a>';
+      return '<li>' + t + '<span' + ph(s.date) + '>' + esc(s.date) + '</span></li>'; }).join('') + '</ul>'}
+  ];
+  $('#tabs').innerHTML = T.map(function(t, i){
+    return '<button type="button" class="tab" role="tab" id="tab-' + t.id + '" aria-controls="tp-' + t.id + '" aria-selected="' + (i === 0) + '" tabindex="' + (i === 0 ? 0 : -1) + '">' + esc(S.tabs[t.id]) + '</button>'; }).join('');
+  $('#tabpanels').innerHTML = T.map(function(t, i){
+    return '<div class="tabpanel" role="tabpanel" id="tp-' + t.id + '" aria-labelledby="tab-' + t.id + '" tabindex="0"' + (i === 0 ? '' : ' hidden') + '>' + t.html + '</div>'; }).join('');
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  function show(i, focus){
+    tabs.forEach(function(b, j){ var on = j === i; b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; $('#' + b.getAttribute('aria-controls')).hidden = !on; });
+    if (focus) tabs[i].focus();
+  }
+  tabs.forEach(function(b, i){
+    b.addEventListener('click', function(){ show(i); });
+    b.addEventListener('keydown', function(e){
+      var n = tabs.length, k = e.key, j = k === 'ArrowRight' ? (i + 1) % n : k === 'ArrowLeft' ? (i - 1 + n) % n : k === 'Home' ? 0 : k === 'End' ? n - 1 : -1;
+      if (j > -1) { e.preventDefault(); show(j, true); }
+    });
+  });
+  // "Lihat program" → buka tab Fokus program
+  $('#go-program').addEventListener('click', function(){ show(1); });
+
+  /* ---------- Publikasi ---------- */
+  $('#all-pubs').href = '/pengetahuan/?provinsi=' + encodeURIComponent(p.slug);
+  $('#pubs').innerHTML = p.publications.map(function(u, i){
+    var cover = u.cover ? '<img src="' + esc(u.cover) + '" alt="">' : '<span class="ph-img" style="--px:' + (30 + i * 20) + '%;--pa:' + (150 + idx * 20 + i * 30) + 'deg"></span>';
+    var title = W.isPlaceholder(u.title) ? '<h3 class="is-ph">' + esc(u.title) + '</h3>' : '<h3><a href="' + esc(u.url) + '">' + esc(u.title) + '</a></h3>';
+    return '<li class="pub"><div class="ph">' + cover + '</div><p' + ph(u.type) + '>' + esc(u.type) + '</p>' + title + '</li>'; }).join('');
+})();
+</script>
+</body>
+</html>

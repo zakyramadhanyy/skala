@@ -1,0 +1,113 @@
+/* =============================================================================
+   SITUS — token + komponen dasar untuk halaman di luar Beranda (wilayah.html, wilayah-provinsi.html).
+   Nilai token SAMA dengan :root di index.html. Saat port ke Next.js keduanya
+   digabung ke src/styles/tokens.ts + tailwind.config.ts (CLAUDE.md §5).
+   Font: hanya Plus Jakarta Sans. Ukuran: 12, 16, 20, 24, 32, 40, 48 (skala 4–80).
+   Jarak di bawah headline = ukuran font × 1,5.
+   ============================================================================= */
+:root{
+  --navy:#163559; --text:#111111; --text-2:#444444; --ink:#0B1F38;
+  --teal:#0EADA5; --teal-text:#00756F; --teal-light:#5FD3CC; --teal-tint:#CFEDEA; --teal-deep:#0B5F57;
+  --paper:#F5F7F6; --mist:#E6EFEE; --muted-dark:#A9BBD0;
+  --line:rgba(22,53,89,.16); --line-dark:rgba(245,247,246,.18);
+  --ff:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --gutter:20px; --header-h:64px; --radius:10px; --radius-btn:6px;
+  --ease-expo:cubic-bezier(.19,1,.22,1); --ease-ui:cubic-bezier(0,.3,.4,1);
+}
+@media (min-width:1024px){ :root{ --gutter:50px; --header-h:72px; } }
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:calc(var(--header-h) + 16px)}
+@media (prefers-reduced-motion:no-preference){ html{scroll-behavior:smooth} }
+body{margin:0;background:var(--paper);color:var(--text);font-family:var(--ff);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+img,svg{display:block;max-width:100%}
+h1,h2,h3,h4{margin:0;font-weight:500;letter-spacing:-.01em}
+p,ul,ol,dl,dd,figure{margin:0}
+ul,ol{padding:0;list-style:none}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit;color:inherit}
+button{background:none;border:0;padding:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--teal-text);outline-offset:3px;border-radius:4px}
+.on-dark :focus-visible{outline-color:var(--teal-light)}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.wrap{padding-inline:var(--gutter);max-width:1440px;margin-inline:auto}
+.label{font-size:12px;line-height:1.3;letter-spacing:.04em;text-transform:uppercase;font-weight:400}
+.eyebrow{color:var(--teal-text);letter-spacing:.12em;margin-bottom:12px}
+.on-dark .eyebrow{color:var(--teal-light)}
+.is-ph{color:var(--text-2);font-style:italic;font-weight:400}
+.on-dark .is-ph{color:var(--muted-dark)}
+.skip{position:fixed;left:12px;top:-80px;z-index:600;padding:12px 16px;border-radius:var(--radius-btn);background:var(--paper);color:var(--text);font-weight:600}
+.skip:focus{top:12px}
+
+/* Tombol + tautan + ikon panah (sama dengan Beranda) */
+.btn{display:inline-flex;align-items:center;gap:12px;min-height:44px;padding:8px 8px 8px 16px;border-radius:var(--radius-btn);font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:.02em;line-height:1.1;transition:background-color .35s var(--ease-ui),color .35s var(--ease-ui),border-color .35s var(--ease-ui)}
+.btn--teal{background:var(--teal);color:var(--text)}
+.btn--teal:hover{background:var(--teal-light)}
+.btn--line{border:1px solid currentColor;padding-right:16px}
+.btn--line:hover{background:var(--navy);color:var(--paper);border-color:var(--navy)}
+.on-dark .btn--line:hover{background:var(--paper);color:var(--text);border-color:var(--paper)}
+.arrow{position:relative;width:28px;height:28px;flex:none;overflow:hidden;display:grid;place-items:center;border-radius:4px}
+.btn--teal .arrow{background:rgba(11,31,56,.12)}
+.arrow svg{width:12px;height:12px;transition:transform .5s var(--ease-expo)}
+.arrow svg+svg{position:absolute;transform:translate(-200%,200%)}
+a:hover .arrow svg:first-child{transform:translate(200%,-200%)}
+a:hover .arrow svg+svg{transform:none}
+.link{display:inline-flex;align-items:center;gap:8px;min-height:44px;font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:.02em;color:var(--teal-text)}
+.on-dark .link{color:var(--teal-light)}
+.link>span:not(.arrow){background:linear-gradient(currentColor,currentColor) 0 100%/100% 1px no-repeat;padding-bottom:2px;transition:background-size .6s var(--ease-expo)}
+.link:hover>span:not(.arrow){background-size:0 1px;background-position:100% 100%}
+
+/* Placeholder foto */
+.ph{position:relative;overflow:hidden;border-radius:var(--radius);background:var(--ink);isolation:isolate}
+.ph img{width:100%;height:100%;object-fit:cover}
+.ph-img{position:absolute;inset:0;transition:transform .9s var(--ease-expo);
+  background:radial-gradient(circle at var(--px,72%) var(--py,30%),rgba(14,173,165,.62),transparent 58%),
+    radial-gradient(rgba(245,247,246,.17) 1.2px,transparent 1.7px) 0 0/13px 13px,
+    linear-gradient(var(--pa,140deg),#1D4672,#0B1F38 70%)}
+.ph-tag{position:absolute;left:12px;bottom:12px;z-index:1;display:inline-flex;align-items:center;gap:8px;padding:4px 8px;border-radius:4px;background:rgba(11,31,56,.72);color:var(--paper)}
+.ph-tag::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--teal)}
+
+/* Chip kategori + titik legenda */
+.chip{display:inline-flex;align-items:center;gap:8px;padding:4px 12px;border-radius:999px;font-size:12px;line-height:16px;font-weight:600}
+.chip--utama{background:var(--teal-tint);color:var(--teal-deep)}
+.chip--tambahan{background:var(--mist);color:var(--text)}
+.lg{flex:none;width:12px;height:12px;border-radius:50%;background:var(--teal)}
+.lg--t{background:transparent;border:2.5px solid var(--navy)}
+.on-dark .lg--t{background:var(--ink);border-color:var(--paper)}
+
+/* Header sederhana halaman dalam */
+.sh{position:sticky;top:0;z-index:100;height:var(--header-h);background:rgba(245,247,246,.9);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);box-shadow:0 1px 0 var(--line)}
+.sh .wrap{height:100%;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.sh__logo img{height:32px;width:auto}
+.sh nav ul{display:flex;gap:4px}
+.sh nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border-radius:999px;font-size:16px}
+.sh nav a:hover{background:rgba(22,53,89,.07)}
+.sh nav a[aria-current="page"]{font-weight:600;box-shadow:inset 0 -2px 0 var(--teal-text);border-radius:0}
+@media (max-width:639px){ .sh nav li:not(.keep){display:none} }
+
+/* Breadcrumb */
+.crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:4px 16px;font-size:12px;line-height:16px;color:var(--text-2)}
+.crumbs .back{display:inline-flex;align-items:center;gap:8px;min-height:44px;font-weight:600;color:var(--text)}
+.crumbs .back svg{width:14px;height:14px}
+.crumbs ol{display:flex;flex-wrap:wrap;align-items:center}
+.crumbs li{display:flex;align-items:center}
+.crumbs li+li::before{content:"/";margin:0 8px;opacity:.6}
+.crumbs a{display:inline-flex;align-items:center;min-height:44px;text-decoration:underline;text-underline-offset:3px}
+.crumbs [aria-current]{font-weight:600;color:var(--text)}
+.on-dark .crumbs,.on-dark .crumbs [aria-current],.on-dark .crumbs .back{color:var(--paper)}
+
+/* Footer ringkas dengan co-branding */
+.sf{margin-top:96px;background:var(--ink);color:var(--paper);padding:48px 0 24px}
+.sf__row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:32px}
+.sf__logo{height:44px;width:auto}
+.sf__partners{display:grid;gap:12px}
+.sf__partners .label{color:var(--muted-dark)}
+.sf__chip{padding:12px 16px;border-radius:var(--radius);background:#fff}
+.sf__chip img{height:40px;width:auto}
+.sf__legal{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;margin-top:40px;padding-top:16px;border-top:1px solid var(--line-dark);font-size:12px;color:var(--muted-dark)}
+
+/* Toast prototipe (tautan ke halaman yang belum dibuat) */
+.toast{position:fixed;left:50%;bottom:24px;z-index:400;transform:translate(-50%,calc(100% + 40px));visibility:hidden;max-width:calc(100% - 40px);padding:12px 16px;border-radius:var(--radius-btn);background:var(--ink);color:var(--paper);font-size:16px;box-shadow:0 12px 32px rgba(11,31,56,.3);transition:transform .6s var(--ease-expo),visibility 0s .6s}
+.toast.show{transform:translate(-50%,0);visibility:visible;transition:transform .6s var(--ease-expo)}
+
+@media (prefers-reduced-motion:reduce){ *,*::before,*::after{transition-duration:0s!important;animation:none!important} }
