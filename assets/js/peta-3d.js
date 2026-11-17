@@ -23,9 +23,13 @@
        region: function(){ return {x, y, w, h}; },  // area bebas (px, koordinat stage)
        mapLabel: '...',               // aria-label peta (role="img"); null → aria-hidden
        popIn: true,                   // pin muncul bergantian saat peta pertama kali terlihat
+       detail: { sea, land, names },  // opsional: peta satu warna + nama laut/pulau + skala jarak
+       maxZoom: 2.6,                  // opsional: batas zoom bebas (default = R); pan: true → drag saat diperbesar
+       onZoom: function(level){},     // dipanggil tiap kamera berubah (level 1 = diam)
        onHover: function(slug|null){}, onSelect: function(slug){}
      });
      peta.focus(slug, {instant}) · peta.reset({instant}) · peta.hot(slug|null) · peta.sync() · peta.selected
+     peta.zoomBy(f) · peta.zoomReset() · peta.canZoom(+1|-1) · peta.zoomLevel()
    ============================================================================= */
 (function (root) {
   'use strict';
@@ -58,6 +62,41 @@
 
   function px(v) { return parseFloat(v) || 0; }
 
+  function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+  /* Mode detail — bidang di bawah daratan: nama perairan + skala jarak. Peta satu warna:
+     tanpa gradasi, relief, atau kontur (warna di peta-3d.css § Detail). Koordinat viewBox 1000×381. */
+  function seaLayer(project, d) {
+    var X = function (lon) { return project(0, lon).x * 10; }, Y = function (lat) { return project(lat, 0).y * 3.81; };
+    var g = d.names || {}, h = '';
+    (d.sea || []).forEach(function (l) {
+      var x = X(l.lon), y = Y(l.lat);
+      h += '<text class="peta__lbl peta__lbl--sea' + (l.big ? ' peta__lbl--big' : '') + '" x="' + x + '" y="' + y + '" text-anchor="middle"' + (l.rot ? ' transform="rotate(' + l.rot + ' ' + x + ' ' + y + ')"' : '') + '>' + esc(l.name) + '</text>';
+    });
+    /* skala jarak 500 km (1° bujur di khatulistiwa ≈ 111,32 km) */
+    if (d.scale) {
+    var x0 = X(127.2), y0 = Y(-10.6), w = X(100 + 500 / 111.32) - X(100);
+    h += '<g class="peta__scale"><path d="M' + x0 + ',' + (y0 - 2.5) + 'V' + y0 + 'H' + (x0 + w) + 'V' + (y0 - 2.5) + 'M' + (x0 + w / 2) + ',' + y0 + 'V' + (y0 - 1.5) + '"/>'
+      + '<text class="peta__deg" x="' + x0 + '" y="' + (y0 + 6.5) + '">0</text><text class="peta__deg" x="' + (x0 + w) + '" y="' + (y0 + 6.5) + '" text-anchor="middle">500 ' + esc(g.km || 'km') + '</text></g>';
+    }
+    if (!h) return null;
+    var s = document.createElementNS(SVG, 'svg');
+    s.setAttribute('viewBox', '0 0 1000 381');
+    s.setAttribute('class', 'peta__layer peta__sea');
+    s.setAttribute('aria-hidden', 'true'); s.setAttribute('focusable', 'false');
+    s.style.setProperty('--z', '-15px');
+    s.innerHTML = h;
+    return s;
+  }
+  function landLabels(top, project, d) {
+    var h = '';
+    (d.land || []).forEach(function (l) {
+      var p = project(l.lat, l.lon), x = p.x * 10, y = p.y * 3.81;
+      h += '<text class="peta__lbl peta__lbl--land" x="' + x + '" y="' + y + '" text-anchor="middle"' + (l.rot ? ' transform="rotate(' + l.rot + ' ' + x + ' ' + y + ')"' : '') + '>' + esc(l.name) + '</text>';
+    });
+    top.insertAdjacentHTML('beforeend', h);
+  }
+
   function mount(stage, opt) {
     opt = opt || {};
     ensureDefs();
@@ -69,8 +108,19 @@
     map.className = 'peta';
     var shadow = document.createElement('div'); shadow.className = 'peta__shadow'; shadow.setAttribute('aria-hidden', 'true');
     map.appendChild(shadow);
-    [-14, -10, -6, -3].forEach(function (z) { map.appendChild(layer(z, false)); });
-    map.appendChild(layer(0, true, opt.mapLabel));
+    var det = opt.detail;
+    if (det) { map.classList.add('peta--detail'); var sea = seaLayer(project, det); if (sea) map.appendChild(sea); }
+    var top = layer(0, true, opt.mapLabel);
+    if (det) {
+      /* Detail: sisi tebal digambar DI DALAM lapisan atas sebagai salinan pulau yang digeser ke selatan (bidang miring
+         membuatnya terbaca sebagai tebing). Satu raster saja: tumpukan lapisan translateZ beresolusi R× memakan
+         ratusan MB memori GPU di layar retina dan membuat Chrome berkedip/crash. */
+      var main = top.firstChild, sides = '';
+      for (var dy = 6; dy > 0; dy -= .75) sides += '<use href="#peta-idn" class="peta__side" transform="translate(0 ' + dy + ')"/>';
+      main.insertAdjacentHTML('beforebegin', sides);
+    } else [-14, -10, -6, -3].forEach(function (z) { map.appendChild(layer(z, false)); });
+    if (det) landLabels(top, project, det);
+    map.appendChild(top);
 
     /* Pin: lapisan dekoratif bagi pembaca layar. Kontrol yang setara (daftar provinsi) disediakan halaman. */
     var pinsEl = document.createElement('div');
@@ -116,7 +166,18 @@
         requestAnimationFrame(function () { map.classList.remove('peta--instant'); });
       } else write();
     }
+    var free = false;   // true setelah zoom/geser manual: sync() tidak menarik kamera kembali ke provinsi
+    var maxZoom = function () { return opt.maxZoom || R; };
+    /* titik tengah stage relatif terhadap pusat peta (asal transform), px */
+    function center() { return { x: stage.clientWidth / 2 - (map.offsetLeft + map.offsetWidth / 2), y: stage.clientHeight / 2 - (map.offsetTop + map.offsetHeight / 2) }; }
+    function clampCam(c) {
+      var mx = Math.max(0, (c.k * map.offsetWidth - stage.clientWidth) / 2 + stage.clientWidth * .2);
+      var my = Math.max(0, (c.k * map.offsetHeight - stage.clientHeight) / 2 + stage.clientHeight * .2);
+      return { tx: Math.max(-mx, Math.min(mx, c.tx)), ty: Math.max(-my, Math.min(my, c.ty)), k: c.k };
+    }
     function write() {
+      stage.classList.toggle('is-zoomed', cam.k > REST.k + 1e-4);
+      if (opt.onZoom) opt.onZoom(cam.k / REST.k);
       map.style.setProperty('--tx', cam.tx.toFixed(2) + 'px');
       map.style.setProperty('--ty', cam.ty.toFixed(2) + 'px');
       map.style.setProperty('--k', cam.k.toFixed(4));
@@ -147,6 +208,7 @@
       el: map, pins: pins, selected: null,
       focus: function (slug, o) {
         var c = solve(slug); if (!c) return;
+        free = false;
         api.selected = slug;
         map.classList.add('has-sel');
         Object.keys(pins).forEach(function (s) { pins[s].classList.toggle('is-sel', s === slug); });
@@ -173,11 +235,44 @@
       hot: function (slug) {
         Object.keys(pins).forEach(function (s) { pins[s].classList.toggle('is-hot', s === slug); });
       },
+      /* Zoom bebas (tombol +/−) di sekitar titik tengah stage, dan geser (drag) saat diperbesar.
+         Batas: skala diam (1/R) sampai --maxZoom × skala diam (default R, batas ketajaman raster). */
+      zoomBy: function (f) {
+        var kMin = REST.k, kMax = REST.k * maxZoom();
+        var k2 = Math.max(kMin, Math.min(kMax, cam.k * f));
+        if (Math.abs(k2 - cam.k) < 1e-4) return;
+        free = true;
+        if (k2 <= kMin + 1e-4) { setCam(REST); return; }
+        var c = center(), r = k2 / cam.k;
+        setCam(clampCam({ tx: c.x - r * (c.x - cam.tx), ty: c.y - r * (c.y - cam.ty), k: k2 }));
+      },
+      zoomReset: function () { free = true; setCam(REST); },
+      zoomLevel: function () { return cam.k / REST.k; },
+      canZoom: function (dir) { return dir > 0 ? cam.k < REST.k * maxZoom() - 1e-4 : cam.k > REST.k + 1e-4; },
       /* Hitung ulang posisi kamera (resize, perubahan tilt) tanpa animasi. */
-      sync: function () { if (api.selected) { var c = solve(api.selected); if (c) { cam = c; write(); } } }
+      sync: function () { if (api.selected && !free) { var c = solve(api.selected); if (c) { cam = c; write(); } } }
     };
 
     setCam(REST, true);
+
+    /* Geser peta dengan drag saat diperbesar (opsi pan). Klik pin setelah menggeser diabaikan. */
+    if (opt.pan) {
+      var drag = null, moved = false;
+      stage.addEventListener('pointerdown', function (e) {
+        if (cam.k <= REST.k + 1e-4 || e.button !== 0) return;
+        drag = { x: e.clientX, y: e.clientY, tx: cam.tx, ty: cam.ty, id: e.pointerId }; moved = false;
+      });
+      stage.addEventListener('pointermove', function (e) {
+        if (!drag || e.pointerId !== drag.id) return;
+        var dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+        if (!moved && Math.abs(dx) + Math.abs(dy) < 5) return;
+        if (!moved) { moved = true; stage.setPointerCapture(e.pointerId); stage.classList.add('is-dragging'); map.classList.add('peta--instant'); }
+        free = true; cam = clampCam({ tx: drag.tx + dx, ty: drag.ty + dy, k: cam.k }); write();
+      });
+      var end = function () { if (!drag) return; drag = null; stage.classList.remove('is-dragging'); map.classList.remove('peta--instant'); };
+      stage.addEventListener('pointerup', end); stage.addEventListener('pointercancel', end);
+      stage.addEventListener('click', function (e) { if (moved) { e.stopPropagation(); e.preventDefault(); moved = false; } }, true);
+    }
     var rT;
     root.addEventListener('resize', function () { clearTimeout(rT); rT = setTimeout(function () { if (api.selected) api.focus(api.selected, { instant: true }); }, 120); });
 

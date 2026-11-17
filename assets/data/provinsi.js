@@ -13,7 +13,8 @@
    ASAL DATA
    - Nama, kategori, dan urutan: peta wilayah di skala.or.id (12 provinsi).
    - `summary` 6 provinsi pertama: teks sorotan dari peta skala.or.id (sumber: situs klien).
-   - `summary` 6 provinsi Papua, semua stat, fokus, kabupaten mitra, cerita, publikasi: BELUM ADA → placeholder.
+   - `summary` 6 provinsi Papua: dari berita/profil skala.or.id (2026-11-17). Stat & fokus: lihat FAKTA/FOKUS di bawah.
+   - Kabupaten mitra, cerita, publikasi per provinsi: BELUM ADA → placeholder (hanya di halaman profil, tidak di beranda).
    - lat/lon: perkiraan titik pusat/ibu kota, PERLU DIKONFIRMASI klien. 6 nilai pertama dari brief,
      6 Papua/Maluku dibalik dari posisi pin di peta skala.or.id.
    ============================================================================= */
@@ -33,29 +34,44 @@
    * }} Province
    */
 
-  /* DATA DUMMY (atas permintaan user, 2026-11-12): angka statistik dan fokus program di bawah ini BUKAN data klien.
-     Hanya mengisi tampilan; ganti dengan data resmi sebelum tayang. Ditandai `dummy:true` pada tiap provinsi. */
-  var DUMMY_STATS = [[5, 4, 2022, 9], [3, 3, 2023, 6], [4, 4, 2022, 8], [4, 3, 2023, 7], [6, 5, 2022, 11], [5, 4, 2022, 9],
-                     [3, 3, 2023, 6], [4, 4, 2023, 7], [3, 3, 2023, 6], [4, 3, 2023, 7], [5, 4, 2022, 9], [4, 4, 2022, 8]];
-  var DUMMY_FOCUS = [
-    ['Standar Pelayanan Minimal', 'Data dan sistem informasi', 'Perencanaan dan penganggaran'],
-    ['Perencanaan dan penganggaran', 'Koordinasi pembinaan dan pengawasan', 'Partisipasi warga'],
-    ['Data dan sistem informasi', 'Standar Pelayanan Minimal', 'Kesetaraan gender dan inklusi sosial'],
-    ['Partisipasi warga', 'Perencanaan dan penganggaran', 'Data dan sistem informasi']
+  /* FAKTA PER PROVINSI (diperiksa 2026-11-17) — menggantikan statistik & fokus dummy.
+     · Kantor SKALA dan fokus program: halaman "Sekilas: Program SKALA di …" di skala.or.id/profil-provinsi/
+       (Aceh Jan 2023, NTB Mei 2023, NTT Mei 2023, Maluku Sep 2023, Kaltara Okt 2023, Gorontalo Okt 2023;
+       Tanah Papua: kantor di Provinsi Papua beroperasi sejak 2022 dan melayani keenam provinsi Papua).
+     · Ibu kota dan tahun pembentukan provinsi: undang-undang pembentukan (Aceh UU 24/1956, Maluku 1945, NTB & NTT UU 64/1958,
+       Gorontalo UU 38/2000, Kaltara UU 20/2012, Papua 1969, Papua Barat UU 45/1999, Papua Selatan/Tengah/Pegunungan 2022,
+       Papua Barat Daya UU 29/2022).
+     · Jumlah kab/kota mitra dan program aktif TIDAK dipublikasikan SKALA, sehingga tidak ditampilkan. */
+  var FAKTA = {
+    'aceh':                { ibu: 'Banda Aceh',    bentuk: '1956', kantor: 'Jan 2023' },
+    'kalimantan-utara':    { ibu: 'Tanjung Selor', bentuk: '2012', kantor: 'Okt 2023' },
+    'gorontalo':           { ibu: 'Gorontalo',     bentuk: '2000', kantor: 'Okt 2023' },
+    'nusa-tenggara-barat': { ibu: 'Mataram',       bentuk: '1958', kantor: 'Mei 2023' },
+    'nusa-tenggara-timur': { ibu: 'Kupang',        bentuk: '1958', kantor: 'Mei 2023' },
+    'maluku':              { ibu: 'Ambon',         bentuk: '1945', kantor: 'Sep 2023' },
+    'papua-barat-daya':    { ibu: 'Sorong',        bentuk: '2022', kantor: '2022', papua: true },
+    'papua-barat':         { ibu: 'Manokwari',     bentuk: '1999', kantor: '2022', papua: true },
+    'papua-tengah':        { ibu: 'Nabire',        bentuk: '2022', kantor: '2022', papua: true },
+    'papua-pegunungan':    { ibu: 'Wamena',        bentuk: '2022', kantor: '2022', papua: true },
+    'papua':               { ibu: 'Jayapura',      bentuk: '1969', kantor: '2022', papua: true },
+    'papua-selatan':       { ibu: 'Merauke',       bentuk: '2022', kantor: '2022', papua: true }
+  };
+  /* Empat bidang yang tercantum di profil setiap provinsi (skala.or.id/profil-provinsi/) */
+  var FOKUS = [
+    { title: 'Partisipasi kelompok rentan', description: 'Memperkuat partisipasi kelompok rentan dalam perencanaan pembangunan.' },
+    { title: 'Data dan analisis', description: 'Penyediaan dan pemanfaatan data serta analisis yang andal untuk kebijakan.' },
+    { title: 'Kapasitas fiskal daerah', description: 'Meningkatkan kapasitas fiskal pemerintah daerah.' },
+    { title: 'Kualitas belanja publik', description: 'Memperkuat kualitas belanja publik untuk layanan dasar.' }
   ];
-  var seq = 0;
-  function stats() {
-    var d = DUMMY_STATS[seq % DUMMY_STATS.length];
+  function stats(slug) {
+    var f = FAKTA[slug];
     return [
-      { label: 'Kab/kota mitra', value: String(d[0]) },
-      { label: 'Program aktif', value: String(d[1]) },
-      { label: 'Tahun mulai', value: String(d[2]) },
-      { label: 'Mitra pemda', value: String(d[3]) }
+      { label: 'Ibu kota', value: f.ibu },
+      { label: 'Provinsi dibentuk', value: f.bentuk },
+      { label: f.papua ? 'Kantor Tanah Papua' : 'Kantor SKALA', value: f.kantor }
     ];
   }
-  function focusAreas() {
-    return DUMMY_FOCUS[seq % DUMMY_FOCUS.length].map(function (t) { return { title: t, description: 'Dukungan teknis dan fasilitasi bagi pemerintah daerah (data dummy).' }; });
-  }
+  function focusAreas() { return FOKUS.map(function (f) { return { title: f.title, description: f.description }; }); }
   function stories() {
     return [
       { title: '[Judul cerita lapangan]', date: '[Tanggal]', url: '#' },
@@ -72,11 +88,10 @@
   function p(slug, name, category, lat, lon, summary) {
     var o = {
       slug: slug, name: name, category: category, lat: lat, lon: lon, summary: summary,
-      photo: '', dummy: true, stats: stats(), focusAreas: focusAreas(),
+      photo: '', stats: stats(slug), focusAreas: focusAreas(),
       partnerRegencies: ['[Kabupaten/kota mitra]', '[Kabupaten/kota mitra]', '[Kabupaten/kota mitra]'],
       stories: stories(), publications: publications()
     };
-    seq += 1;
     return o;
   }
 
@@ -88,12 +103,12 @@
     p('nusa-tenggara-barat', 'Nusa Tenggara Barat', 'tambahan', -8.65, 116.4, 'Peningkatan anggaran SPM memperkuat layanan infrastruktur, perumahan, dan ketertiban.'),
     p('nusa-tenggara-timur', 'Nusa Tenggara Timur', 'utama', -8.7, 121.6, 'Korbinwas berbasis klaster mempercepat implementasi SPM.'),
     p('maluku', 'Maluku', 'utama', -3.23, 130.15, 'Keterisian pelaporan e-SPM meningkat hingga 98 persen.'),
-    p('papua-barat-daya', 'Papua Barat Daya', 'utama', -0.89, 131.29, '[Ringkasan program]'),
-    p('papua-barat', 'Papua Barat', 'utama', -0.85, 134.03, '[Ringkasan program]'),
-    p('papua-tengah', 'Papua Tengah', 'utama', -3.7, 136.21, '[Ringkasan program]'),
-    p('papua-pegunungan', 'Papua Pegunungan', 'utama', -4.29, 139.0, '[Ringkasan program]'),
-    p('papua', 'Papua', 'utama', -2.6, 139.8, '[Ringkasan program]'),
-    p('papua-selatan', 'Papua Selatan', 'utama', -7.3, 139.6, '[Ringkasan program]')
+    p('papua-barat-daya', 'Papua Barat Daya', 'utama', -0.89, 131.29, 'Portal Cenderawasih diluncurkan untuk memperkuat perencanaan pembangunan dan layanan dasar.'),
+    p('papua-barat', 'Papua Barat', 'utama', -0.85, 134.03, 'Portal data SAIK+ dan SIDASSKEN menjadi rujukan data pembangunan bersama pemerintah provinsi.'),
+    p('papua-tengah', 'Papua Tengah', 'utama', -3.7, 136.21, 'Bagian dari program SKALA di Tanah Papua untuk memperkuat partisipasi kelompok rentan dalam perencanaan.'),
+    p('papua-pegunungan', 'Papua Pegunungan', 'utama', -4.29, 139.0, 'Bagian dari program SKALA di Tanah Papua, enam provinsi yang dibentuk bertahap pada 1969–2022.'),
+    p('papua', 'Papua', 'utama', -2.6, 139.8, 'Kantor SKALA di Provinsi Papua beroperasi sejak 2022; portal SIOPAPUA menjadi rujukan data pembangunan.'),
+    p('papua-selatan', 'Papua Selatan', 'utama', -7.3, 139.6, 'Penguatan data dan perlindungan sosial bagi Orang Asli Papua.')
   ];
 
   /* Foto per provinsi — HANYA yang konteksnya akurat (lokasi di provinsi itu / kegiatan di provinsi itu).
@@ -167,7 +182,15 @@
       overview: '[Paragraf ringkasan konteks provinsi, tantangan layanan dasar, dan peran SKALA]',
       allProv: 'Lihat semua provinsi',
       notFound: 'Provinsi tidak ditemukan.',
-      placeholder: 'Konten menunggu data klien'
+      placeholder: 'Konten menunggu data klien',
+      zoomIn: 'Perbesar peta', zoomOut: 'Perkecil peta', zoomFit: 'Tampilkan seluruh peta',
+      /* Nama geografi pada peta beranda (opsi `detail` Peta3D) */
+      geo: {
+        sea: { hindia: 'Samudra Hindia', pasifik: 'Samudra Pasifik', cina: 'Laut Cina Selatan', jawa: 'Laut Jawa', makassar: 'Selat Makassar',
+               sulawesi: 'Laut Sulawesi', flores: 'Laut Flores', banda: 'Laut Banda', arafura: 'Laut Arafura' },
+        land: { sumatra: 'Sumatra', kalimantan: 'Kalimantan', jawa: 'Jawa', sulawesi: 'Sulawesi', papua: 'Papua' },
+        n: 'LU', s: 'LS', e: 'BT', eq: 'Khatulistiwa', km: 'km'
+      }
     },
     en: {
       cat: { utama: 'Main intervention site', tambahan: 'Additional intervention site' },
@@ -177,12 +200,43 @@
       focusLabel: 'Programme focus', profile: 'View province profile', profileShort: 'View profile',
       prev: 'Previous province', next: 'Next province', close: 'Close province details', photo: 'Photo',
       mapLabel: 'Three-dimensional map of Indonesia showing SKALA’s 12 provinces.',
-      listLabel: 'List of provinces', back: 'Back to map', crumb: 'Where We Work', home: 'Home'
+      listLabel: 'List of provinces', back: 'Back to map', crumb: 'Where We Work', home: 'Home',
+      zoomIn: 'Zoom in', zoomOut: 'Zoom out', zoomFit: 'Show the whole map',
+      geo: {
+        sea: { hindia: 'Indian Ocean', pasifik: 'Pacific Ocean', cina: 'South China Sea', jawa: 'Java Sea', makassar: 'Makassar Strait',
+               sulawesi: 'Celebes Sea', flores: 'Flores Sea', banda: 'Banda Sea', arafura: 'Arafura Sea' },
+        land: { sumatra: 'Sumatra', kalimantan: 'Borneo', jawa: 'Java', sulawesi: 'Sulawesi', papua: 'Papua' },
+        n: 'N', s: 'S', e: 'E', eq: 'Equator', km: 'km'
+      }
       /* sisanya diisi saat port Next.js */
     }
   };
 
+  /* Posisi label geografi (perkiraan titik tengah perairan/pulau; rot = derajat searah jarum jam di layar).
+     Nama diambil dari STR.<lang>.geo. */
+  var GEO = {
+    sea: [
+      { k: 'hindia', lat: -9.4, lon: 101.6, rot: 22, big: true },
+      { k: 'pasifik', lat: 3.6, lon: 135.2, rot: 0, big: true },
+      { k: 'cina', lat: 5.7, lon: 110.6, rot: 0 },
+      { k: 'jawa', lat: -5.1, lon: 111.0, rot: 0 },
+      { k: 'makassar', lat: -1.6, lon: 118.15, rot: -78 },
+      { k: 'sulawesi', lat: 3.1, lon: 122.4, rot: 0 },
+      { k: 'flores', lat: -6.9, lon: 118.9, rot: 0 },
+      { k: 'banda', lat: -5.7, lon: 127.8, rot: 0 },
+      { k: 'arafura', lat: -9.7, lon: 135.4, rot: -8 }
+    ],
+    land: [
+      { k: 'sumatra', lat: -0.2, lon: 101.4, rot: 46 },
+      { k: 'kalimantan', lat: 0.4, lon: 113.6, rot: 0 },
+      { k: 'jawa', lat: -7.25, lon: 110.1, rot: 7 },
+      { k: 'sulawesi', lat: -2.6, lon: 120.35, rot: -72 },
+      { k: 'papua', lat: -5.7, lon: 140.0, rot: 0 }
+    ]
+  };
+
   root.SKALA_WILAYAH = {
+    geo: GEO,
     provinces: PROVINSI,
     projectToMap: projectToMap,
     str: STR.id,

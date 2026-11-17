@@ -51,6 +51,24 @@
 .pins-wait .peta-pin__dot{transform:scale(0)}
 .pins-in .peta-pin__dot{transition:transform .7s cubic-bezier(.34,1.56,.64,1) calc(var(--i) * 60ms),box-shadow .5s cubic-bezier(.19,1,.22,1)}
 
+/* ---------- Detail: peta satu warna (opsi `detail` di Peta3D.mount) ----------
+   Daratan satu warna datar (krem pasir); sisi tebal abu-abu sangat muda, terbaca sebagai bayangan pulau.
+   Tanpa gradasi, relief, bayangan, atau kontur. Token dapat ditimpa halaman. */
+.peta--detail{--peta-land:#C9BD9C;--peta-side:#E7E5E0;--peta-coast:#C9BD9C;
+  --peta-sea-ink:#7C98A8;--peta-land-ink:#7D8B76;--peta-deg:#8FA2AE}
+.peta--detail .peta__shadow{display:none}
+.peta-stage.is-zoomed{cursor:grab;touch-action:none}
+.peta-stage.is-dragging{cursor:grabbing}
+.peta-stage.is-dragging .peta-pin{pointer-events:none}
+.peta--detail .peta__layer--top use{fill:var(--peta-land);stroke:var(--peta-coast);stroke-width:calc(.5px * var(--R))}
+.peta--detail .peta__layer--top use.peta__side{fill:var(--peta-side);stroke:var(--peta-side)}
+.peta__scale path{fill:none;stroke:var(--peta-deg);stroke-width:.6}
+.peta__deg{fill:var(--peta-deg);font-family:var(--ff,system-ui,sans-serif);font-size:5.4px;font-weight:500}
+.peta__lbl{pointer-events:none}
+.peta__lbl--sea{fill:var(--peta-sea-ink);font-family:var(--serif,Georgia,serif);font-size:6.4px;font-style:italic;font-weight:400;letter-spacing:.08em}
+.peta__lbl--big{font-size:8.6px;letter-spacing:.22em}
+.peta__lbl--land{fill:var(--peta-land-ink);font-family:var(--ff,system-ui,sans-serif);font-size:6.2px;font-weight:600;letter-spacing:.32em;text-transform:uppercase}
+
 @media (prefers-reduced-motion:reduce){
   .peta,.peta *{transition:none!important}
   .peta-pin.is-sel .peta-pin__dot::before{animation:none;transform:scale(1.8);opacity:.6}

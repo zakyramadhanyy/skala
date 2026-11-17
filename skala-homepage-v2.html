@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SKALA, Sinergi dan Kolaborasi untuk Akselerasi Layanan Dasar</title>
+<meta name="description" content="SKALA adalah Program Kemitraan Australia-Indonesia untuk mendukung Pemerintah Indonesia mengurangi kemiskinan dan ketimpangan melalui layanan dasar yang lebih baik.">
+<script>document.documentElement.classList.add('js');if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('rm');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Roboto+Serif:opsz,wght@8..144,300..500&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/img/warga-kader-1600.webp" imagesrcset="assets/img/warga-kader-640.webp 640w, assets/img/warga-kader-1000.webp 1000w, assets/img/warga-kader-1600.webp 1600w" imagesizes="100vw">
+<link rel="stylesheet" href="assets/css/peta-3d.css">
+<style>
+/* Hallmark · custom direction (by request: gatesfoundation.org × asiafoundation.org, content skala.or.id) · genre editorial · signature: the arched hero window on the navy band, people first · nav: edge-aligned with mega panels · footer: navy mast with co-branding */
+/* critique: Gates gives the voice (heavy condensed caps, framed hero, big facts panel, dark story rail); Asia gives the restraint (light serif statements, 984/656 columns, warm paper, butted 2×2 tiles). Every number is sourced from skala.or.id; nothing is invented. */
+/* waive 48,7a,62(.peta-pin__chip): assets/css/peta-3d.css is an existing shared component and the brief forbids changing existing files. */
+/* waive 62(.slide,.wcard,.totop): carousel slides 2-3, the province card and back-to-top are script-only controls; their messages also live in Fokus kerja and Wilayah kerja. */
+/* waive 7b: both references and the partner logo tiles sit on true white. waive 38iii: .card h3 span wraps the whole title (underline device), no accent word. waive 58: the brief asks for ten sections of real SKALA content. */
+
+/* =============================================================================
+   TOKENS
+   ============================================================================= */
+:root{
+  --ink:#0B1B2B; --navy:#163559; --navy-d:#0E2440; --navy-l:#1F4673;
+  --teal:#0EADA5; --teal-l:#5FD3CC; --teal-deep:#0B5F57;
+  --paper:#F2EEE4; --paper-d:#E6DFD0; --white:#FFFFFF;
+  --mute:#55606B; --mute-d:#A9B6C4;
+  --line:color-mix(in srgb,var(--ink) 14%,transparent);
+  --line-d:color-mix(in srgb,var(--white) 18%,transparent);
+  --scrim:color-mix(in srgb,var(--navy-d) 72%,transparent);
+  --f-d:'Archivo',system-ui,-apple-system,'Segoe UI',sans-serif;   /* tampilan & UI (dipakai condensed untuk judul) */
+  --f-s:'Roboto Serif',Georgia,serif;                              /* pernyataan, isi, angka */
+  --w:1320px; --w-n:984px; --w-r:656px;
+  --gut:max(20px,min(4.17vw,60px));
+  --py:clamp(80px,9.7vw,140px);
+  --hd:76px;
+  --r1:8px; --r2:24px; --r3:clamp(28px,4vw,64px);
+  --ease:cubic-bezier(.19,1,.22,1);
+  --h1:clamp(44px,6.3vw,92px); --h2:clamp(36px,4.6vw,66px); --h-st:clamp(30px,3.82vw,55px);
+}
+@media (max-width:1023px){ :root{ --hd:64px } }
+
+/* =============================================================================
+   BASE
+   ============================================================================= */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;overflow-x:clip;scroll-padding-top:var(--hd)}
+body{margin:0;overflow-x:clip;background:var(--white);color:var(--ink);font:400 18px/1.6 var(--f-s);-webkit-font-smoothing:antialiased}
+img,svg{display:block;max-width:100%}
+img{height:auto}
+h1,h2,h3,h4,p,ul,ol,figure,blockquote,dl,dd{margin:0}
+ul,ol{padding:0;list-style:none}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+.on-dark :focus-visible{outline-color:var(--teal-l)}
+::selection{background:var(--teal-l);color:var(--ink)}
+.sr-only{position:absolute!important;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip{position:fixed;left:12px;top:-80px;z-index:900;padding:12px 16px;background:var(--white);color:var(--ink);font:600 15px var(--f-d)}
+.skip:focus{top:12px}
+.wrap{width:min(100% - 2 * var(--gut),var(--w));margin-inline:auto}
+.wrap-n{width:min(100% - 2 * var(--gut),var(--w-n));margin-inline:auto}
+
+/* Tipografi bersama */
+.t-h2{font:800 var(--h2)/.94 var(--f-d);font-stretch:72%;letter-spacing:-.01em;text-transform:uppercase;overflow-wrap:break-word;min-width:0;text-wrap:balance}
+.t-st{font:300 var(--h-st)/1.08 var(--f-s);letter-spacing:-.035em;overflow-wrap:break-word;min-width:0;text-wrap:balance}
+.t-lead{font:300 clamp(18px,1.5vw,22px)/1.5 var(--f-s)}
+.t-small{font:500 14px/1.4 var(--f-d)}
+.t-mute{color:var(--mute)}
+.on-dark .t-mute{color:var(--mute-d)}
+
+/* Tombol: satu gaya utama (teal, teks gelap), satu garis */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:48px;padding:0 24px;border-radius:6px;font:700 17px/1 var(--f-d);font-stretch:85%;letter-spacing:.005em;transition:background-color .35s var(--ease),color .35s var(--ease),transform .5s var(--ease),box-shadow .35s var(--ease)}
+.btn svg{width:16px;height:16px;flex:none;transition:transform .5s var(--ease)}
+.btn--teal{background:var(--teal);color:var(--ink)}
+.btn--teal:hover{background:var(--teal-l)}
+.btn--line{box-shadow:inset 0 0 0 1.5px currentColor}
+.btn--line:hover{background:var(--ink);color:var(--white);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.on-dark .btn--line:hover{background:var(--white);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--white)}
+.btn--ink{background:var(--ink);color:var(--white)}
+.btn--ink:hover{background:var(--navy)}
+.btn:hover svg{transform:translateX(3px)}
+.btn:active{transform:translateY(1px)}
+/* Tautan teks dengan panah terpisah */
+.lk{display:inline-flex;align-items:center;gap:12px;font:700 17px/1.2 var(--f-d);font-stretch:85%}
+.lk span{background:linear-gradient(currentColor,currentColor) 0 100%/0 1.5px no-repeat;padding-bottom:2px;transition:background-size .5s var(--ease)}
+.lk svg{width:16px;height:16px;flex:none;transition:transform .5s var(--ease)}
+.lk:hover span,.lk:focus-visible span{background-size:100% 1.5px}
+.lk:hover svg{transform:translateX(4px)}
+
+/* Muncul halus saat terlihat (satu jenis gerak) */
+.js:not(.rm) [data-r]{opacity:0;transform:translateY(28px);transition:opacity 1s var(--ease),transform 1.2s var(--ease)}
+.js:not(.rm) [data-r].in{opacity:1;transform:none}
+
+/* =============================================================================
+   HEADER + MEGA MENU + DRAWER
+   ============================================================================= */
+.hd{position:fixed;inset:0 0 auto;z-index:500;height:var(--hd);color:var(--white);transition:transform .6s var(--ease),background-color .4s var(--ease),color .4s var(--ease),box-shadow .4s var(--ease)}
+.hd__in{display:flex;align-items:center;gap:32px;height:100%;width:min(100% - 2 * var(--gut),var(--w));margin-inline:auto}
+.hd__logo{display:block;flex:none;padding:8px 0}
+.hd__logo img{height:38px;width:auto}
+.hd__logo .c{display:none}
+.hd.is-solid,.hd.has-mm{background:var(--white);color:var(--ink);box-shadow:0 1px 0 var(--line)}
+.hd.is-solid .hd__logo .w,.hd.has-mm .hd__logo .w{display:none}
+.hd.is-solid .hd__logo .c,.hd.has-mm .hd__logo .c{display:block}
+.hd.is-up{transform:translateY(-100%)}
+.nav{margin-left:auto}
+.nav__list{display:flex;align-items:center;gap:4px}
+.nav__btn,.nav__link{position:relative;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;font:600 17px/1 var(--f-d);font-stretch:88%}
+.nav__btn svg{width:12px;height:12px;transition:transform .4s var(--ease)}
+.nav__btn[aria-expanded="true"] svg{transform:rotate(180deg)}
+.nav__btn::after,.nav__link::after{content:"";position:absolute;left:14px;right:14px;bottom:6px;height:2px;background:var(--teal);transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease)}
+.nav__btn:hover::after,.nav__link:hover::after,.nav__btn[aria-expanded="true"]::after{transform:scaleX(1)}
+.hd__cta{flex:none;min-height:44px;padding:0 20px;font-size:16px}
+.hd__menu{display:none;align-items:center;gap:12px;min-height:44px;padding:0 4px;font:700 16px/1 var(--f-d);font-stretch:88%}
+.hd__menu i{display:grid;gap:4px;width:22px}
+.hd__menu b{display:block;height:2px;background:currentColor}
+/* Mega panel */
+.mm{position:fixed;left:0;right:0;top:var(--hd);background:var(--white);color:var(--ink);box-shadow:0 1px 0 var(--line),0 30px 60px -30px color-mix(in srgb,var(--ink) 35%,transparent)}
+.mm[hidden]{display:none}
+.mm__in{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,4fr) minmax(0,4fr);gap:48px;padding:44px 0 52px;animation:mmIn .5s var(--ease)}
+@keyframes mmIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+.mm__intro{font:300 22px/1.4 var(--f-s);color:var(--ink);max-width:16em}
+.mm__links{display:grid;align-content:start;gap:4px}
+.mm__links a{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--line);font:700 22px/1.2 var(--f-d);font-stretch:80%;transition:color .3s}
+.mm__links a > :first-child{transition:transform .5s var(--ease)}
+.mm__links a svg{width:16px;height:16px;flex:none;opacity:.35;transition:opacity .3s,transform .5s var(--ease)}
+.mm__links a:hover{color:var(--teal-deep)}
+.mm__links a:hover svg{opacity:1;transform:translateX(4px)}
+.mm__feat{display:grid;gap:12px;align-content:start}
+.mm__feat img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:var(--r1)}
+.mm__feat b{font:700 19px/1.25 var(--f-d);font-stretch:85%}
+.mm__feat:hover b{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1.5px}
+/* Drawer (layar kecil) */
+.drawer{position:fixed;inset:0;z-index:600;display:flex;flex-direction:column;background:var(--navy-d);color:var(--white);overflow-y:auto;overscroll-behavior:contain}
+.drawer[hidden]{display:none}
+.drawer__top{display:flex;align-items:center;justify-content:space-between;height:var(--hd);padding:0 var(--gut);flex:none}
+.drawer__top img{height:34px;width:auto}
+.drawer__close{min-height:44px;padding:0 4px;font:700 16px var(--f-d)}
+.drawer__nav{padding:12px var(--gut) 40px}
+.drawer details{border-bottom:1px solid var(--line-d)}
+.drawer summary{display:flex;align-items:center;justify-content:space-between;min-height:64px;cursor:pointer;list-style:none;font:800 30px/1 var(--f-d);font-stretch:72%;text-transform:uppercase}
+.drawer summary::-webkit-details-marker{display:none}
+.drawer summary svg{width:16px;height:16px;transition:transform .4s var(--ease)}
+.drawer details[open] summary svg{transform:rotate(180deg)}
+.drawer details a{display:block;padding:12px 0;font:500 19px/1.3 var(--f-d);color:var(--mute-d)}
+.drawer details a:hover{color:var(--white)}
+.drawer details ul{padding-bottom:16px}
+.drawer__single{display:flex;align-items:center;min-height:64px;border-bottom:1px solid var(--line-d);font:800 30px/1 var(--f-d);font-stretch:72%;text-transform:uppercase}
+.drawer .btn{margin-top:32px}
+.lock{overflow:hidden}
+@media (max-width:1023px){
+  .nav,.hd__cta{display:none}
+  .hd__menu{display:inline-flex;margin-left:auto}
+  .hd__logo img{height:32px}
+}
+
+/* =============================================================================
+   1. HERO — jendela foto melengkung di pita navy; teks kiri-bawah; titik slide vertikal di kanan
+   ============================================================================= */
+.hero{position:relative;background:var(--navy);color:var(--white);padding:var(--hd) clamp(12px,2.8vw,40px) 0}
+.hero__frame{position:relative;height:calc(max(640px,100svh) - var(--hd));max-height:860px;overflow:hidden;border-radius:var(--r3) var(--r3) 0 0;background:var(--navy-d);color:var(--white);isolation:isolate}
+.slide{position:absolute;inset:0}
+html:not(.js) .slide + .slide{display:none}   /* tanpa JS: slide pertama saja */
+.js .slide{visibility:hidden;opacity:0;transition:opacity 1.2s var(--ease),visibility 0s 1.2s}
+.js .slide.is-on{visibility:visible;opacity:1;transition:opacity 1.2s var(--ease),visibility 0s}
+.slide__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:var(--pos,50% 50%);transform:scale(1.06);transition:transform 8s cubic-bezier(.2,.6,.3,1)}
+.slide.is-on .slide__img{transform:none}
+.slide::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(0deg,var(--scrim),color-mix(in srgb,var(--navy-d) 0%,transparent) 62%),linear-gradient(90deg,color-mix(in srgb,var(--navy-d) 55%,transparent),color-mix(in srgb,var(--navy-d) 0%,transparent) 60%)}
+.slide__txt{position:absolute;z-index:2;left:clamp(20px,5.6vw,96px);right:clamp(72px,9vw,140px);bottom:clamp(40px,8vh,88px);max-width:880px}
+.hero__h{font:800 var(--h1)/.92 var(--f-d);font-stretch:68%;letter-spacing:-.005em;text-transform:uppercase;text-wrap:balance;overflow-wrap:break-word;min-width:0}
+.slide__p{max-width:34em;margin-top:20px;font:400 clamp(17px,1.4vw,20px)/1.55 var(--f-s)}
+.slide__txt .btn{margin-top:32px}
+.slide.is-on .slide__txt > *{animation:txtIn 1.1s var(--ease) both}
+.slide.is-on .slide__txt > :nth-child(2){animation-delay:.1s}
+.slide.is-on .slide__txt > :nth-child(3){animation-delay:.2s}
+@keyframes txtIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.slide__cap{position:absolute;z-index:2;right:clamp(20px,2.8vw,40px);bottom:20px;max-width:24em;font:400 13px/1.4 var(--f-d);color:color-mix(in srgb,var(--white) 82%,transparent);text-align:right}
+.hero__ctrl{filter:drop-shadow(0 1px 3px var(--scrim));position:absolute;z-index:3;right:clamp(16px,2.6vw,36px);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:8px}
+.hero__dot{display:grid;place-items:center;width:44px;height:36px}
+.hero__dot i{display:block;width:14px;height:14px;border-radius:50%;box-shadow:inset 0 0 0 2px var(--white);transition:background-color .4s,transform .5s var(--ease)}
+.hero__dot[aria-current="true"] i{background:var(--teal);box-shadow:inset 0 0 0 2px var(--teal);transform:scale(1.15)}
+.hero__dot:hover i{transform:scale(1.2)}
+.hero__arr{display:grid;place-items:center;width:44px;height:40px;transition:transform .4s var(--ease)}
+.hero__arr svg{width:16px;height:16px}
+.hero__arr:hover{transform:translateY(-2px)}
+.hero__arr--dn:hover{transform:translateY(2px)}
+.hero__play{display:grid;place-items:center;width:44px;height:44px;margin-top:8px;border-radius:50%;box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--white) 60%,transparent);transition:background-color .3s}
+.hero__play:hover{background:color-mix(in srgb,var(--white) 14%,transparent)}
+.hero__play svg{width:12px;height:12px}
+.hero__play .pl{display:none}
+.hero__play[aria-pressed="true"] .pa{display:none}
+.hero__play[aria-pressed="true"] .pl{display:block}
+@media (max-width:767px){
+  .hero__frame{height:calc(max(560px,92svh) - var(--hd))}
+  .slide__txt{right:20px;bottom:96px}
+  .hero__ctrl{top:auto;bottom:20px;right:auto;left:12px;transform:none;flex-direction:row}
+  .hero__arr{display:none}
+  .slide__cap{top:16px;bottom:auto;right:20px;max-width:15em;font-size:12px}
+}
+
+/* =============================================================================
+   2. TENTANG — pernyataan serif di kolom sempit (984), paragraf di kolom baca (656)
+   ============================================================================= */
+.about{padding:var(--py) 0}
+.about .t-st{text-align:left}
+.about__grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,var(--w-r));gap:32px 48px;margin-top:clamp(40px,6vw,80px)}
+.about__name{font:700 17px/1.35 var(--f-d);font-stretch:85%;max-width:14em}
+.about__body p+p{margin-top:1em}
+.about__body .t-lead{color:var(--ink)}
+.about__partners{margin-top:20px;color:var(--mute);font-size:17px}
+.about__body .btn{margin-top:32px}
+@media (max-width:767px){ .about__grid{grid-template-columns:minmax(0,1fr)} }
+
+/* =============================================================================
+   3. TUJUAN — foto melengkung (sticky) + tujuan resmi + akordeon tiga capaian akhir
+   ============================================================================= */
+.goal{background:var(--paper);padding:var(--py) 0}
+.goal__grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(40px,6vw,96px);align-items:start}
+.goal__media{position:sticky;top:calc(var(--hd) + 24px)}
+.goal__media img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 40%;border-radius:var(--r3) var(--r3) var(--r1) var(--r1)}
+.goal__media figcaption{margin-top:12px;font:400 13px/1.4 var(--f-d);color:var(--mute)}
+.goal__state{margin-top:28px;font:300 clamp(22px,2.1vw,30px)/1.32 var(--f-s);letter-spacing:-.02em;text-wrap:pretty}
+.goal__sub{margin-top:clamp(40px,5vw,64px);padding-bottom:16px;border-bottom:2px solid var(--ink);font:700 18px/1.2 var(--f-d);font-stretch:85%}
+.acc__item{border-bottom:1px solid var(--line)}
+.acc__btn{display:grid;grid-template-columns:56px minmax(0,1fr) 36px;align-items:center;gap:16px;width:100%;padding:24px 0;text-align:left}
+.acc__n{font:300 34px/1 var(--f-s);color:var(--teal-deep)}
+.acc__t{display:block;font:800 clamp(24px,2.2vw,32px)/1 var(--f-d);font-stretch:72%;text-transform:uppercase}
+.acc__s{display:block;margin-top:8px;font:400 17px/1.45 var(--f-s);color:var(--mute)}
+.acc__ic{position:relative;width:36px;height:36px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--ink);transition:background-color .35s,transform .5s var(--ease)}
+.acc__ic::before,.acc__ic::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:1.5px;margin:-.76px 0 0 -8px;background:var(--ink);transition:transform .5s var(--ease),background-color .35s}
+.acc__ic::after{transform:rotate(90deg)}
+.acc__btn[aria-expanded="true"] .acc__ic{background:var(--ink)}
+.acc__btn[aria-expanded="true"] .acc__ic::before,.acc__btn[aria-expanded="true"] .acc__ic::after{background:var(--white)}
+.acc__btn[aria-expanded="true"] .acc__ic::after{transform:rotate(0)}
+.acc__btn:hover .acc__ic{transform:rotate(90deg)}
+.acc__panel{padding:0 0 28px 72px;animation:fadeUp .6s var(--ease)}
+.acc__panel[hidden]{display:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.acc__panel > p{font:400 17px/1.6 var(--f-s);max-width:36em}
+.acc__io{display:grid;gap:12px;margin-top:20px}
+.acc__io li{display:grid;grid-template-columns:52px minmax(0,1fr);gap:12px;padding:16px 16px;border-radius:var(--r1);background:var(--white);font:400 15px/1.55 var(--f-s)}
+.acc__io b{font:700 15px/1.55 var(--f-d);font-stretch:85%;color:var(--teal-deep)}
+@media (max-width:1023px){
+  .goal__grid{grid-template-columns:minmax(0,1fr)}
+  .goal__media{position:static}
+  .goal__media img{aspect-ratio:3/2}
+}
+@media (max-width:767px){ .acc__btn{grid-template-columns:40px minmax(0,1fr) 36px} .acc__panel{padding-left:0} }
+
+/* =============================================================================
+   4. FOKUS KERJA — 2×2 foto saling menempel (pola asiafoundation), judul tebal di atas foto
+   ============================================================================= */
+.focus{padding:var(--py) 0 0}
+.sec-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,var(--w-r));gap:24px 48px;align-items:end;margin-bottom:clamp(40px,5vw,64px)}
+.sec-head .t-lead{color:var(--mute)}
+.on-dark .sec-head .t-lead{color:var(--mute-d)}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px;background:var(--white)}
+.tile{position:relative;overflow:hidden;aspect-ratio:1.7;color:var(--white);background:var(--navy-d);isolation:isolate}
+.tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:var(--pos,50% 50%);transition:transform 1.4s var(--ease)}
+.tile::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(0deg,color-mix(in srgb,var(--navy-d) 92%,transparent),color-mix(in srgb,var(--navy-d) 55%,transparent) 55%,color-mix(in srgb,var(--navy-d) 15%,transparent));transition:opacity .6s var(--ease)}
+.tile__in{position:absolute;z-index:2;left:clamp(20px,3vw,44px);right:clamp(20px,3vw,44px);bottom:clamp(20px,3vw,40px)}
+.tile__n{font:300 18px/1 var(--f-s);color:var(--teal-l)}
+.tile h3{margin-top:12px;font:800 clamp(30px,3.2vw,48px)/.94 var(--f-d);font-stretch:70%;text-transform:uppercase}
+.tile p{max-width:28em;margin-top:12px;font:400 16px/1.5 var(--f-s);color:color-mix(in srgb,var(--white) 90%,transparent)}
+.tile h3::after{content:"";display:block;width:56px;height:3px;margin-top:16px;background:var(--teal);transform:scaleX(.4);transform-origin:left;transition:transform .7s var(--ease)}
+@media (hover:hover){ .tile:hover img{transform:scale(1.05)} .tile:hover h3::after{transform:scaleX(1)} }
+.sys{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:24px 48px;padding:clamp(48px,6vw,80px) 0 var(--py)}
+.sys h3{font:700 22px/1.25 var(--f-d);font-stretch:85%;max-width:16em}
+.sys h3 + p{margin-top:12px;font:400 16px/1.55 var(--f-s);color:var(--mute);max-width:24em}
+.sys ul{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line)}
+.sys li{padding:16px 12px 16px 0;border-bottom:1px solid var(--line);font:600 16px/1.3 var(--f-d);font-stretch:88%}
+@media (max-width:1023px){ .sys{grid-template-columns:minmax(0,1fr)} .sys ul{grid-template-columns:repeat(3,minmax(0,1fr))} }
+@media (max-width:767px){
+  .sec-head{grid-template-columns:minmax(0,1fr)}
+  .tiles{grid-template-columns:minmax(0,1fr)}
+  .tile{aspect-ratio:4/5}
+  .sys ul{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+/* =============================================================================
+   5. CAPAIAN DAN DAMPAK — panel fakta (pola Gates "Foundation facts"), angka besar bersumber
+   ============================================================================= */
+.impact{padding:0 0 var(--py)}
+.facts{padding:clamp(36px,5vw,72px) clamp(24px,5vw,72px);border-radius:var(--r2);background:var(--paper)}
+.facts__head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:20px 40px}
+.facts__sub{max-width:34em;margin-top:20px;color:var(--mute)}
+.stats{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1fr) minmax(0,1.4fr) minmax(0,1fr);margin-top:clamp(40px,5vw,64px)}
+.stat{padding:0 clamp(16px,2vw,32px);border-left:1px solid var(--line)}
+.stat:first-child{padding-left:0;border-left:0}
+.stat__n{display:block;font:300 clamp(52px,5.8vw,88px)/.95 var(--f-s);letter-spacing:-.045em;font-variant-numeric:lining-nums tabular-nums;white-space:nowrap}
+.stat__n small{font-size:.42em;letter-spacing:-.02em}
+.stat__l{display:block;margin-top:16px;font:400 16px/1.5 var(--f-s)}
+.stat__s{display:block;margin-top:12px;font:600 14px/1.3 var(--f-d);color:var(--teal-deep)}
+@media (max-width:1023px){
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:40px}
+  .stat:nth-child(3){padding-left:0;border-left:0}
+}
+@media (max-width:767px){
+  .stats{grid-template-columns:minmax(0,1fr);row-gap:28px}
+  .stat{padding:28px 0 0;border-left:0;border-top:1px solid var(--line)}
+  .stat:first-child{padding-top:0;border-top:0}
+}
+
+/* =============================================================================
+   6. WILAYAH KERJA — daftar 12 provinsi + peta 3D (komponen assets/js/peta-3d.js)
+   ============================================================================= */
+.where{background:var(--paper);padding:var(--py) 0;overflow:clip}
+.where__grid{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:clamp(32px,4vw,64px);align-items:start}
+.where__lead{margin-top:20px;color:var(--mute)}
+.legend{display:grid;gap:8px;margin-top:28px;font:500 14px/1.4 var(--f-d);color:var(--mute)}
+.legend li{display:flex;align-items:center;gap:12px}
+.lg{flex:none;width:12px;height:12px;border-radius:50%;background:var(--teal)}
+.lg--t{background:var(--ink);box-shadow:inset 0 0 0 2.5px var(--ink),0 0 0 2px var(--white)}
+.plist{margin-top:28px;border-top:1px solid var(--line)}
+.prow{display:flex;align-items:center;gap:12px;width:100%;min-height:46px;padding:0 4px;border-bottom:1px solid var(--line);font:600 17px/1.2 var(--f-d);font-stretch:90%;text-align:left;transition:background-color .3s}
+.prow > span{transition:transform .5s var(--ease)}
+.prow span{flex:1}
+.prow svg{width:14px;height:14px;opacity:.45;transition:transform .5s var(--ease),opacity .3s}
+.prow:hover,.prow.is-hot{background:var(--paper-d)}
+.prow:hover > span,.prow.is-hot > span,.prow[aria-expanded="true"] > span{transform:translateX(4px)}
+.prow:hover svg,.prow.is-hot svg{opacity:1;transform:translateX(3px)}
+.prow[aria-expanded="true"]{background:var(--ink);color:var(--white)}
+.prow[aria-expanded="true"] .lg--t{box-shadow:inset 0 0 0 2.5px var(--ink),0 0 0 2px var(--white)}
+.where__map{position:relative;height:clamp(460px,46vw,640px)}
+.stage{--rx:38deg;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;perspective-origin:50% 45%;overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,var(--ink) 40px,var(--ink) calc(100% - 40px),transparent),linear-gradient(180deg,transparent,var(--ink) 32px,var(--ink) calc(100% - 32px),transparent);-webkit-mask-composite:source-in;
+  mask-image:linear-gradient(90deg,transparent,var(--ink) 40px,var(--ink) calc(100% - 40px),transparent),linear-gradient(180deg,transparent,var(--ink) 32px,var(--ink) calc(100% - 32px),transparent);mask-composite:intersect}   /* peta terkurung di panggungnya; tepi memudar saat di-zoom */
+.stage .peta{--fit:.98}
+.peta-pin__chip{font-family:var(--f-d)}
+.wcard{position:absolute;z-index:3;right:0;bottom:0;width:min(340px,100%);overflow:hidden;border-radius:var(--r2);background:var(--white);box-shadow:0 30px 60px -24px color-mix(in srgb,var(--ink) 40%,transparent);}
+html:not(.js) .wcard{display:none}
+.js .wcard{opacity:0;visibility:hidden;transform:translateY(16px);transition:opacity .35s var(--ease),transform .6s var(--ease),visibility 0s .35s}
+.js .wcard.is-open{opacity:1;visibility:visible;transform:none;transition:opacity .35s var(--ease),transform .6s var(--ease),visibility 0s}
+.wcard img{width:100%;aspect-ratio:16/9;object-fit:cover}
+.wcard__b{padding:20px 24px 24px}
+.wcard__top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.wchip{display:inline-flex;padding:4px 12px;border-radius:4px;font:600 13px/1.2 var(--f-d)}
+.wchip--utama{background:color-mix(in srgb,var(--teal) 16%,var(--white));color:var(--teal-deep)}
+.wchip--tambahan{background:var(--paper);color:var(--ink)}
+.wcard__x{display:grid;place-items:center;width:40px;height:40px;margin:-8px -12px -8px 0;border-radius:50%;transition:background-color .3s}
+.wcard__x:hover{background:var(--paper)}
+.wcard__x svg{width:14px;height:14px}
+.wcard h3{margin-top:12px;font:800 30px/1 var(--f-d);font-stretch:72%;text-transform:uppercase}
+.wcard p{margin-top:12px;font:400 15px/1.55 var(--f-s);color:var(--mute)}
+.wcard p:empty{display:none}
+.wcard .lk{margin-top:16px;font-size:16px}
+@media (max-width:1023px){
+  .where__grid{grid-template-columns:minmax(0,1fr)}
+  .where__map{height:auto;order:-1}
+  .stage{position:relative;inset:auto;height:clamp(250px,62vw,480px)}
+  .where__aside{display:contents}
+  .where__intro{order:-2}
+  .plist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:24px;order:1}
+  .legend{order:0}
+  .wcard{position:relative;right:auto;bottom:auto;width:100%;margin-top:12px;display:none;transform:none}
+  .wcard.is-open{display:block}
+  .wcard img{aspect-ratio:21/9}
+}
+@media (max-width:767px){
+  .stage{--rx:30deg}
+  .plist{grid-template-columns:minmax(0,1fr)}
+  .stage .peta-pin{pointer-events:none}
+}
+
+/* =============================================================================
+   7. CERITA DAN WAWASAN — pita gelap, kategori besar di kiri, carousel di kanan (pola Gates "Stories")
+   ============================================================================= */
+.stories{background:var(--navy);color:var(--white);padding:var(--py) 0}
+.stories__grid{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,9fr);gap:clamp(32px,4vw,64px);align-items:start}
+.tabs{display:grid;gap:8px}
+.tab{display:block;padding:8px 0;text-align:left;font:800 clamp(26px,2.4vw,34px)/1.05 var(--f-d);font-stretch:72%;text-transform:uppercase;color:color-mix(in srgb,var(--white) 42%,transparent);transition:color .35s var(--ease)}
+.tab:hover{color:color-mix(in srgb,var(--white) 80%,transparent)}
+.tab[aria-selected="true"]{color:var(--white)}
+.tab[aria-selected="true"]::after{content:"";display:block;width:40px;height:3px;margin-top:12px;background:var(--teal)}
+.tpanel[hidden]{display:none}
+.track{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 48px) / 3);gap:24px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:4px}
+.track::-webkit-scrollbar{display:none}
+.card{position:relative;scroll-snap-align:start;min-width:0}
+.card a{display:block}
+.card__m{position:relative;display:grid;place-items:center;aspect-ratio:4/3;overflow:hidden;border-radius:var(--r1);background:var(--navy-d);color:var(--white)}
+.card__m img{transition:transform 1.1s var(--ease)}
+.card__m--cover{padding:20px 0 0}
+.card__m--cover img{height:100%;width:auto;max-width:78%;object-fit:contain;object-position:50% 100%;box-shadow:0 18px 40px -16px color-mix(in srgb,var(--ink) 80%,transparent)}
+.card__m--photo img{width:100%;height:100%;object-fit:cover}
+.card__m--type{place-items:end start;padding:24px;background:var(--teal-deep);color:var(--white)}
+.card__m--type span{font:800 clamp(44px,4.4vw,64px)/.9 var(--f-d);font-stretch:66%;text-transform:uppercase;color:var(--white)}
+.card__d{display:block;margin-top:20px;font:500 14px/1.3 var(--f-d);color:var(--mute-d)}
+.card h3{margin-top:8px;font:700 21px/1.22 var(--f-d);font-stretch:85%;text-wrap:pretty}
+.card h3 span{background:linear-gradient(currentColor,currentColor) 0 100%/0 1.5px no-repeat;transition:background-size .6s var(--ease)}
+@media (hover:hover){ .card a:hover .card__m img{transform:scale(1.04)} .card a:hover h3 span{background-size:100% 1.5px} }
+.car__ctrl{display:flex;gap:8px;margin-top:28px}
+.car__btn{display:grid;place-items:center;width:48px;height:48px;border-radius:6px;background:var(--teal);color:var(--ink);transition:background-color .3s,opacity .3s,transform .4s var(--ease)}
+.car__btn svg{width:16px;height:16px}
+.car__btn:hover:not(:disabled){background:var(--teal-l)}
+.car__btn:disabled{opacity:.35;cursor:default}
+@media (max-width:1023px){
+  .stories__grid{grid-template-columns:minmax(0,1fr)}
+  .tabs{display:flex;flex-wrap:wrap;gap:4px 24px}
+  .track{grid-auto-columns:calc((100% - 24px) / 2)}
+}
+@media (max-width:767px){ .track{grid-auto-columns:82%} .tab{font-size:24px} }
+
+/* =============================================================================
+   8. KABAR TERBARU — satu sorotan besar + daftar bergambar (pola asiafoundation stories)
+   ============================================================================= */
+.news{padding:var(--py) 0}
+.news__head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:20px;margin-bottom:clamp(32px,4vw,48px)}
+.news__latest{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:16px 24px;padding:20px 0;margin-bottom:clamp(32px,4vw,48px);border-block:1px solid var(--line)}
+.news__tag{display:inline-flex;padding:4px 12px;border-radius:4px;background:var(--ink);color:var(--white);font:600 13px/1.2 var(--f-d)}
+.news__latest a{font:700 clamp(19px,1.6vw,24px)/1.25 var(--f-d);font-stretch:85%}
+.news__latest a:hover{text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:1.5px}
+.news__latest svg{width:18px;height:18px}
+.news__grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(32px,4vw,56px)}
+.feat a{display:block}
+.feat__m{overflow:hidden;border-radius:var(--r1)}
+.feat__m img{width:100%;aspect-ratio:16/10;object-fit:cover;transition:transform 1.2s var(--ease)}
+.loc{display:inline-block;margin-top:20px;font:600 14px/1.3 var(--f-d);color:var(--teal-deep)}
+.feat h3{margin-top:8px;font:800 clamp(30px,3vw,44px)/.98 var(--f-d);font-stretch:72%;text-transform:uppercase;text-wrap:balance}
+.feat:hover .feat__m img{transform:scale(1.03)}
+.feat:hover h3{color:var(--teal-deep)}
+.nlist{display:grid;align-content:start}
+.nrow a{display:grid;grid-template-columns:132px minmax(0,1fr);gap:20px;align-items:start;padding:20px 0;border-bottom:1px solid var(--line)}
+.nrow:first-child a{padding-top:0}
+.nrow img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--r1);transition:transform .8s var(--ease)}
+.nrow .loc{margin-top:0}
+.nrow h3{margin-top:8px;font:700 19px/1.25 var(--f-d);font-stretch:86%;transition:color .3s}
+.nrow a:hover h3{color:var(--teal-deep)}
+.nrow a:hover img{transform:scale(1.04)}
+@media (max-width:1023px){ .news__grid{grid-template-columns:minmax(0,1fr)} }
+@media (max-width:767px){
+  .news__latest{grid-template-columns:minmax(0,1fr)}
+  .news__latest svg{display:none}
+  .nrow a{grid-template-columns:96px minmax(0,1fr);gap:16px}
+}
+
+/* =============================================================================
+   9. KEMITRAAN — logo mitra, suara mitra (kutipan asli), panel ajakan teal
+   ============================================================================= */
+.partner{background:var(--paper);padding:var(--py) 0}
+.partner__grid{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,6fr);gap:clamp(32px,5vw,80px);align-items:center}
+.partner__st{margin-top:24px;font-size:clamp(28px,3vw,44px)}
+.partner__dt{margin-top:20px;font:600 16px/1.4 var(--f-d);color:var(--mute)}
+.logos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.logos li{display:grid;place-items:center;aspect-ratio:2/1;padding:16px;border-radius:var(--r1);background:var(--white)}
+.logos img{max-height:72px;width:auto}
+.voices{display:grid;grid-template-columns:minmax(0,8fr) minmax(0,4fr);gap:clamp(32px,4vw,64px);margin-top:clamp(64px,8vw,112px);padding-top:clamp(40px,5vw,64px);border-top:1px solid var(--line)}
+.quote{min-height:12em}
+.quote blockquote{font:300 clamp(28px,3vw,44px)/1.18 var(--f-s);letter-spacing:-.03em;text-wrap:balance}
+.quote figcaption{display:flex;align-items:center;gap:16px;margin-top:28px}
+.quote figcaption img{width:64px;height:64px;border-radius:50%;object-fit:cover;filter:grayscale(1)}
+.quote figcaption b{display:block;font:700 18px/1.25 var(--f-d);font-stretch:88%}
+.quote figcaption span{display:block;margin-top:2px;font:400 15px/1.4 var(--f-s);color:var(--mute)}
+.quote.is-in blockquote,.quote.is-in figcaption{animation:fadeUp .7s var(--ease) both}
+.who{display:grid;align-content:start;gap:8px}
+.who button{display:grid;grid-template-columns:48px minmax(0,1fr);gap:16px;align-items:center;padding:12px;border-radius:var(--r1);text-align:left;transition:background-color .3s}
+.who img{width:48px;height:48px;border-radius:50%;object-fit:cover;filter:grayscale(1);transition:filter .5s}
+.who b{display:block;font:700 16px/1.25 var(--f-d);font-stretch:90%}
+.who small{display:block;font:400 13px/1.35 var(--f-d);color:var(--mute)}
+.who button:hover{background:var(--paper-d)}
+.who button[aria-pressed="true"]{background:var(--white)}
+.who button[aria-pressed="true"] img{filter:none}
+.cta{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:24px 48px;align-items:end;margin-top:clamp(64px,8vw,112px);padding:clamp(36px,5vw,72px);border-radius:var(--r2);background:var(--teal);color:var(--ink)}
+.cta p{margin-top:16px;max-width:30em;font:400 18px/1.55 var(--f-s)}
+.cta__btns{display:flex;flex-wrap:wrap;gap:12px;justify-content:flex-end}
+.cta .btn--line:hover{background:var(--ink);color:var(--white)}
+.cta :focus-visible{outline-color:var(--ink)}
+@media (max-width:1023px){
+  .partner__grid,.voices,.cta{grid-template-columns:minmax(0,1fr)}
+  .who{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .who button{grid-template-columns:minmax(0,1fr);justify-items:start}
+  .cta__btns{justify-content:flex-start}
+}
+@media (max-width:767px){ .who{grid-template-columns:minmax(0,1fr)} .who button{grid-template-columns:48px minmax(0,1fr)} .logos li{aspect-ratio:3/2} }
+
+/* =============================================================================
+   10. FOOTER — tiang navy: nama lengkap, tautan, kontak, logo ko-branding
+   ============================================================================= */
+.ft{background:var(--navy-d);color:var(--white);padding:clamp(64px,7vw,104px) 0 28px}
+.ft__top{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:40px 64px}
+.ft__logo img{height:44px;width:auto}
+.ft__name{margin-top:24px;max-width:15em;font:800 clamp(30px,3vw,44px)/.98 var(--f-d);font-stretch:70%;text-transform:uppercase}
+.ft__cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}
+.ft h2{margin-bottom:16px;font:700 16px/1.3 var(--f-d);color:var(--teal-l)}
+.ft li a{display:inline-block;padding:4px 0;font:500 16px/1.35 var(--f-d);color:color-mix(in srgb,var(--white) 82%,transparent);transition:color .3s}
+.ft li a:hover{color:var(--white);text-decoration:underline;text-underline-offset:4px}
+.ft address{font:400 15px/1.6 var(--f-s);font-style:normal;color:color-mix(in srgb,var(--white) 82%,transparent)}
+.ft address a{color:var(--white);text-decoration:underline;text-underline-offset:4px}
+.ft__logos{display:flex;flex-wrap:wrap;align-items:center;gap:20px 32px;width:fit-content;max-width:100%;margin-top:clamp(48px,6vw,72px);padding:20px 24px;border-radius:var(--r1);background:var(--white)}
+.ft__logos img{height:46px;width:auto}
+.ft__bot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;margin-top:40px;padding:24px 72px 0 0;border-top:1px solid var(--line-d);font:400 14px/1.4 var(--f-d);color:var(--mute-d)}
+.ft__bot nav{display:flex;flex-wrap:wrap;gap:8px 24px}
+.ft__bot a:hover{color:var(--white)}
+@media (max-width:1023px){ .ft__top{grid-template-columns:minmax(0,1fr)} }
+@media (max-width:767px){ .ft__cols{grid-template-columns:minmax(0,1fr)} }
+
+/* Tombol ke atas */
+.totop{position:fixed;right:clamp(16px,2vw,28px);bottom:clamp(16px,2vw,28px);z-index:400;display:grid;place-items:center;width:48px;height:48px;border-radius:6px;background:var(--ink);color:var(--white);transition:background-color .3s}
+html:not(.js) .totop{display:none}
+.js .totop{opacity:0;visibility:hidden;transform:translateY(12px);transition:opacity .4s,transform .5s var(--ease),visibility 0s .4s,background-color .3s}
+.js .totop.on{opacity:1;visibility:visible;transform:none;transition:opacity .4s,transform .5s var(--ease),background-color .3s}
+.totop:hover{background:var(--navy)}
+.totop svg{width:16px;height:16px}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .slide__img{transform:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Lewati ke konten</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-arr" viewBox="0 0 16 16"><path d="M1 8h13M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+  <symbol id="i-arr-l" viewBox="0 0 16 16"><path d="M15 8H2M7 3L2 8l5 5" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+  <symbol id="i-up" viewBox="0 0 16 16"><path d="M8 15V2M3 7l5-5 5 5" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+  <symbol id="i-dn" viewBox="0 0 16 16"><path d="M8 1v13M3 9l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 12 12"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+  <symbol id="i-x" viewBox="0 0 14 14"><path d="M2 2l10 10M12 2L2 12" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+  <symbol id="i-out" viewBox="0 0 16 16"><path d="M4 12L12 4M5 4h7v7" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+</svg>
+
+<!-- ===================================================================== HEADER -->
+<header class="hd" id="hd">
+  <div class="hd__in">
+    <a class="hd__logo" href="#top" aria-label="SKALA, kembali ke awal halaman"><img class="w" src="assets/skala-logo-white.png" width="500" height="138" alt=""><img class="c" src="assets/skala-logo.png" width="600" height="165" alt=""></a>
+    <nav class="nav" aria-label="Utama">
+      <ul class="nav__list">
+        <li><button class="nav__btn" type="button" aria-expanded="false" aria-controls="mm-1">Tentang<svg aria-hidden="true"><use href="#i-chev"/></svg></button>
+          <div class="mm" id="mm-1" hidden><div class="wrap mm__in">
+            <p class="mm__intro">Program Kemitraan Australia-Indonesia untuk layanan dasar yang lebih baik.</p>
+            <ul class="mm__links">
+              <li><a href="#tentang">Tentang SKALA<svg aria-hidden="true"><use href="#i-arr"/></svg></a></li>
+              <li><a href="#tujuan">Tujuan dan capaian akhir<svg aria-hidden="true"><use href="#i-arr"/></svg></a></li>
+              <li><a href="#kemitraan">Kemitraan<svg aria-hidden="true"><use href="#i-arr"/></svg></a></li>
+            </ul>
+            <a class="mm__feat" href="#tujuan"><img src="assets/img/kegiatan-papua-selatan-640.webp" width="640" height="426" alt="" loading="lazy"><b>Tiga capaian akhir: pusat, daerah, dan warga</b></a>
+          </div></div></li>
+        <li><button class="nav__btn" type="button" aria-expanded="false" aria-controls="mm-2">Program<svg aria-hidden="true"><use href="#i-chev"/></svg></button>
+          <div class="mm" id="mm-2" hidden><div class="wrap mm__in">
+            <p class="mm__intro">Empat bidang kerja, dari kebijakan pusat sampai suara warga.</p>
+            <ul class="mm__links">
+              <li><a href="#fokus">Regulasi dan standar<svg aria-hidden="true"><use href="#i-arr"/></svg></a></li>
+              <li><a href="#fokus">Perencanaan dan penganggaran<svg aria-hidden="true"><use href="#i-arr"/></svg></a></li>
+              <li><a href="#fokus">Data dan sistem informasi<svg aria-hidden="true"><use href="#i-arr"/></svg></a></li>
+              <li><a href="#fokus">Partisipasi dan GEDSI<svg aria-hidden="true"><use href="#i-arr"/></svg></a></li>
+            </ul>
+            <a class="mm__feat" href="#fokus"><img src="assets/img/kegiatan-ntb-640.webp" width="640" height="360" alt="" loading="lazy"><b>NTB luncurkan Dashboard Eksekutif untuk pembangunan berbasis data</b></a>
+          </div></div></li>
+        <li><button class="nav__btn" type="button" aria-expanded="false" aria-controls="mm-3">Dampak<svg aria-hidden="true"><use href="#i-chev"/></svg></button>
+          <div class="mm" id="mm-3" hidden><div class="wrap mm__in">
+            <p class="mm__intro">Perubahan yang terjadi di dua belas provinsi wilayah kerja.</p>
+            <ul class="mm__links">
+              <li><a href="#dampak">Capaian dan dampak<svg aria-hidden="true"><use href="#i-arr"/></svg></a></li>
+              <li><a href="#wilayah">Wilayah kerja<svg aria-hidden="true"><use href="#i-arr"/></svg></a></li>
+              <li><a href="#suara">Suara mitra<svg aria-hidden="true"><use href="#i-arr"/></svg></a></li>
+            </ul>
+            <a class="mm__feat" href="#wilayah"><img src="assets/img/prov-ntt-480.webp" width="480" height="272" alt="" loading="lazy"><b>Dua belas provinsi, dari Aceh hingga Papua</b></a>
+          </div></div></li>
+        <li><button class="nav__btn" type="button" aria-expanded="false" aria-controls="mm-4">Pengetahuan<svg aria-hidden="true"><use href="#i-chev"/></svg></button>
+          <div class="mm" id="mm-4" hidden><div class="wrap mm__in">
+            <p class="mm__intro">Cerita lapangan, publikasi, dan siniar dari daerah mitra.</p>
+            <ul class="mm__links">
+              <li><a href="#cerita">Cerita dan wawasan<svg aria-hidden="true"><use href="#i-arr"/></svg></a></li>
+              <li><a href="#kabar">Kabar terbaru<svg aria-hidden="true"><use href="#i-arr"/></svg></a></li>
+              <li><a href="https://skala.or.id/" target="_blank" rel="noopener">Pusat pengetahuan di skala.or.id<svg aria-hidden="true"><use href="#i-out"/></svg><span class="sr-only"> (tab baru)</span></a></li>
+            </ul>
+            <a class="mm__feat" href="#cerita"><img src="assets/img/sampul-maluku-480.webp" width="480" height="678" alt="" loading="lazy" style="aspect-ratio:16/10;object-position:50% 30%"><b>Menembus Ombak, Menjangkau Masyarakat</b></a>
+          </div></div></li>
+      </ul>
+    </nav>
+    <a class="btn btn--teal hd__cta" href="#kontak">Hubungi kami</a>
+    <button class="hd__menu" id="menu-open" type="button" aria-expanded="false" aria-controls="drawer">Menu<i aria-hidden="true"><b></b><b></b><b></b></i></button>
+  </div>
+</header>
+
+<div class="drawer on-dark" id="drawer" role="dialog" aria-modal="true" aria-label="Menu" hidden>
+  <div class="drawer__top"><img src="assets/skala-logo-white.png" width="500" height="138" alt="SKALA"><button class="drawer__close" id="menu-close" type="button">Tutup</button></div>
+  <nav class="drawer__nav" aria-label="Menu seluler">
+    <details><summary>Tentang<svg aria-hidden="true"><use href="#i-chev"/></svg></summary><ul><li><a href="#tentang">Tentang SKALA</a></li><li><a href="#tujuan">Tujuan dan capaian akhir</a></li><li><a href="#kemitraan">Kemitraan</a></li></ul></details>
+    <details><summary>Program<svg aria-hidden="true"><use href="#i-chev"/></svg></summary><ul><li><a href="#fokus">Fokus kerja</a></li><li><a href="#fokus">Sistem data pemerintah</a></li></ul></details>
+    <details><summary>Dampak<svg aria-hidden="true"><use href="#i-chev"/></svg></summary><ul><li><a href="#dampak">Capaian dan dampak</a></li><li><a href="#wilayah">Wilayah kerja</a></li><li><a href="#suara">Suara mitra</a></li></ul></details>
+    <details><summary>Pengetahuan<svg aria-hidden="true"><use href="#i-chev"/></svg></summary><ul><li><a href="#cerita">Cerita dan wawasan</a></li><li><a href="#kabar">Kabar terbaru</a></li></ul></details>
+    <a class="drawer__single" href="#kontak">Kontak</a>
+    <a class="btn btn--teal" href="https://whatsapp.com/channel/0029Vb5cXcuLSmbVnE2Vvc3k" target="_blank" rel="noopener">Kanal WhatsApp<span class="sr-only"> (tab baru)</span><svg aria-hidden="true"><use href="#i-out"/></svg></a>
+  </nav>
+</div>
+
+<main id="main">
+
+<!-- ===================================================================== 1. HERO -->
+<section class="hero on-dark" id="top" aria-roledescription="carousel" aria-label="Sorotan SKALA">
+  <div class="hero__frame">
+    <div class="slide is-on" role="group" aria-roledescription="slide" aria-label="1 dari 3" style="--pos:50% 40%">
+      <img class="slide__img" src="assets/img/warga-kader-1600.webp" srcset="assets/img/warga-kader-640.webp 640w, assets/img/warga-kader-1000.webp 1000w, assets/img/warga-kader-1600.webp 1600w" sizes="100vw" width="1600" height="1067" alt="Kader posyandu menimbang balita bersama warga.">
+      <div class="slide__txt">
+        <h1 class="hero__h">Layanan dasar untuk setiap warga</h1>
+        <p class="slide__p">Kemitraan Australia-Indonesia untuk layanan dasar di daerah tertinggal.</p>
+        <a class="btn btn--teal" href="#tentang">Kenali SKALA<svg aria-hidden="true"><use href="#i-arr"/></svg></a>
+      </div>
+      <p class="slide__cap" aria-hidden="true">Kader posyandu menimbang balita bersama warga.</p>
+    </div>
+    <div class="slide" role="group" aria-roledescription="slide" aria-label="2 dari 3" style="--pos:50% 55%">
+      <img class="slide__img" src="assets/img/hero-2-1920.webp" srcset="assets/img/hero-2-768.webp 768w, assets/img/hero-2-1280.webp 1280w, assets/img/hero-2-1920.webp 1920w" sizes="100vw" width="1920" height="1200" alt="Bandara Wamena dan Lembah Baliem pada pagi hari, Papua Pegunungan." loading="lazy">
+      <div class="slide__txt">
+        <h2 class="hero__h">Data yang menggerakkan kebijakan</h2>
+        <p class="slide__p">Sistem data daerah membantu perencanaan layanan yang lebih tepat sasaran.</p>
+        <a class="btn btn--teal" href="#fokus">Lihat fokus kerja<svg aria-hidden="true"><use href="#i-arr"/></svg></a>
+      </div>
+      <p class="slide__cap" aria-hidden="true">Lembah Baliem, Papua Pegunungan.</p>
+    </div>
+    <div class="slide" role="group" aria-roledescription="slide" aria-label="3 dari 3" style="--pos:50% 60%">
+      <img class="slide__img" src="assets/img/hero-4-1920.webp" srcset="assets/img/hero-4-768.webp 768w, assets/img/hero-4-1280.webp 1280w, assets/img/hero-4-1920.webp 1920w" sizes="100vw" width="1920" height="1282" alt="Pagi di Kampung Praijing, Sumba, Nusa Tenggara Timur." loading="lazy">
+      <div class="slide__txt">
+        <h2 class="hero__h">Setiap suara ikut menentukan</h2>
+        <p class="slide__p">Perempuan, penyandang disabilitas, dan kelompok rentan ikut merencanakan layanan dasar.</p>
+        <a class="btn btn--teal" href="#wilayah">Lihat wilayah kerja<svg aria-hidden="true"><use href="#i-arr"/></svg></a>
+      </div>
+      <p class="slide__cap" aria-hidden="true">Kampung Praijing, Sumba, Nusa Tenggara Timur.</p>
+    </div>
+    <div class="hero__ctrl">
+      <button class="hero__arr" type="button" id="h-prev" aria-label="Slide sebelumnya"><svg aria-hidden="true"><use href="#i-up"/></svg></button>
+      <button class="hero__dot" type="button" aria-label="Slide 1" aria-current="true"><i></i></button>
+      <button class="hero__dot" type="button" aria-label="Slide 2"><i></i></button>
+      <button class="hero__dot" type="button" aria-label="Slide 3"><i></i></button>
+      <button class="hero__arr hero__arr--dn" type="button" id="h-next" aria-label="Slide berikutnya"><svg aria-hidden="true"><use href="#i-dn"/></svg></button>
+      <button class="hero__play" type="button" id="h-play" aria-pressed="false" aria-label="Jeda putar otomatis"><svg class="pa" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1v10M9 1v10" stroke="currentColor" stroke-width="2"/></svg><svg class="pl" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z" fill="currentColor"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== 2. TENTANG -->
+<section class="about" id="tentang" aria-labelledby="ab-h">
+  <div class="wrap-n">
+    <h2 class="t-st" id="ab-h" data-r>SKALA adalah kemitraan Australia-Indonesia untuk mengurangi kemiskinan dan ketimpangan lewat layanan dasar yang lebih baik.</h2>
+    <div class="about__grid">
+      <p class="about__name" data-r>Sinergi dan Kolaborasi untuk Akselerasi Layanan Dasar</p>
+      <div class="about__body" data-r>
+        <p class="t-lead">SKALA mendukung Pemerintah Indonesia meningkatkan penyediaan layanan dasar bagi masyarakat miskin dan rentan di daerah tertinggal.</p>
+        <p class="about__partners">Bersama Kementerian Dalam Negeri, Kementerian Keuangan, dan Bappenas, di tingkat pusat dan di dua belas provinsi.</p>
+        <a class="btn btn--line" href="#tujuan">Tujuan kami<svg aria-hidden="true"><use href="#i-arr"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== 3. TUJUAN -->
+<section class="goal" id="tujuan" aria-labelledby="go-h">
+  <div class="wrap goal__grid">
+    <figure class="goal__media" data-r>
+      <img src="assets/img/kegiatan-papua-selatan-1000.webp" srcset="assets/img/kegiatan-papua-selatan-640.webp 640w, assets/img/kegiatan-papua-selatan-1000.webp 1000w, assets/img/kegiatan-papua-selatan-1600.webp 1600w" sizes="(min-width:1024px) 520px, 100vw" width="1000" height="666" alt="Pejabat daerah dan mitra pada peluncuran dan pelatihan portal data daerah di Papua Selatan." loading="lazy">
+      <figcaption>Peluncuran dan pelatihan portal data daerah, Papua Selatan.</figcaption>
+    </figure>
+    <div>
+      <h2 class="t-h2" id="go-h" data-r>Tujuan</h2>
+      <p class="goal__state" data-r>Mendukung pengurangan kemiskinan dan ketimpangan di Indonesia melalui peningkatan ketersediaan layanan dasar bagi masyarakat miskin dan rentan di daerah tertinggal.</p>
+      <h3 class="goal__sub" data-r>Tiga capaian akhir program</h3>
+      <div class="acc" id="acc">
+        <div class="acc__item">
+          <h4><button class="acc__btn" type="button" aria-expanded="true" aria-controls="eo-1" id="eo-1-b"><span class="acc__n" aria-hidden="true">01</span><span><span class="acc__t">Pusat</span><span class="acc__s">Kondisi pemampu yang lebih kuat bagi penyediaan layanan dasar di daerah</span></span><span class="acc__ic" aria-hidden="true"></span></button></h4>
+          <div class="acc__panel" id="eo-1" role="region" aria-labelledby="eo-1-b">
+            <p>Kementerian/Lembaga mengembangkan dan menerapkan kebijakan, rencana, dan anggaran yang lebih baik untuk memperkuat penyediaan layanan dasar di daerah tertinggal.</p>
+            <ul class="acc__io">
+              <li><b>IO 1</b>Kementerian/Lembaga memperkuat kerangka regulasi dan kebijakan mengenai Pengelolaan Keuangan Publik dan Penerapan Standar Pelayanan Minimal di daerah.</li>
+              <li><b>IO 2</b>Kementerian/Lembaga menggunakan bukti/data dalam memperkuat perencanaan, koordinasi, dan penentuan prioritas desentralisasi.</li>
+              <li><b>IO 3</b>Kementerian/Lembaga meningkatkan pemanfaatan analisis dan bukti mengenai GEDSI dalam menyiapkan kebijakan, perencanaan, dan anggaran.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="acc__item">
+          <h4><button class="acc__btn" type="button" aria-expanded="true" aria-controls="eo-2" id="eo-2-b"><span class="acc__n" aria-hidden="true">02</span><span><span class="acc__t">Daerah</span><span class="acc__s">Penyediaan layanan dasar di daerah yang lebih baik</span></span><span class="acc__ic" aria-hidden="true"></span></button></h4>
+          <div class="acc__panel" id="eo-2" role="region" aria-labelledby="eo-2-b">
+            <p>Pemerintah provinsi dan kabupaten sasaran mampu merencanakan, menganggarkan, dan mengelola penyediaan layanan dasar secara lebih efektif.</p>
+            <ul class="acc__io">
+              <li><b>IO 4</b>Pemerintah provinsi dan kabupaten sasaran mampu mengelola keuangan publik dengan lebih baik untuk meningkatkan layanan dasar yang sesuai Standar Pelayanan Minimal.</li>
+              <li><b>IO 5</b>Pemerintah provinsi dan kabupaten sasaran memperkuat pemanfaatan bukti/data mengenai kebutuhan perempuan, penyandang disabilitas dan masyarakat rentan dalam rencana dan anggaran layanan dasar.</li>
+              <li><b>IO 6</b>Pejabat kunci di provinsi dan kabupaten sasaran makin memahami, mampu mengukur dan merencanakan penyediaan layanan dasar yang sesuai kebutuhan seluruh warga.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="acc__item">
+          <h4><button class="acc__btn" type="button" aria-expanded="true" aria-controls="eo-3" id="eo-3-b"><span class="acc__n" aria-hidden="true">03</span><span><span class="acc__t">Warga</span><span class="acc__s">Partisipasi, representasi dan pengaruh yang lebih kuat dari perempuan, penyandang disabilitas, dan kelompok rentan lainnya</span></span><span class="acc__ic" aria-hidden="true"></span></button></h4>
+          <div class="acc__panel" id="eo-3" role="region" aria-labelledby="eo-3-b">
+            <p>Perempuan, penyandang disabilitas, dan kelompok rentan di wilayah sasaran terwakili dan dapat mempengaruhi proses perencanaan dan pengambilan keputusan mengenai layanan dasar di daerah.</p>
+            <ul class="acc__io">
+              <li><b>IO 7</b>Pemerintah makin kuat dalam melibatkan perempuan, penyandang disabilitas, dan kelompok rentan dalam proses perencanaan dan pengambilan keputusan di daerah.</li>
+              <li><b>IO 8</b>Perempuan, penyandang disabilitas, kelompok rentan dan/atau perwakilannya makin terlibat dan mempengaruhi proses perencanaan dan pengambilan keputusan di daerah.</li>
+              <li><b>IO 9</b>Sistem informasi di daerah menghasilkan analisis yang lebih akurat tentang kebutuhan perempuan, penyandang disabilitas dan kelompok rentan sehingga layanan dasar lebih inklusif.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== 4. FOKUS KERJA -->
+<section class="focus" id="fokus" aria-labelledby="fo-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="t-h2" id="fo-h" data-r>Fokus kerja</h2>
+      <p class="t-lead" data-r>Empat bidang kerja yang saling terhubung, dari kebijakan pusat sampai suara warga.</p>
+    </div>
+  </div>
+  <div class="wrap">
+    <ul class="tiles">
+      <li class="tile" style="--pos:50% 55%" data-r><img src="assets/img/prov-kaltara-960.webp" srcset="assets/img/prov-kaltara-480.webp 480w, assets/img/prov-kaltara-960.webp 960w" sizes="(min-width:768px) 50vw, 100vw" width="960" height="640" alt="" loading="lazy">
+        <div class="tile__in"><span class="tile__n" aria-hidden="true">01</span><h3>Regulasi dan standar</h3><p>Memperkuat kebijakan keuangan publik dan Standar Pelayanan Minimal di daerah.</p></div></li>
+      <li class="tile" style="--pos:50% 50%" data-r><img src="assets/img/kegiatan-ltr-1000.webp" srcset="assets/img/kegiatan-ltr-640.webp 640w, assets/img/kegiatan-ltr-1000.webp 1000w, assets/img/kegiatan-ltr-1600.webp 1600w" sizes="(min-width:768px) 50vw, 100vw" width="1000" height="667" alt="" loading="lazy">
+        <div class="tile__in"><span class="tile__n" aria-hidden="true">02</span><h3>Perencanaan dan penganggaran</h3><p>Membantu provinsi dan kabupaten merencanakan dan menganggarkan layanan dasar.</p></div></li>
+      <li class="tile" style="--pos:50% 45%" data-r><img src="assets/img/kegiatan-papua-barat-daya-1000.webp" srcset="assets/img/kegiatan-papua-barat-daya-640.webp 640w, assets/img/kegiatan-papua-barat-daya-1000.webp 1000w, assets/img/kegiatan-papua-barat-daya-1280.webp 1280w" sizes="(min-width:768px) 50vw, 100vw" width="1000" height="562" alt="" loading="lazy">
+        <div class="tile__in"><span class="tile__n" aria-hidden="true">03</span><h3>Data dan sistem informasi</h3><p>Data terkonsolidasi seperti SIKOMPAK dan SEPAKAT untuk keputusan berbasis bukti.</p></div></li>
+      <li class="tile" style="--pos:62% 40%" data-r><img src="assets/img/warga-pelatihan-2-1000.webp" srcset="assets/img/warga-pelatihan-2-640.webp 640w, assets/img/warga-pelatihan-2-1000.webp 1000w, assets/img/warga-pelatihan-2-1600.webp 1600w" sizes="(min-width:768px) 50vw, 100vw" width="1000" height="667" alt="" loading="lazy">
+        <div class="tile__in"><span class="tile__n" aria-hidden="true">04</span><h3>Partisipasi dan GEDSI</h3><p>Perempuan, penyandang disabilitas, dan kelompok rentan ikut menentukan arah layanan.</p></div></li>
+    </ul>
+    <div class="sys">
+      <div data-r><h3>Optimalisasi pemanfaatan data dan sistem analisis pemerintah</h3><p>Sistem data pusat dan daerah yang pemanfaatannya didukung SKALA.</p></div>
+      <ul data-r aria-label="Sistem data pemerintah">
+        <li>SIKOMPAK</li><li>SAIK</li><li>SIOPAPUA</li><li>SEPAKAT</li><li>SIKD</li><li>SIGAP</li><li>SIPD</li><li>SDPDN (Pelita)</li>
+        <li>SIPPP</li><li>e-SPM</li><li>SD Aceh</li><li>Satu Data NTB</li><li>Sasando NTT</li><li>DATAKU (SD Kaltara)</li><li>PENTAGON (Gorontalo)</li><li>SIDASSKEN</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== 5. CAPAIAN DAN DAMPAK -->
+<section class="impact" id="dampak" aria-labelledby="im-h">
+  <div class="wrap">
+    <div class="facts" data-r>
+      <div class="facts__head">
+        <div>
+          <h2 class="t-h2" id="im-h">Capaian dan dampak</h2>
+          <p class="facts__sub">Sorotan perubahan di daerah mitra, seperti dilaporkan pada peta wilayah kerja dan suara mitra di skala.or.id.</p>
+        </div>
+        <a class="lk" href="#tujuan"><span>Lihat kerangka hasil</span><svg aria-hidden="true"><use href="#i-arr"/></svg></a>
+      </div>
+      <dl class="stats">
+        <div class="stat"><dt class="sr-only">Wilayah kerja</dt><dd><span class="stat__n" data-to="12" aria-hidden="true">12</span><span class="sr-only">12 provinsi</span><span class="stat__l">provinsi wilayah kerja: 10 lokasi intervensi utama dan 2 lokasi intervensi tambahan</span><span class="stat__s">Peta wilayah kerja</span></dd></div>
+        <div class="stat"><dt class="sr-only">Pelaporan e-SPM Maluku</dt><dd><span class="stat__n" data-to="98" data-suf="%" aria-hidden="true">98%</span><span class="sr-only">98 persen</span><span class="stat__l">keterisian pelaporan e-SPM</span><span class="stat__s">Maluku</span></dd></div>
+        <div class="stat"><dt class="sr-only">Alokasi SPM Kalimantan Utara</dt><dd><span class="stat__n" data-to="293.4" data-dec="1" data-pre="Rp" data-suf="&nbsp;M" aria-hidden="true"><small>Rp</small>293,4<small>&nbsp;M</small></span><span class="sr-only">Rp293,4 miliar</span><span class="stat__l">alokasi SPM 2025, naik dari Rp142,5 miliar pada 2024</span><span class="stat__s">Kalimantan Utara</span></dd></div>
+        <div class="stat"><dt class="sr-only">Portal Open Data Aceh</dt><dd><span class="stat__n" data-to="6" data-suf="&nbsp;bln" aria-hidden="true">6<small>&nbsp;bln</small></span><span class="sr-only">6 bulan</span><span class="stat__l">portal Open Data Aceh rampung, dari target 2 tahun</span><span class="stat__s">Aceh</span></dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== 6. WILAYAH KERJA -->
+<section class="where" id="wilayah" aria-labelledby="wh-h">
+  <div class="wrap where__grid">
+    <div class="where__aside">
+      <div class="where__intro">
+        <h2 class="t-h2" id="wh-h" data-r>Wilayah kerja</h2>
+        <p class="t-lead where__lead" data-r>Dua belas provinsi, dari Aceh hingga Papua. Pilih provinsi untuk melihat sorotannya.</p>
+      </div>
+      <ul class="legend">
+        <li><i class="lg" aria-hidden="true"></i>Lokasi intervensi utama</li>
+        <li><i class="lg lg--t" aria-hidden="true"></i>Lokasi intervensi tambahan (graduasi dalam 1 periode)</li>
+      </ul>
+      <ul class="plist" id="plist" aria-label="Daftar provinsi wilayah kerja"></ul>
+    </div>
+    <div class="where__map">
+      <div class="stage" id="stage"></div>
+      <section class="wcard" id="wcard" aria-labelledby="wc-n" inert>
+        <img id="wc-img" src="assets/img/prov-aceh-480.webp" width="480" height="270" alt="">
+        <div class="wcard__b">
+          <div class="wcard__top"><span class="wchip" id="wc-cat"></span><button class="wcard__x" type="button" id="wc-x" aria-label="Tutup sorotan provinsi"><svg aria-hidden="true"><use href="#i-x"/></svg></button></div>
+          <h3 id="wc-n" tabindex="-1"></h3>
+          <p id="wc-s"></p>
+          <a class="lk" id="wc-go" href="wilayah.html"><span>Lihat profil provinsi</span><svg aria-hidden="true"><use href="#i-arr"/></svg></a>
+        </div>
+      </section>
+    </div>
+  </div>
+  <p class="sr-only" id="wh-live" aria-live="polite"></p>
+</section>
+
+<!-- ===================================================================== 7. CERITA DAN WAWASAN -->
+<section class="stories on-dark" id="cerita" aria-labelledby="st-h">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="t-h2" id="st-h" data-r>Cerita dan wawasan</h2>
+      <p class="t-lead" data-r>Pembelajaran dari daerah mitra, dalam bentuk cerita lapangan, publikasi, dan siniar.</p>
+    </div>
+    <div class="stories__grid">
+      <div class="tabs" role="tablist" aria-label="Kategori">
+        <button class="tab" role="tab" id="tb-1" aria-selected="true" aria-controls="tp-1" type="button">Cerita lapangan</button>
+        <button class="tab" role="tab" id="tb-2" aria-selected="false" aria-controls="tp-2" tabindex="-1" type="button">Publikasi</button>
+        <button class="tab" role="tab" id="tb-3" aria-selected="false" aria-controls="tp-3" tabindex="-1" type="button">Siniar</button>
+      </div>
+      <div>
+        <div class="tpanel" id="tp-1" role="tabpanel" aria-labelledby="tb-1">
+          <ul class="track">
+            <li class="card"><a href="https://skala.or.id/" target="_blank" rel="noopener"><span class="card__m card__m--type" aria-hidden="true"><span>SEPAKAT</span></span><span class="card__d">17 November 2026</span><h3><span>SEPAKAT untuk Perencanaan yang Lebih Tepat Sasaran: Cerita Pemanfaatan Data dari Berbagai Daerah</span></h3><span class="sr-only"> (skala.or.id, tab baru)</span></a></li>
+            <li class="card"><a href="https://skala.or.id/" target="_blank" rel="noopener"><span class="card__m card__m--cover"><img src="assets/img/sampul-maluku-480.webp" srcset="assets/img/sampul-maluku-480.webp 480w, assets/img/sampul-maluku-800.webp 800w" sizes="240px" width="480" height="678" alt="Sampul buklet Menembus Ombak, Menjangkau Masyarakat" loading="lazy"></span><span class="card__d">4 November 2026</span><h3><span>Menembus Ombak, Menjangkau Masyarakat: Kolaborasi Menguatkan Layanan Dasar di Kepulauan Maluku</span></h3><span class="sr-only"> (skala.or.id, tab baru)</span></a></li>
+            <li class="card"><a href="https://skala.or.id/" target="_blank" rel="noopener"><span class="card__m card__m--cover"><img src="assets/img/sampul-penganggaran-480.webp" srcset="assets/img/sampul-penganggaran-480.webp 480w, assets/img/sampul-penganggaran-800.webp 800w" sizes="240px" width="480" height="679" alt="Sampul buklet cerita Mendorong Penganggaran Pemerintah Pusat" loading="lazy"></span><span class="card__d">Oktober 2026</span><h3><span>Mendorong Penganggaran Pemerintah Pusat yang Lebih Responsif terhadap Tantangan Geografis Daerah</span></h3><span class="sr-only"> (skala.or.id, tab baru)</span></a></li>
+          </ul>
+        </div>
+        <div class="tpanel" id="tp-2" role="tabpanel" aria-labelledby="tb-2" hidden>
+          <ul class="track">
+            <li class="card"><a href="https://skala.or.id/" target="_blank" rel="noopener"><span class="card__m card__m--type" aria-hidden="true"><span>PERA Kaltara</span></span><span class="card__d">12 November 2026</span><h3><span>Kumpulan Naskah Risalah Kebijakan Terpilih tentang Analisis Belanja dan Pendapatan Publik (PERA) yang Inklusif: Provinsi Kalimantan Utara</span></h3><span class="sr-only"> (skala.or.id, tab baru)</span></a></li>
+            <li class="card"><a href="https://skala.or.id/" target="_blank" rel="noopener"><span class="card__m card__m--cover"><img src="assets/img/sampul-kaltara-480.webp" srcset="assets/img/sampul-kaltara-480.webp 480w, assets/img/sampul-kaltara-800.webp 800w" sizes="240px" width="480" height="621" alt="Sampul catatan panduan Dari Pengetahuan ke Pembentukan Kebijakan" loading="lazy"></span><span class="card__d">Oktober 2026</span><h3><span>Dari Pengetahuan ke Pembentukan Kebijakan: Pelajaran dari Kalimantan Utara</span></h3><span class="sr-only"> (skala.or.id, tab baru)</span></a></li>
+          </ul>
+        </div>
+        <div class="tpanel" id="tp-3" role="tabpanel" aria-labelledby="tb-3" hidden>
+          <ul class="track">
+            <li class="card"><a href="https://skala.or.id/siniar/seri-podcast-harian-kompas-isu-lanjut-usia-hantui-indonesia/" target="_blank" rel="noopener"><span class="card__m card__m--photo"><img src="assets/img/siniar-lansia-480.webp" srcset="assets/img/siniar-lansia-480.webp 480w, assets/img/siniar-lansia-1000.webp 1000w" sizes="(min-width:1024px) 300px, 80vw" width="480" height="270" alt="" loading="lazy"></span><span class="card__d">Seri Podcast Harian Kompas</span><h3><span>Isu Lanjut Usia Hantui Indonesia?</span></h3><span class="sr-only"> (skala.or.id, tab baru)</span></a></li>
+            <li class="card"><a href="https://skala.or.id/siniar/menerobos-batas-perspektif-tentang-identitas-disabilitas-dan-mengubah-stereotip/" target="_blank" rel="noopener"><span class="card__m card__m--photo"><img src="assets/img/siniar-batas-480.webp" srcset="assets/img/siniar-batas-480.webp 480w, assets/img/siniar-batas-1000.webp 1000w" sizes="(min-width:1024px) 300px, 80vw" width="480" height="319" alt="" loading="lazy"></span><span class="card__d">Siniar SKALA</span><h3><span>Menerobos Batas: Perspektif tentang Identitas, Disabilitas, dan Mengubah Stereotip</span></h3><span class="sr-only"> (skala.or.id, tab baru)</span></a></li>
+            <li class="card"><a href="https://skala.or.id/siniar/seri-podcast-harian-kompas-regsosek-untuk-perencanaan-pembangunan-nasional-yang-lebih-baik/" target="_blank" rel="noopener"><span class="card__m card__m--photo"><img src="assets/img/siniar-regsosek-480.webp" srcset="assets/img/siniar-regsosek-480.webp 480w, assets/img/siniar-regsosek-1000.webp 1000w" sizes="(min-width:1024px) 300px, 80vw" width="480" height="228" alt="" loading="lazy"></span><span class="card__d">Seri Podcast Harian Kompas</span><h3><span>Regsosek untuk Perencanaan Pembangunan Nasional yang Lebih Baik</span></h3><span class="sr-only"> (skala.or.id, tab baru)</span></a></li>
+          </ul>
+        </div>
+        <div class="car__ctrl">
+          <button class="car__btn" type="button" id="car-prev" aria-label="Geser ke kiri"><svg aria-hidden="true"><use href="#i-arr-l"/></svg></button>
+          <button class="car__btn" type="button" id="car-next" aria-label="Geser ke kanan"><svg aria-hidden="true"><use href="#i-arr"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== 8. KABAR TERBARU -->
+<section class="news" id="kabar" aria-labelledby="nw-h">
+  <div class="wrap">
+    <div class="news__head">
+      <h2 class="t-h2" id="nw-h" data-r>Kabar terbaru</h2>
+      <a class="lk" href="https://skala.or.id/" target="_blank" rel="noopener"><span>Semua kegiatan di skala.or.id</span><svg aria-hidden="true"><use href="#i-out"/></svg><span class="sr-only"> (tab baru)</span></a>
+    </div>
+    <div class="news__latest" data-r>
+      <span class="news__tag">Terbaru</span>
+      <a href="https://skala.or.id/" target="_blank" rel="noopener">Menjaga Layanan Dasar di Tengah Transisi Kepemimpinan Daerah<span class="sr-only"> (tab baru)</span></a>
+      <svg aria-hidden="true"><use href="#i-out"/></svg>
+    </div>
+    <div class="news__grid">
+      <article class="feat" data-r>
+        <a href="https://skala.or.id/" target="_blank" rel="noopener">
+          <div class="feat__m"><img src="assets/img/kegiatan-papua-barat-daya-1280.webp" srcset="assets/img/kegiatan-papua-barat-daya-640.webp 640w, assets/img/kegiatan-papua-barat-daya-1000.webp 1000w, assets/img/kegiatan-papua-barat-daya-1280.webp 1280w" sizes="(min-width:1024px) 760px, 100vw" width="1280" height="720" alt="Pejabat daerah dan mitra berfoto bersama pada peluncuran Portal Cenderawasih di Papua Barat Daya." loading="lazy"></div>
+          <span class="loc">Papua Barat Daya</span>
+          <h3>Papua Barat Daya luncurkan Portal Cenderawasih untuk perkuat perencanaan pembangunan dan layanan dasar</h3>
+          <span class="sr-only"> (skala.or.id, tab baru)</span>
+        </a>
+      </article>
+      <ul class="nlist">
+        <li class="nrow" data-r><a href="https://skala.or.id/" target="_blank" rel="noopener"><img src="assets/img/kegiatan-papua-selatan-640.webp" width="640" height="426" alt="" loading="lazy"><span><span class="loc">Papua Selatan</span><h3>Papua Selatan perkuat data dan perlindungan sosial bagi Orang Asli Papua</h3></span><span class="sr-only"> (tab baru)</span></a></li>
+        <li class="nrow" data-r><a href="https://skala.or.id/" target="_blank" rel="noopener"><img src="assets/img/kegiatan-ntb-640.webp" width="640" height="360" alt="" loading="lazy"><span><span class="loc">Nusa Tenggara Barat</span><h3>NTB luncurkan Dashboard Eksekutif untuk memperkuat pembangunan berbasis data</h3></span><span class="sr-only"> (tab baru)</span></a></li>
+        <li class="nrow" data-r><a href="https://skala.or.id/" target="_blank" rel="noopener"><img src="assets/img/kegiatan-sekar-640.webp" width="640" height="427" alt="" loading="lazy"><span><span class="loc">SEKAR Inklusif</span><h3>Sistem manajemen pembelajaran untuk memperkuat partisipasi masyarakat dalam proses pembangunan</h3></span><span class="sr-only"> (tab baru)</span></a></li>
+        <li class="nrow" data-r><a href="https://skala.or.id/" target="_blank" rel="noopener"><img src="assets/img/kegiatan-ltr-640.webp" width="640" height="427" alt="" loading="lazy"><span><span class="loc">Keuangan daerah</span><h3>Menguatkan kemandirian fiskal daerah melalui Local Tax Ratio</h3></span><span class="sr-only"> (tab baru)</span></a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================================== 9. KEMITRAAN -->
+<section class="partner" id="kemitraan" aria-labelledby="pa-h">
+  <div class="wrap">
+    <div class="partner__grid">
+      <div>
+        <h2 class="t-h2" id="pa-h" data-r>Kemitraan</h2>
+        <p class="t-st partner__st" data-r>Program Kemitraan Australia-Indonesia, bersama Kemendagri, Kemenkeu, dan Bappenas.</p>
+        <p class="partner__dt" data-r>Dikelola oleh DT Global.</p>
+      </div>
+      <ul class="logos" aria-label="Mitra program" data-r>
+        <li><img src="assets/logo-australian-government.png" width="206" height="140" alt="Australian Government" loading="lazy"></li>
+        <li><img src="assets/logo-kemendagri.png" width="216" height="140" alt="Kementerian Dalam Negeri" loading="lazy"></li>
+        <li><img src="assets/logo-kemenkeu.png" width="188" height="140" alt="Kementerian Keuangan" loading="lazy"></li>
+        <li><img src="assets/logo-bappenas.png" width="164" height="140" alt="Bappenas" loading="lazy"></li>
+      </ul>
+    </div>
+
+    <div class="voices" id="suara" aria-labelledby="vo-h">
+      <h3 class="sr-only" id="vo-h">Suara mitra</h3>
+      <figure class="quote" id="quote" aria-live="polite">
+        <blockquote id="q-t">“Berkat dukungan SKALA, portal Open Data Aceh yang ditargetkan 2 tahun dapat rampung dalam 6 bulan.”</blockquote>
+        <figcaption><img id="q-img" src="assets/img/tokoh-aceh-160.webp" width="160" height="160" alt=""><span><b id="q-n">Sayid Azhary</b><span id="q-r">Kepala UPTD Statistik Diskominfo dan Sandi Aceh</span></span></figcaption>
+      </figure>
+      <div class="who" aria-label="Pilih mitra">
+        <button type="button" aria-pressed="true" data-q="“Berkat dukungan SKALA, portal Open Data Aceh yang ditargetkan 2 tahun dapat rampung dalam 6 bulan.”" data-img="assets/img/tokoh-aceh-160.webp" data-r2="Kepala UPTD Statistik Diskominfo dan Sandi Aceh"><img src="assets/img/tokoh-aceh-160.webp" width="160" height="160" alt=""><span><b>Sayid Azhary</b><small>Aceh</small></span></button>
+        <button type="button" aria-pressed="false" data-q="“Dengan bantuan SKALA, capaian SPM Provinsi NTT sudah mulai membaik.”" data-img="assets/img/tokoh-ntt-160.webp" data-r2="Sekretaris Daerah Provinsi NTT"><img src="assets/img/tokoh-ntt-160.webp" width="160" height="160" alt=""><span><b>Kosmas Damianus Lana</b><small>Nusa Tenggara Timur</small></span></button>
+        <button type="button" aria-pressed="false" data-q="“Pemanfaatan Satu Data Kaltara menjadi lebih sistematis dan efektif.”" data-img="assets/img/tokoh-kaltara-160.webp" data-r2="Plt. Kepala Bappeda dan Litbang Kalimantan Utara"><img src="assets/img/tokoh-kaltara-160.webp" width="160" height="160" alt=""><span><b>Bertius, S.Hut. T</b><small>Kalimantan Utara</small></span></button>
+      </div>
+    </div>
+
+    <div class="cta" id="kontak" data-r>
+      <div>
+        <h2 class="t-h2">Mari bergerak bersama</h2>
+        <p>Ikuti kabar SKALA lewat kanal WhatsApp, atau tulis kepada kami untuk kerja sama.</p>
+      </div>
+      <div class="cta__btns">
+        <a class="btn btn--ink" href="https://whatsapp.com/channel/0029Vb5cXcuLSmbVnE2Vvc3k" target="_blank" rel="noopener">Kanal WhatsApp<span class="sr-only"> (tab baru)</span><svg aria-hidden="true"><use href="#i-out"/></svg></a>
+        <a class="btn btn--line" href="mailto:info@skala.or.id">info@skala.or.id</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ===================================================================== 10. FOOTER -->
+<footer class="ft on-dark">
+  <div class="wrap">
+    <div class="ft__top">
+      <div>
+        <a class="ft__logo" href="#top" aria-label="SKALA, kembali ke awal halaman"><img src="assets/skala-logo-white.png" width="500" height="138" alt=""></a>
+        <p class="ft__name">Sinergi dan Kolaborasi untuk Akselerasi Layanan Dasar</p>
+      </div>
+      <div class="ft__cols">
+        <nav aria-labelledby="f1"><h2 id="f1">Jelajahi</h2><ul><li><a href="#tentang">Tentang SKALA</a></li><li><a href="#tujuan">Tujuan</a></li><li><a href="#fokus">Fokus kerja</a></li><li><a href="#wilayah">Wilayah kerja</a></li></ul></nav>
+        <nav aria-labelledby="f2"><h2 id="f2">Pengetahuan</h2><ul><li><a href="#dampak">Capaian dan dampak</a></li><li><a href="#cerita">Cerita dan wawasan</a></li><li><a href="#kabar">Kabar terbaru</a></li><li><a href="#kemitraan">Kemitraan</a></li></ul></nav>
+        <div><h2>Hubungi kami</h2><address>IFC Tower 2, Level 17<br>Jl. Jenderal Sudirman Kav. 22-23<br>Jakarta 12920<br><br><a href="mailto:info@skala.or.id">info@skala.or.id</a><br><a href="https://whatsapp.com/channel/0029Vb5cXcuLSmbVnE2Vvc3k" target="_blank" rel="noopener">Kanal WhatsApp<span class="sr-only"> (tab baru)</span></a></address></div>
+      </div>
+    </div>
+    <div class="ft__logos" aria-label="Kemitraan bersama">
+      <img src="assets/logo-australian-government.png" width="206" height="140" alt="Australian Government" loading="lazy">
+      <img src="assets/logo-kemendagri.png" width="216" height="140" alt="Kementerian Dalam Negeri" loading="lazy">
+      <img src="assets/logo-kemenkeu.png" width="188" height="140" alt="Kementerian Keuangan" loading="lazy">
+      <img src="assets/logo-bappenas.png" width="164" height="140" alt="Bappenas" loading="lazy">
+    </div>
+    <div class="ft__bot">
+      <span>© <span id="yr">2026</span> SKALA. Dikelola oleh DT Global.</span>
+      <nav aria-label="Tautan lain"><a href="kredit-foto.html">Kredit foto</a><a href="index.html">Beranda versi 1</a></nav>
+    </div>
+  </div>
+</footer>
+
+<button class="totop" id="totop" type="button" aria-label="Kembali ke atas"><svg aria-hidden="true"><use href="#i-up"/></svg></button>
+
+<script src="assets/data/provinsi.js"></script>
+<script src="assets/js/peta-3d.js"></script>
+<script>
+(function(){
+  'use strict';
+  var root = document.documentElement, reduced = root.classList.contains('rm');
+  var $ = function(s, c){ return (c || document).querySelector(s); }, $$ = function(s, c){ return [].slice.call((c || document).querySelectorAll(s)); };
+  var fine = matchMedia('(hover:hover) and (pointer:fine) and (min-width:1024px)');
+  $('#yr').textContent = new Date().getFullYear();
+
+  /* ---------- Header: solid setelah hero, sembunyi saat turun, muncul saat naik ---------- */
+  var hd = $('#hd'), lastY = scrollY, totop = $('#totop');
+  function onScroll(){
+    var y = scrollY, d = y - lastY, past = y > innerHeight * .55;
+    hd.classList.toggle('is-solid', past);
+    if (past && d > 6 && !hd.classList.contains('has-mm')) hd.classList.add('is-up'); else if (d < -6 || !past) hd.classList.remove('is-up');
+    totop.classList.toggle('on', y > innerHeight);
+    lastY = y;
+  }
+  addEventListener('scroll', onScroll, {passive:true}); onScroll();
+  totop.addEventListener('click', function(){ scrollTo({top:0, behavior: reduced ? 'auto' : 'smooth'}); $('.hd__logo').focus({preventScroll:true}); });
+
+  /* ---------- Mega menu: klik / Enter / hover (mouse), Esc dan klik di luar menutup ---------- */
+  var mbtns = $$('.nav__btn'), hoverT;
+  function panel(b){ return document.getElementById(b.getAttribute('aria-controls')); }
+  function closeMM(except){ mbtns.forEach(function(b){ if (b !== except) { b.setAttribute('aria-expanded', 'false'); panel(b).hidden = true; } }); hd.classList.toggle('has-mm', !!except); }
+  function openMM(b){ closeMM(b); b.setAttribute('aria-expanded', 'true'); panel(b).hidden = false; hd.classList.remove('is-up'); }
+  mbtns.forEach(function(b){
+    b.addEventListener('click', function(){ if (b.getAttribute('aria-expanded') === 'true') closeMM(); else openMM(b); });
+    b.parentNode.addEventListener('mouseenter', function(){ if (!fine.matches) return; clearTimeout(hoverT); hoverT = setTimeout(function(){ openMM(b); }, 90); });
+  });
+  hd.addEventListener('mouseleave', function(){ if (!fine.matches) return; clearTimeout(hoverT); hoverT = setTimeout(function(){ closeMM(); }, 160); });
+  hd.addEventListener('mouseenter', function(){ clearTimeout(hoverT); });
+  $$('.mm a').forEach(function(a){ a.addEventListener('click', function(){ closeMM(); }); });
+  document.addEventListener('click', function(e){ if (!hd.contains(e.target)) closeMM(); });
+  document.addEventListener('keydown', function(e){
+    if (e.key !== 'Escape') return;
+    var open = mbtns.filter(function(b){ return b.getAttribute('aria-expanded') === 'true'; })[0];
+    if (open) { closeMM(); open.focus(); }
+  });
+
+  /* ---------- Drawer (layar kecil) ---------- */
+  var drawer = $('#drawer'), mOpen = $('#menu-open'), mClose = $('#menu-close');
+  function setDrawer(on){
+    drawer.hidden = !on; mOpen.setAttribute('aria-expanded', String(on)); root.classList.toggle('lock', on);
+    $('#main').inert = on; if (on) mClose.focus(); else mOpen.focus();
+  }
+  mOpen.addEventListener('click', function(){ setDrawer(true); });
+  mClose.addEventListener('click', function(){ setDrawer(false); });
+  drawer.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') setDrawer(false);
+    if (e.key === 'Tab') { var f = $$('button, summary, a', drawer).filter(function(x){ return x.offsetParent; }), a = f[0], z = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === a) { e.preventDefault(); z.focus(); } else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); } }
+  });
+  $$('a', drawer).forEach(function(a){ a.addEventListener('click', function(){ if (a.getAttribute('href').charAt(0) === '#') { drawer.hidden = true; mOpen.setAttribute('aria-expanded', 'false'); root.classList.remove('lock'); $('#main').inert = false; } }); });
+
+  /* ---------- Hero: 3 slide, putar otomatis 7 dtk (dijeda saat hover/fokus, tombol jeda, mati saat reduced motion) ---------- */
+  var slides = $$('.slide'), dots = $$('.hero__dot'), cur = 0, timer = null, playing = !reduced, hold = false, frame = $('.hero__frame'), play = $('#h-play');
+  function show(i){
+    i = (i + slides.length) % slides.length; if (i === cur) return;
+    slides[cur].classList.remove('is-on'); slides[cur].inert = true;
+    slides[i].classList.add('is-on'); slides[i].inert = false;
+    dots[cur].removeAttribute('aria-current'); dots[i].setAttribute('aria-current', 'true'); cur = i;
+  }
+  slides.forEach(function(s, i){ if (i) s.inert = true; });
+  function tick(){ clearInterval(timer); if (playing) timer = setInterval(function(){ if (!hold && !document.hidden) show(cur + 1); }, 7000); }
+  function setPlay(on){ playing = on; play.setAttribute('aria-pressed', String(!on)); play.setAttribute('aria-label', on ? 'Jeda putar otomatis' : 'Lanjutkan putar otomatis'); tick(); }
+  setPlay(playing);
+  play.addEventListener('click', function(){ setPlay(!playing); });
+  dots.forEach(function(d, i){ d.addEventListener('click', function(){ show(i); tick(); }); });
+  $('#h-prev').addEventListener('click', function(){ show(cur - 1); tick(); });
+  $('#h-next').addEventListener('click', function(){ show(cur + 1); tick(); });
+  frame.addEventListener('mouseenter', function(){ hold = true; }); frame.addEventListener('mouseleave', function(){ hold = false; });
+  frame.addEventListener('focusin', function(){ hold = true; }); frame.addEventListener('focusout', function(){ hold = false; });
+  var tx = null; frame.addEventListener('touchstart', function(e){ tx = e.touches[0].clientX; }, {passive:true});
+  frame.addEventListener('touchend', function(e){ if (tx === null) return; var dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 50) { show(cur + (dx < 0 ? 1 : -1)); tick(); } tx = null; }, {passive:true});
+
+  /* ---------- Akordeon tiga capaian akhir: satu terbuka (tanpa JS semua terbuka) ---------- */
+  var accBtns = $$('.acc__btn');
+  function acc(btn, open){ btn.setAttribute('aria-expanded', String(open)); document.getElementById(btn.getAttribute('aria-controls')).hidden = !open; }
+  accBtns.forEach(function(b, i){ acc(b, i === 0); b.addEventListener('click', function(){ var open = b.getAttribute('aria-expanded') !== 'true'; accBtns.forEach(function(x){ acc(x, x === b && open); }); }); });
+
+  /* ---------- Muncul saat terlihat + hitung angka ---------- */
+  function fmt(v, dec){ return dec ? v.toFixed(dec).replace('.', ',') : String(Math.round(v)); }
+  function count(el){
+    var to = parseFloat(el.dataset.to), dec = +(el.dataset.dec || 0), pre = el.dataset.pre || '', suf = el.dataset.suf || '', t0 = null;
+    if (reduced) return;
+    (function f(ts){ if (t0 === null) t0 = ts; var k = Math.min(1, (ts - t0) / 1600), e = 1 - Math.pow(1 - k, 4);
+      el.innerHTML = (pre ? '<small>' + pre + '</small>' : '') + fmt(to * e, dec) + (suf === '%' ? '%' : suf ? '<small>' + suf + '</small>' : '');
+      if (k < 1) requestAnimationFrame(f); })(performance.now());
+  }
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(es){ es.forEach(function(en){ if (!en.isIntersecting) return; io.unobserve(en.target); en.target.classList.add('in'); }); }, {rootMargin:'0px 0px -8% 0px'});
+    $$('[data-r]').forEach(function(el){ io.observe(el); });
+    var cio = new IntersectionObserver(function(es){ es.forEach(function(en){ if (!en.isIntersecting) return; cio.unobserve(en.target); count(en.target); }); }, {threshold:.6});
+    $$('.stat__n').forEach(function(el){ cio.observe(el); });
+  } else { $$('[data-r]').forEach(function(el){ el.classList.add('in'); }); }
+
+  /* ---------- Wilayah kerja: daftar ↔ peta 3D, sorotan provinsi ---------- */
+  (function(){
+    var W = window.SKALA_WILAYAH; if (!W || !window.Peta3D) return;
+    var S = W.str, provs = W.provinces, stage = $('#stage'), card = $('#wcard'), list = $('#plist'), live = $('#wh-live'), rows = {};
+    var mqDesk = matchMedia('(min-width:1024px)'), mqMob = matchMedia('(max-width:767px)');
+    var peta = Peta3D.mount(stage, {
+      provinces: provs, project: W.projectToMap, interactive: true, popIn: true, mapLabel: S.mapLabel,
+      zoom: function(){ return mqDesk.matches ? 2.1 : 2.4; },
+      region: function(){ var w = stage.clientWidth, h = stage.clientHeight; return (mqDesk.matches && card.classList.contains('is-open')) ? {x:0, y:0, w:w - card.offsetWidth - 24, h:h} : {x:0, y:0, w:w, h:h}; },
+      onHover: function(slug){ Object.keys(rows).forEach(function(s){ rows[s].classList.toggle('is-hot', s === slug); }); },
+      onSelect: function(slug){ if (peta.selected === slug) close(); else select(slug); }
+    });
+    provs.forEach(function(p){
+      var li = document.createElement('li'), b = document.createElement('button');
+      b.type = 'button'; b.className = 'prow'; b.setAttribute('aria-expanded', 'false'); b.setAttribute('aria-controls', 'wcard');
+      b.innerHTML = '<i class="lg' + (p.category === 'tambahan' ? ' lg--t' : '') + '" aria-hidden="true"></i><span>' + p.name + '</span><svg aria-hidden="true"><use href="#i-arr"/></svg>';
+      b.setAttribute('aria-label', p.name + ', ' + S.cat[p.category]);
+      b.addEventListener('click', function(){ if (peta.selected === p.slug) close(); else select(p.slug); });
+      b.addEventListener('pointerenter', function(e){ if (e.pointerType !== 'touch') peta.hot(p.slug); });
+      b.addEventListener('pointerleave', function(){ peta.hot(null); });
+      b.addEventListener('focus', function(){ peta.hot(p.slug); }); b.addEventListener('blur', function(){ peta.hot(null); });
+      li.appendChild(b); list.appendChild(li); rows[p.slug] = b;
+    });
+    function select(slug){
+      var p = W.bySlug(slug);
+      $('#wc-cat').className = 'wchip wchip--' + p.category; $('#wc-cat').textContent = S.cat[p.category];
+      $('#wc-n').textContent = p.name;
+      $('#wc-s').textContent = W.isPlaceholder(p.summary) ? '' : p.summary;   // ringkasan "[...]" belum ada → tidak ditampilkan
+      var img = $('#wc-img'); img.src = p.photo || ''; img.alt = p.photoAlt || ''; img.style.objectPosition = p.photoPos || '50% 50%'; img.hidden = !p.photo;
+      $('#wc-go').href = W.profileUrl(slug);
+      Object.keys(rows).forEach(function(s){ rows[s].setAttribute('aria-expanded', String(s === slug)); });
+      Object.keys(peta.pins).forEach(function(s){ peta.pins[s].setAttribute('aria-expanded', String(s === slug)); });
+      card.classList.add('is-open'); card.inert = false;
+      peta.focus(slug); live.textContent = p.name + ' dipilih.';
+    }
+    function close(){
+      var slug = peta.selected; if (!slug) return;
+      card.classList.remove('is-open'); card.inert = true;
+      Object.keys(rows).forEach(function(s){ rows[s].setAttribute('aria-expanded', 'false'); });
+      Object.keys(peta.pins).forEach(function(s){ peta.pins[s].setAttribute('aria-expanded', 'false'); });
+      peta.reset(); live.textContent = S.reset; rows[slug].focus({preventScroll:true});
+    }
+    $('#wc-x').addEventListener('click', close);
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && peta.selected && ($('#wilayah').contains(document.activeElement) || document.activeElement === document.body)) close(); });
+    function pinMode(){ peta.access(!mqMob.matches, function(p){ return p.name + ', ' + S.cat[p.category]; }, 'wcard'); }
+    pinMode(); [mqDesk, mqMob].forEach(function(m){ m.addEventListener('change', function(){ pinMode(); if (peta.selected) peta.focus(peta.selected, {instant:true}); }); });
+    // Peta rebah lalu berdiri mengikuti scroll saat section masuk layar
+    if (!reduced) {
+      var sec = $('#wilayah'), rafT = 0;
+      function tilt(){ rafT = 0; var r = sec.getBoundingClientRect(), k = Math.min(1, Math.max(0, (innerHeight - r.top) / (innerHeight * .85))); stage.style.setProperty('--rx', (64 - 26 * k).toFixed(2) + 'deg'); peta.sync(); }
+      addEventListener('scroll', function(){ if (!rafT) rafT = requestAnimationFrame(tilt); }, {passive:true}); tilt();
+    }
+  })();
+
+  /* ---------- Cerita dan wawasan: tab (panah kiri/kanan) + carousel ---------- */
+  var tabs = $$('.tab'), prev = $('#car-prev'), next = $('#car-next');
+  function track(){ return $('.tpanel:not([hidden]) .track'); }
+  function sync(){ var t = track(); if (!t) return; prev.disabled = t.scrollLeft < 4; next.disabled = t.scrollLeft + t.clientWidth > t.scrollWidth - 4; }
+  function selectTab(tb, focus){
+    tabs.forEach(function(x){ var on = x === tb; x.setAttribute('aria-selected', String(on)); x.tabIndex = on ? 0 : -1; document.getElementById(x.getAttribute('aria-controls')).hidden = !on; });
+    if (focus) tb.focus(); var t = track(); t.scrollLeft = 0; sync();
+  }
+  tabs.forEach(function(tb, i){
+    tb.addEventListener('click', function(){ selectTab(tb); });
+    tb.addEventListener('keydown', function(e){ var k = e.key, j = k === 'ArrowRight' || k === 'ArrowDown' ? i + 1 : k === 'ArrowLeft' || k === 'ArrowUp' ? i - 1 : k === 'Home' ? 0 : k === 'End' ? tabs.length - 1 : null;
+      if (j === null) return; e.preventDefault(); selectTab(tabs[(j + tabs.length) % tabs.length], true); });
+  });
+  function step(d){ var t = track(), c = $('.card', t); t.scrollBy({left: d * (c.getBoundingClientRect().width + 24), behavior: reduced ? 'auto' : 'smooth'}); }
+  prev.addEventListener('click', function(){ step(-1); }); next.addEventListener('click', function(){ step(1); });
+  $$('.track').forEach(function(t){ t.addEventListener('scroll', sync, {passive:true}); });
+  addEventListener('resize', sync); sync();
+
+  /* ---------- Suara mitra: pilih mitra → kutipan berganti ---------- */
+  var who = $$('.who button'), q = $('#quote');
+  who.forEach(function(b){ b.addEventListener('click', function(){
+    who.forEach(function(x){ x.setAttribute('aria-pressed', String(x === b)); });
+    $('#q-t').textContent = b.dataset.q; $('#q-n').textContent = $('b', b).textContent; $('#q-r').textContent = b.dataset.r2; $('#q-img').src = b.dataset.img;
+    q.classList.remove('is-in'); void q.offsetWidth; q.classList.add('is-in');
+  }); });
+})();
+</script>
+</body>
+</html>
